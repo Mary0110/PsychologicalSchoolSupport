@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{AC53B87B-E538-4BFA-A78C-A24DC163550A}"
+	ProjectSection(SolutionItems) = preProject
+		Services\.gitignore = Services\.gitignore
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Authorization", "Authorization", "{714FA356-50A0-405B-991B-4BE2E0F893EA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PsychologicalSupportPlatform.Authorization.API", "Services\Authorization\PsychologicalSupportPlatform.Authorization.API\PsychologicalSupportPlatform.Authorization.API.csproj", "{B3945619-7B52-4666-BF83-BCB38D96A9B5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PsychologicalSupportPlatform.Authorization.Application", "Services\Authorization\PsychologicalSupportPlatform.Authorization.Application\PsychologicalSupportPlatform.Authorization.Application.csproj", "{3FD8F31F-198A-4EA2-ACAC-969B522E6A0C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PsychologicalSupportPlatform.Authorization.Infrastructure", "Services\Authorization\PsychologicalSupportPlatform.Authorization.Infrastructure\PsychologicalSupportPlatform.Authorization.Infrastructure.csproj", "{762B2F37-79B2-4180-B60A-6311BCAA40E5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PsychologicalSupportPlatform.Authorization.Domain", "Services\Authorization\PsychologicalSupportPlatform.Authorization.Domain\PsychologicalSupportPlatform.Authorization.Domain.csproj", "{EF558ACA-7E38-48D2-9740-72DFC04245FF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PsychologicalSupportPlatform.Common", "Services\PsychologicalSupportPlatform.Common\PsychologicalSupportPlatform.Common.csproj", "{96206FBF-6C5B-45B0-976E-A8D881F5AA8D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{714FA356-50A0-405B-991B-4BE2E0F893EA} = {AC53B87B-E538-4BFA-A78C-A24DC163550A}
+		{B3945619-7B52-4666-BF83-BCB38D96A9B5} = {714FA356-50A0-405B-991B-4BE2E0F893EA}
+		{3FD8F31F-198A-4EA2-ACAC-969B522E6A0C} = {714FA356-50A0-405B-991B-4BE2E0F893EA}
+		{762B2F37-79B2-4180-B60A-6311BCAA40E5} = {714FA356-50A0-405B-991B-4BE2E0F893EA}
+		{EF558ACA-7E38-48D2-9740-72DFC04245FF} = {714FA356-50A0-405B-991B-4BE2E0F893EA}
+		{96206FBF-6C5B-45B0-976E-A8D881F5AA8D} = {AC53B87B-E538-4BFA-A78C-A24DC163550A}
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B3945619-7B52-4666-BF83-BCB38D96A9B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B3945619-7B52-4666-BF83-BCB38D96A9B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B3945619-7B52-4666-BF83-BCB38D96A9B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B3945619-7B52-4666-BF83-BCB38D96A9B5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3FD8F31F-198A-4EA2-ACAC-969B522E6A0C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3FD8F31F-198A-4EA2-ACAC-969B522E6A0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3FD8F31F-198A-4EA2-ACAC-969B522E6A0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3FD8F31F-198A-4EA2-ACAC-969B522E6A0C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{762B2F37-79B2-4180-B60A-6311BCAA40E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{762B2F37-79B2-4180-B60A-6311BCAA40E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{762B2F37-79B2-4180-B60A-6311BCAA40E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{762B2F37-79B2-4180-B60A-6311BCAA40E5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EF558ACA-7E38-48D2-9740-72DFC04245FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF558ACA-7E38-48D2-9740-72DFC04245FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF558ACA-7E38-48D2-9740-72DFC04245FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF558ACA-7E38-48D2-9740-72DFC04245FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{96206FBF-6C5B-45B0-976E-A8D881F5AA8D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96206FBF-6C5B-45B0-976E-A8D881F5AA8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96206FBF-6C5B-45B0-976E-A8D881F5AA8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96206FBF-6C5B-45B0-976E-A8D881F5AA8D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
