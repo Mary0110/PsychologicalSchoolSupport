@@ -5,18 +5,18 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
-COPY ["./Authorization/PsychologicalSupportPlatform.Authorization.API/PsychologicalSupportPlatform.Authorization.API.csproj", "PsychologicalSupportPlatform.Authorization.API/"]
-COPY ["./Authorization/PsychologicalSupportPlatform.Authorization.Infrastructure/PsychologicalSupportPlatform.Authorization.Infrastructure.csproj", "PsychologicalSupportPlatform.Authorization.Infrastructure/"]
-COPY ["./Authorization/PsychologicalSupportPlatform.Authorization.Application/PsychologicalSupportPlatform.Authorization.Application.csproj", "PsychologicalSupportPlatform.Authorization.Application/"]
-COPY ["./Authorization/PsychologicalSupportPlatform.Authorization.Domain/PsychologicalSupportPlatform.Authorization.Domain.csproj", "PsychologicalSupportPlatform.Authorization.Domain/"]
+COPY ["./Authorization/PsychologicalSupportPlatform.Authorization.API/PsychologicalSupportPlatform.Authorization.API.csproj", "Authorization/PsychologicalSupportPlatform.Authorization.API/"]
 COPY ["./PsychologicalSupportPlatform.Common/PsychologicalSupportPlatform.Common.csproj", "PsychologicalSupportPlatform.Common/"]
-RUN dotnet restore "./Authorization/PsychologicalSupportPlatform.Authorization.API/PsychologicalSupportPlatform.Authorization.API.csproj"
+COPY ["./Authorization/PsychologicalSupportPlatform.Authorization.Application/PsychologicalSupportPlatform.Authorization.Application.csproj", "Authorization/PsychologicalSupportPlatform.Authorization.Application/"]
+COPY ["./Authorization/PsychologicalSupportPlatform.Authorization.Domain/PsychologicalSupportPlatform.Authorization.Domain.csproj", "Authorization/PsychologicalSupportPlatform.Authorization.Domain/"]
+COPY ["./Authorization/PsychologicalSupportPlatform.Authorization.Infrastructure/PsychologicalSupportPlatform.Authorization.Infrastructure.csproj", "Authorization/PsychologicalSupportPlatform.Authorization.Infrastructure/"]
+RUN dotnet restore "Authorization/PsychologicalSupportPlatform.Authorization.API/PsychologicalSupportPlatform.Authorization.API.csproj"
 COPY . .
-WORKDIR "/src/PsychologicalSupportPlatform.Authorization.API"
-RUN dotnet build "PsychologicalSupportPlatform.Authorization.API.csproj" -c Release -o /app/build
+WORKDIR "/src"
+RUN dotnet build "Authorization/PsychologicalSupportPlatform.Authorization.API/PsychologicalSupportPlatform.Authorization.API.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "PsychologicalSupportPlatform.Authorization.API.csproj" -c Release -o /app/publish
+RUN dotnet publish "Authorization/PsychologicalSupportPlatform.Authorization.API/PsychologicalSupportPlatform.Authorization.API.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
