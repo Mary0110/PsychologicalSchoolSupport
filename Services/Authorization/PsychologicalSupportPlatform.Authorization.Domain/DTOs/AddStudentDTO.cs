@@ -18,5 +18,5 @@ public class AddStudentDTO
 
     public int Parallel { get; set; } 
     
-    public char Letter { get; set; } = 'A';
+    public char Letter { get; set; } = Constants.A;
 }

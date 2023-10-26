@@ -1,4 +1,5 @@
 using PsychologicalSupportPlatform.Authorization.Domain.Entities;
+using PsychologicalSupportPlatform.Common;
 
 namespace PsychologicalSupportPlatform.Authorization.Infrastructure.Data;
 
@@ -15,7 +16,7 @@ public static class DbInitializer
                 Name = "Maria",
                 Surname = "Raniuk",
                 Patronymic = "Dmitrievna",
-                Role = Role.Admin
+                Role = Roles.Admin
             };
 
             var Natalia = new User()
@@ -25,7 +26,7 @@ public static class DbInitializer
                 Name = "Natalia",
                 Surname = "Raniuk",
                 Patronymic = "Nikolaevna",
-                Role = Role.Manager,
+                Role = Roles.Manager,
             };
 
             var Psychologist = new User()
@@ -35,7 +36,7 @@ public static class DbInitializer
                 Name = "Polina",
                 Surname = "Prokazova",
                 Patronymic = "Petrovna",
-                Role = Role.Psychologist,
+                Role = Roles.Psychologist,
             };
             context.Users.AddRange(new User[] { adminUser, Natalia, Psychologist });
             await context.SaveChangesAsync();
@@ -64,7 +65,7 @@ public static class DbInitializer
                 Patronymic = "Maximovich",
                 DateOfBirth = (DateTime.Now).Date,
                 Form = firstA,
-                Role = Role.Student
+                Role = Roles.Student
             };
 
             context.Students.AddRange(new Student[] { stud1 });

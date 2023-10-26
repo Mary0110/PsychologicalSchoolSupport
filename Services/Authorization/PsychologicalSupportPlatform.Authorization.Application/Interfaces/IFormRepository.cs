@@ -4,11 +4,11 @@ namespace PsychologicalSupportPlatform.Authorization.Application.Interfaces;
 
 public interface IFormRepository
 {
-    Task<List<Form>> GetAllFormsAsync();
+    Task<List<Form>> GetAllFormsAsync(int pageNumber, int pageSize);
     
     Task<Form?> GetFormAsync(int parallel, char letter);
 
-    Task<List<Form>> GetFormsByParallelAsync(int num);
+    Task<List<Form>> GetFormsByParallelAsync(int num, int pageNumber, int pageSize);
     
     Task DeleteFormAsync(Form form);
 

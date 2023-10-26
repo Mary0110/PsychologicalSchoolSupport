@@ -13,9 +13,9 @@ public class StudentRepository : IStudentRepository
         this.context = context;
     }
     
-    public async Task<List<Student>> GetAllStudentsAsync()
+    public async Task<List<Student>> GetAllStudentsAsync(int pageNumber, int pageSize)
     {
-        return context.Students.AsNoTracking().ToList();
+        return context.Students.AsNoTracking().ToPagedCollection(pageNumber, pageSize).ToList();
     }
 
     public async Task<List<Student>> GetStudentsByFormAsync(Form form)

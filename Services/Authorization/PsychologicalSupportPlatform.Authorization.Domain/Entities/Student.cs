@@ -15,8 +15,6 @@ public class Student: User
     public Status Status { get; set; } = Status.Good;
 }
 
-
-
 public enum Status
 {
     Bad,

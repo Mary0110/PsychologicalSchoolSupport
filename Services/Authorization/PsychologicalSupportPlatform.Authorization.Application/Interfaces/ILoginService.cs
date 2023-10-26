@@ -8,9 +8,9 @@ public interface ILoginService
 {
     Task<DataResponseInfo<string>> GetTokenAsync(LoginData data);
 
-    Task<DataResponseInfo<List<User>>> GetAllUsersAsync();
+    Task<DataResponseInfo<List<User>>> GetAllUsersAsync(int pageNumber, int pageSize);
     
-    Task<DataResponseInfo<List<AddStudentDTO>>> GetAllStudentsAsync();
+    Task<DataResponseInfo<List<AddStudentDTO>>> GetAllStudentsAsync(int pageNumber, int pageSize);
 
     Task<DataResponseInfo<User>> GetUserByIdAsync(int id);
     

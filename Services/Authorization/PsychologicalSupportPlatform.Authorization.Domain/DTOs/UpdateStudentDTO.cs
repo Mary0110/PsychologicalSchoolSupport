@@ -20,7 +20,7 @@ public class UpdateStudentDTO
 
     public int Parallel { get; set; }
 
-    public char Letter { get; set; } = 'A';
+    public char Letter { get; set; } = Constants.A;
     
     public Status Status { get; set; } = Status.Good;
 }

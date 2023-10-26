@@ -6,9 +6,9 @@ namespace PsychologicalSupportPlatform.Authorization.Application.Interfaces;
 
 public interface IFormService
 {
-    Task<DataResponseInfo<List<AddFormDTO>>> GetAllFormsAsync();
+    Task<DataResponseInfo<List<AddFormDTO>>> GetAllFormsAsync(int pageNumber, int pageSize);
 
-    Task<DataResponseInfo<List<AddFormDTO>>> GetFormsByParallelAsync(int num);
+    Task<DataResponseInfo<List<AddFormDTO>>> GetFormsByParallelAsync(int num, int pageNumber, int pageSize);
     
     Task<ResponseInfo> DeleteFormAsync(AddFormDTO formDTO);
 

@@ -18,9 +18,9 @@ public class UserRepository :IUserRepository
         return await context.Users.AsNoTracking().FirstOrDefaultAsync(p => p.Email == email && p.Password == password);
     }
 
-    public async Task<List<User>> GetAllUsersAsync()
+    public async Task<List<User>> GetAllUsersAsync(int pageNumber, int pageSize)
     {
-        return context.Users.AsNoTracking().ToList();
+        return context.Users.AsNoTracking().ToPagedCollection(pageNumber, pageSize).ToList();
     }
 
     public async Task<User?> GetUserByIdAsync(int id)

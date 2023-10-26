@@ -14,6 +14,5 @@ public class AddUserDTO
 
     public string Password { get; set; } = string.Empty;
 
-    public Role Role { get; set; }
-    
+    public string Role { get; set; }
 }

@@ -12,7 +12,7 @@ using PsychologicalSupportPlatform.Authorization.Infrastructure.Data;
 namespace PsychologicalSupportPlatform.Authorization.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20231025013702_initial")]
+    [Migration("20231026033707_initial")]
     partial class initial
     {
         /// <inheritdoc />
@@ -61,8 +61,9 @@ namespace PsychologicalSupportPlatform.Authorization.API.Migrations
                     b.Property<string>("Patronymic")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Role")
-                        .HasColumnType("int");
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Surname")
                         .IsRequired()

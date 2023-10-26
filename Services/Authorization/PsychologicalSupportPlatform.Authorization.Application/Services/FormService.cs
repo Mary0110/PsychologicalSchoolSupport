@@ -17,23 +17,23 @@ public class FormService : IFormService
         this.mapper = mapper;
     }
 
-    public async Task<DataResponseInfo<List<AddFormDTO>>> GetAllFormsAsync()
+    public async Task<DataResponseInfo<List<AddFormDTO>>> GetAllFormsAsync(int pageNumber, int pageSize)
     {
-        var forms = await repository.GetAllFormsAsync();
-        var formDTOs = forms.Select(p => mapper.Map<AddFormDTO>(p)).ToList();
+        var forms = await repository.GetAllFormsAsync(pageNumber, pageSize);
+        var formDTOs =  mapper.Map<List<Form>, List<AddFormDTO>>(forms);
 
         return new DataResponseInfo<List<AddFormDTO>>(data: formDTOs, success: true,
             message: "all forms");
     }
 
-    public async Task<DataResponseInfo<List<AddFormDTO>>> GetFormsByParallelAsync(int num)
+    public async Task<DataResponseInfo<List<AddFormDTO>>> GetFormsByParallelAsync(int num, int pageNumber, int pageSize)
     {
-        var forms = await repository.GetFormsByParallelAsync(num);
+        var forms = await repository.GetFormsByParallelAsync(num, pageNumber, pageSize);
 
         if (forms is null) return new DataResponseInfo<List<AddFormDTO>>(data: null, success: false, 
             message: $"parallel {num} not found");
         
-        var formDTOs = forms.Select(p => mapper.Map<AddFormDTO>(p)).ToList();
+        var formDTOs =  mapper.Map<List<Form>, List<AddFormDTO>>(forms);
 
         return new DataResponseInfo<List<AddFormDTO>>(data: formDTOs, success: true, message: $"forms of parallel {num}");    
     }

@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PsychologicalSupportPlatform.Authorization.Application.Interfaces;
 using PsychologicalSupportPlatform.Authorization.Domain.DTOs;
+using PsychologicalSupportPlatform.Authorization.Domain.Entities;
+using PsychologicalSupportPlatform.Common;
 
 namespace PsychologicalSupportPlatform.Authorization.API.Controllers
 {
@@ -10,19 +12,16 @@ namespace PsychologicalSupportPlatform.Authorization.API.Controllers
     public class LoginController : ControllerBase
     {
         private readonly ILoginService loginService;
-        private readonly IEncryptionService encryption;
 
-        public LoginController(ILoginService loginService, IEncryptionService encryption)
+        public LoginController(ILoginService loginService)
         {
             this.loginService = loginService;
-            this.encryption = encryption;
         }
 
         [HttpPost]
-        [Route("/Login")]
+        [Route("/login")]
         public async Task<IActionResult> LoginAsync(LoginData data)
         {
-            data.Password = encryption.HashPassword(data.Password);
             var response = await loginService.GetTokenAsync(data);
 
             if (response.Data is null) return Unauthorized(response.Message);
@@ -31,11 +30,9 @@ namespace PsychologicalSupportPlatform.Authorization.API.Controllers
         }
         
         [HttpPost]
-        [Route("/Register/user")]
+        [Route("/register/user")]
         public async Task<IActionResult> RegisterUserAsync(AddUserDTO user)
         {
-            user.Password = encryption.HashPassword(user.Password);
-
             var response = await loginService.RegisterUserAsync(user);
 
             if (!response.Success)
@@ -47,11 +44,9 @@ namespace PsychologicalSupportPlatform.Authorization.API.Controllers
         }
         
         [HttpPost]
-        [Route("/Register/student")]
+        [Route("/register/student")]
         public async Task<IActionResult> RegisterStudentAsync(AddStudentDTO student)
         {
-            student.Password = encryption.HashPassword(student.Password);
-
             var response = await loginService.RegisterStudentAsync(student);
 
             if (!response.Success)
@@ -63,16 +58,16 @@ namespace PsychologicalSupportPlatform.Authorization.API.Controllers
         }
 
         [HttpGet("users")]
-        [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> GetAllUsersAsync()
+        [Authorize(Roles = Roles.Admin)]
+        public async Task<IActionResult> GetAllUsersAsync([FromQuery] int pageNumber, [FromQuery] int pageSize)
         {
-            var response = await loginService.GetAllUsersAsync();
+            var response = await loginService.GetAllUsersAsync(pageNumber, pageSize);
             
             return Ok(response.Data);
         }
         
         [HttpGet("user/{id}")]
-        [Authorize(Roles = "Admin, Psychologist, Manager")]
+        [Authorize(Roles = Roles.Admin + "," + Roles.Psychologist + "," + Roles.Manager)]
         public async Task<IActionResult> GetSingleUserAsync(int id)
         {
             var response = await loginService.GetUserByIdAsync(id);
@@ -86,11 +81,9 @@ namespace PsychologicalSupportPlatform.Authorization.API.Controllers
         }
         
         [HttpPut("user")]
-        [Authorize(Roles = "Admin, Manager")]
+        [Authorize(Roles = Roles.Admin + "," + Roles.Psychologist + "," + Roles.Manager)]
         public async Task<IActionResult> UpdateUserAsync(UpdateUserDTO user)
         {
-            user.Password = encryption.HashPassword(user.Password);
-
             var response = await loginService.UpdateUserAsync(user);
 
             if (!response.Success)
@@ -102,7 +95,7 @@ namespace PsychologicalSupportPlatform.Authorization.API.Controllers
         }
         
         [HttpDelete("user/{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = Roles.Admin)]
         public async Task<IActionResult> DeleteUserAsync(int id)
         {
             var response = await loginService.DeleteUserAsync(id);
@@ -116,16 +109,16 @@ namespace PsychologicalSupportPlatform.Authorization.API.Controllers
         }
         
         [HttpGet("students")]
-        [Authorize(Roles = "Admin, Psychologist, Manager")]
-        public async Task<IActionResult> GetAllStudentsAsync()
+        [Authorize(Roles = Roles.Admin + "," + Roles.Psychologist + "," + Roles.Manager)]
+        public async Task<IActionResult> GetAllStudentsAsync([FromQuery] int pageNumber, [FromQuery] int pageSize)
         {
-            var response = await loginService.GetAllStudentsAsync();
+            var response = await loginService.GetAllStudentsAsync(pageNumber, pageSize);
             
             return Ok(response.Data);
         }
         
         [HttpGet("student/{id}")]
-        [Authorize(Roles = "Admin, Psychologist, Manager")]
+        [Authorize(Roles = Roles.Admin + "," + Roles.Psychologist + "," + Roles.Manager)]
         public async Task<IActionResult> GetSingleStudentAsync(int id)
         {
             var response = await loginService.GetStudentByIdAsync(id);
@@ -139,11 +132,9 @@ namespace PsychologicalSupportPlatform.Authorization.API.Controllers
         }
         
         [HttpPut("student")]
-        [Authorize(Roles = "Admin, Psychologist, Manager")]
+        [Authorize(Roles = Roles.Admin + "," + Roles.Psychologist + "," + Roles.Manager)]
         public async Task<IActionResult> UpdateStudentAsync(UpdateStudentDTO user)
         {
-            user.Password = encryption.HashPassword(user.Password);
-
             var response = await loginService.UpdateStudentAsync(user);
 
             if (!response.Success)
@@ -155,7 +146,7 @@ namespace PsychologicalSupportPlatform.Authorization.API.Controllers
         }
 
         [HttpDelete("student/{id}")]
-        [Authorize(Roles = "Admin, Psychologist, Manager")]
+        [Authorize(Roles = Roles.Admin + "," + Roles.Psychologist + "," + Roles.Manager)]
         public async Task<IActionResult> DeleteStudentAsync(int id)
         {
             var response = await loginService.DeleteStudentAsync(id);

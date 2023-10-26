@@ -13,9 +13,9 @@ public class FormRepository : IFormRepository
         this.context = context;
     }
     
-    public async Task<List<Form>> GetAllFormsAsync()
+    public async Task<List<Form>> GetAllFormsAsync(int pageNumber, int pageSize)
     {
-        return context.Forms.AsNoTracking().ToList();
+        return context.Forms.AsNoTracking().ToPagedCollection(pageNumber, pageSize).ToList();
     }
 
     public async Task<Form?> GetFormAsync(int parallel, char letter)
@@ -23,9 +23,10 @@ public class FormRepository : IFormRepository
         return await context.Forms.AsNoTracking().FirstOrDefaultAsync(p => p.Parallel == parallel && p.Letter == letter);
     }
 
-    public async Task<List<Form>> GetFormsByParallelAsync(int num)
+    public async Task<List<Form>> GetFormsByParallelAsync(int num, int pageNumber, int pageSize)
     {
-        return context.Forms.AsNoTracking().Where((p => p.Parallel == num)).ToList();
+        return context.Forms.AsNoTracking().Where((p => p.Parallel == num))
+            .ToPagedCollection(pageNumber, pageSize).ToList();
     }
 
     public async Task DeleteFormAsync(Form form)

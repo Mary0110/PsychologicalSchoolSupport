@@ -17,22 +17,26 @@ public class LoginService : ILoginService
     private readonly IOptions<AuthOptions> authOptions;
     private readonly IMapper mapper;
     private readonly IFormRepository formRepository;
+    private readonly IEncryptionService encryption;
 
     public LoginService(IUserRepository userRepository,
                         IStudentRepository studentRepository,
                         IOptions<AuthOptions> authOptions,
                         IMapper mapper,
-                        IFormRepository formRepository)
+                        IFormRepository formRepository,
+                        IEncryptionService encryption)
     {
         this.userRepository = userRepository;
         this.studentRepository = studentRepository;
         this.authOptions = authOptions;
         this.mapper = mapper;
         this.formRepository = formRepository;
+        this.encryption = encryption;
     }
 
     public async Task<DataResponseInfo<string>> GetTokenAsync(LoginData data)
     {
+        data.Password = encryption.HashPassword(data.Password);
         var user = await userRepository.AuthenticateUserAsync(data.Email, data.Password);
 
         if (user is null)
@@ -63,9 +67,9 @@ public class LoginService : ILoginService
             message: "token");
     }
 
-    public async Task<DataResponseInfo<List<User>>> GetAllUsersAsync()
+    public async Task<DataResponseInfo<List<User>>> GetAllUsersAsync(int pageNumber, int pageSize)
     {
-        return new DataResponseInfo<List<User>>(data: await userRepository.GetAllUsersAsync(), success: true,
+        return new DataResponseInfo<List<User>>(data: await userRepository.GetAllUsersAsync(pageNumber, pageSize), success: true,
             message: "all users");
     }
 
@@ -91,9 +95,9 @@ public class LoginService : ILoginService
         return new DataResponseInfo<AddStudentDTO>(data: studDTO, success: true, message: $"student with id {user.Id}");
     }
 
-    public async Task<DataResponseInfo<List<AddStudentDTO>>> GetAllStudentsAsync()
+    public async Task<DataResponseInfo<List<AddStudentDTO>>> GetAllStudentsAsync(int pageNumber, int pageSize)
     {
-        var students = await studentRepository.GetAllStudentsAsync();
+        var students = await studentRepository.GetAllStudentsAsync(pageNumber, pageSize);
         var studDTOs = students.Select(p => mapper.Map<AddStudentDTO>(p)).ToList();
 
         return new DataResponseInfo<List<AddStudentDTO>>(data: studDTOs, success: true,
@@ -102,6 +106,8 @@ public class LoginService : ILoginService
 
     public async Task<ResponseInfo> RegisterStudentAsync(AddStudentDTO studentDTO)
     {
+        studentDTO.Password = encryption.HashPassword(studentDTO.Password);
+
         if (studentDTO is null) return new ResponseInfo(success: false, message: "wrong request data");
 
         var student = await studentRepository.GetStudentByEmailAsync(studentDTO.Email);
@@ -131,6 +137,8 @@ public class LoginService : ILoginService
 
     public async Task<ResponseInfo> RegisterUserAsync(AddUserDTO userDto)
     {
+        userDto.Password = encryption.HashPassword(userDto.Password);
+
         if (userDto is null) return new ResponseInfo(success: false, message: "wrong request data");
 
         var user = await userRepository.GetUserByEmailAsync(userDto.Email);
@@ -178,6 +186,7 @@ public class LoginService : ILoginService
 
     public async Task<ResponseInfo> UpdateUserAsync(UpdateUserDTO userDto)
     {
+        userDto.Password = encryption.HashPassword(userDto.Password);
         var user = await userRepository.GetUserByEmailAsync(userDto.Email);
         var student = await studentRepository.GetStudentByEmailAsync(userDto.Email);
 
@@ -200,6 +209,8 @@ public class LoginService : ILoginService
 
     public async Task<ResponseInfo> UpdateStudentAsync(UpdateStudentDTO studentDTO)
     {
+        studentDTO.Password = encryption.HashPassword(studentDTO.Password);
+
         if (studentDTO == null) return new ResponseInfo(success: false, message: "wrong request data");
         
         var user = await userRepository.GetUserByEmailAsync(studentDTO.Email);

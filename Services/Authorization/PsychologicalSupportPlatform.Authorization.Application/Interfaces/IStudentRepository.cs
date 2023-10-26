@@ -4,7 +4,7 @@ namespace PsychologicalSupportPlatform.Authorization.Application.Interfaces;
 
 public interface IStudentRepository
 {
-    Task<List<Student>> GetAllStudentsAsync();
+    Task<List<Student>> GetAllStudentsAsync(int pageNumber, int pageSize);
     
     Task<List<Student>> GetStudentsByFormAsync(Form form);
 

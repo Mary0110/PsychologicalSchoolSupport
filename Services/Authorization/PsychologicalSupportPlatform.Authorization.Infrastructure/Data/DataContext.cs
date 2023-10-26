@@ -17,12 +17,8 @@ public class DataContext : DbContext
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<User>().ToTable("Users");
-        modelBuilder.Entity<Student>().ToTable("Students");
-        modelBuilder.Entity<Form>().HasKey(u => new { u.Parallel, u.Letter });
-        modelBuilder.Entity<Form>().HasMany(e => e.Students)
-            .WithOne(e => e.Form)
-            .HasForeignKey(e => new {e.Parallel, e.Letter})
-            .IsRequired();
+        modelBuilder.ApplyConfiguration(new UserConfigurator());
+        modelBuilder.ApplyConfiguration(new StudentConfigurator());
+        modelBuilder.ApplyConfiguration(new FormConfigurator());
     }
 }

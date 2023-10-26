@@ -1,12 +1,13 @@
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using PsychologicalSupportPlatform.Authorization.Application.Interfaces;
 using PsychologicalSupportPlatform.Authorization.Domain.DTOs;
+using PsychologicalSupportPlatform.Authorization.Domain.Entities;
+using PsychologicalSupportPlatform.Common;
 
 namespace PsychologicalSupportPlatform.Authorization.API.Controllers
 {
-
-    
     [Route("api/[controller]")]
     [ApiController]
     public class FormsController : ControllerBase
@@ -20,15 +21,15 @@ namespace PsychologicalSupportPlatform.Authorization.API.Controllers
         
         [HttpGet]
         [Authorize]
-        public async Task<IActionResult> GetAllFormsAsync()
+        public async Task<IActionResult> GetAllFormsAsync([FromQuery] int pageNumber, [FromQuery] int pageSize)
         {
-            var response = await formService.GetAllFormsAsync();
+            var response = await formService.GetAllFormsAsync(pageNumber, pageSize);
             
             return Ok(response.Data);
         }
 
         [HttpPost]
-        [Authorize(Roles = "Manager, Admin")]
+        [Authorize(Roles = Roles.Admin + "," + Roles.Manager)]
         public async Task<IActionResult> AddFormAsync(AddFormDTO addProductDto)
         {
             var response = await formService.AddFormAsync(addProductDto);
@@ -37,7 +38,7 @@ namespace PsychologicalSupportPlatform.Authorization.API.Controllers
         }
 
         [HttpDelete]
-        [Authorize(Roles = "Admin, Manager")]
+        [Authorize(Roles = Roles.Admin + "," + Roles.Manager)]
         public async Task<IActionResult> RemoveFormAsync(AddFormDTO form)
         {
             var response = await formService.DeleteFormAsync(form);
@@ -52,9 +53,9 @@ namespace PsychologicalSupportPlatform.Authorization.API.Controllers
 
         [HttpGet("byParallel{num}")]
         [Authorize]
-        public async Task<IActionResult> GetFormsByParallelAsync(int num)
+        public async Task<IActionResult> GetFormsByParallelAsync(int num, [FromQuery] int pageNumber, [FromQuery] int pageSize)
         {
-            var response = await formService.GetFormsByParallelAsync(num);
+            var response = await formService.GetFormsByParallelAsync(num, pageNumber, pageSize);
 
             if (!response.Success)
             {
