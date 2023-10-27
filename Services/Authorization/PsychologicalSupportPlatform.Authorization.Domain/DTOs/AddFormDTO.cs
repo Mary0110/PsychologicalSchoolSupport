@@ -4,6 +4,12 @@ namespace PsychologicalSupportPlatform.Authorization.Domain.DTOs;
 
 public class AddFormDTO
 {
+    public AddFormDTO(int num, char letter)
+    {
+        Letter = letter;
+        Parallel = num;
+    }
+    
     public char Letter { get; set; } = Constants.A;
     
     public int Parallel { get; set; }

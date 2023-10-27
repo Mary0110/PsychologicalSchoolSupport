@@ -53,6 +53,7 @@ public class LoginService : ILoginService
             new Claim(JwtRegisteredClaimNames.Email, user.Email),
             new Claim("role", user.Role.ToString()),
         };
+        Console.WriteLine($"loginservice{authParams.Secret}");
 
         var jwt = new JwtSecurityToken(
             authParams.Issuer,
@@ -98,7 +99,7 @@ public class LoginService : ILoginService
     public async Task<DataResponseInfo<List<AddStudentDTO>>> GetAllStudentsAsync(int pageNumber, int pageSize)
     {
         var students = await studentRepository.GetAllStudentsAsync(pageNumber, pageSize);
-        var studDTOs = students.Select(p => mapper.Map<AddStudentDTO>(p)).ToList();
+        var studDTOs =  mapper.Map<List<Student>, List<AddStudentDTO>>(students);
 
         return new DataResponseInfo<List<AddStudentDTO>>(data: studDTOs, success: true,
             message: "all students");
@@ -224,10 +225,39 @@ public class LoginService : ILoginService
         var newUser = mapper.Map<Student>(studentDTO);
         user = await studentRepository.GetStudentByIdAsync(studentDTO.Id);
         
-        if (user is null) return new ResponseInfo(success: false, message: "user with id {newUser.Id} not found");
+        if (user is null) return new ResponseInfo(success: false, message: $"user with id {newUser.Id} not found");
 
         await studentRepository.EditStudentAsync(newUser);
 
         return new ResponseInfo(success: true, message: $"user with id {newUser.Id} updated");    
+    }
+
+    public async Task<DataResponseInfo<List<AddStudentDTO>>> GetStudentsByFormAsync(AddFormDTO formDTO, int pageNumber, int pageSize)
+    {
+        var form = await formRepository.GetFormAsync(formDTO.Parallel, formDTO.Letter);
+        
+        if (form is null) return new DataResponseInfo<List<AddStudentDTO>>(data: null, success: false, 
+            message: $"form {formDTO.Parallel} '{formDTO.Letter}' not found");
+        
+        var users = await studentRepository.GetStudentsByFormAsync(form, pageNumber, pageSize);
+
+        if (users is null) return new DataResponseInfo<List<AddStudentDTO>>(data: null, success: false, 
+            message: $"users in {formDTO.Parallel} '{formDTO.Letter}' not found");
+        
+        var studDTOs = mapper.Map<List<Student>, List<AddStudentDTO>>(users);
+
+        return new DataResponseInfo<List<AddStudentDTO>>(data: studDTOs, success: true, message: $"students from {formDTO.Parallel} '{formDTO.Letter}'");
+    }
+    
+    public async Task<DataResponseInfo<List<AddStudentDTO>>> GetStudentsByParallelAsync(int num, int pageNumber, int pageSize)
+    {
+        var users = await studentRepository.GetStudentsByParallelAsync(num, pageNumber, pageSize);
+
+        if (users is null) return new DataResponseInfo<List<AddStudentDTO>>(data: null, success: false, 
+            message: $"users in {num} parallel not found");
+        
+        var studDTOs = mapper.Map<List<Student>, List<AddStudentDTO>>(users);
+
+        return new DataResponseInfo<List<AddStudentDTO>>(data: studDTOs, success: true, message: $"students from {num} parallel");
     }
 }

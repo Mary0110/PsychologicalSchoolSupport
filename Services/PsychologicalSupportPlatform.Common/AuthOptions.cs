@@ -10,6 +10,6 @@ public class AuthOptions
     public string Secret { get; set; } = string.Empty;
     public int TokenLifeTime { get; set; } //minutes
 
-    public SymmetricSecurityKey GetSymmetricSecurityKey() =>
+    public SymmetricSecurityKey GetSymmetricSecurityKey() => 
         new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Secret));
 }

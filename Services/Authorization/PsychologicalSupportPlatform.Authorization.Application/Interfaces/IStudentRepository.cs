@@ -6,9 +6,9 @@ public interface IStudentRepository
 {
     Task<List<Student>> GetAllStudentsAsync(int pageNumber, int pageSize);
     
-    Task<List<Student>> GetStudentsByFormAsync(Form form);
+    Task<List<Student>> GetStudentsByFormAsync(Form form, int pageNumber, int pageSize);
 
-    Task<List<Student>> GetStudentsByParallelAsync(int num);
+    Task<List<Student>> GetStudentsByParallelAsync(int num, int pageNumber, int pageSize);
 
     Task EditStudentAsync(Student student);
     

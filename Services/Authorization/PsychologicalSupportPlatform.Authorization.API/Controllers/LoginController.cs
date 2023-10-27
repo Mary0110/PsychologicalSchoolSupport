@@ -131,6 +131,35 @@ namespace PsychologicalSupportPlatform.Authorization.API.Controllers
             return Ok(response.Data);
         }
         
+        [HttpGet("students/byForm/{num}/{letter}")]
+        [Authorize(Roles = Roles.Admin + "," + Roles.Psychologist + "," + Roles.Manager)]
+        public async Task<IActionResult> GetStudentsByFormAsync(int num, char letter, [FromQuery] int pageNumber, [FromQuery] int pageSize)
+        {
+            var formDto = new AddFormDTO(num, letter);
+            var response = await loginService.GetStudentsByFormAsync(formDto, pageNumber, pageSize);
+
+            if (!response.Success)
+            {
+                return NotFound(response.Message);
+            }
+
+            return Ok(response.Data);
+        }
+        
+        [HttpGet("students/byParallel/{num}")]
+        [Authorize(Roles = Roles.Admin + "," + Roles.Psychologist + "," + Roles.Manager)]
+        public async Task<IActionResult> GetStudentsByParallelAsync(int num, [FromQuery] int pageNumber, [FromQuery] int pageSize)
+        {
+            var response = await loginService.GetStudentsByParallelAsync(num, pageNumber, pageSize);
+
+            if (!response.Success)
+            {
+                return NotFound(response.Message);
+            }
+
+            return Ok(response.Data);
+        }
+        
         [HttpPut("student")]
         [Authorize(Roles = Roles.Admin + "," + Roles.Psychologist + "," + Roles.Manager)]
         public async Task<IActionResult> UpdateStudentAsync(UpdateStudentDTO user)

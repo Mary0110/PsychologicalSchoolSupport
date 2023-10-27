@@ -11,13 +11,10 @@ builder.Services.InjectRepos();
 builder.Services.InjectServices();
 builder.Services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters();
 builder.Services.AddValidatorsFromAssemblyContaining<User>();
-
 builder.Services.AddDbContext<DataContext>(
     opt => opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
         b => b.MigrationsAssembly(builder.Configuration.GetSection("MigrationsAssembly").Get<string>())));
-
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
-
 builder.Services.AddAuthorization();
 builder.Services.AddAuthenticate(builder.Configuration);
 builder.Services.AddSwagger();
@@ -32,12 +29,10 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
 app.UseAuthentication();
 app.UseAuthorization();
 
 await app.UseDatabaseSeed();
 
 app.MapControllers();
-
 app.Run();

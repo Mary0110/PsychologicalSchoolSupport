@@ -18,14 +18,16 @@ public class StudentRepository : IStudentRepository
         return context.Students.AsNoTracking().ToPagedCollection(pageNumber, pageSize).ToList();
     }
 
-    public async Task<List<Student>> GetStudentsByFormAsync(Form form)
+    public async Task<List<Student>> GetStudentsByFormAsync(Form form, int pageNumber, int pageSize)
     {
-        return context.Students.AsNoTracking().Where(p => p.Parallel == form.Parallel && p.Letter == form.Letter).ToList();
+        return context.Students.AsNoTracking().Where(p => p.Parallel == form.Parallel && p.Letter == form.Letter)
+            .ToPagedCollection(pageNumber, pageSize).ToList();
     }
 
-    public async Task<List<Student>> GetStudentsByParallelAsync(int num)
+    public async Task<List<Student>> GetStudentsByParallelAsync(int num, int pageNumber, int pageSize)
     {
-        return context.Students.Include(p => p.Form.Parallel == num).AsNoTracking().ToList();
+        return context.Students.Where(p => p.Parallel == num).AsNoTracking() 
+            .ToPagedCollection(pageNumber, pageSize).ToList();
     }
 
     public async Task EditStudentAsync(Student student)

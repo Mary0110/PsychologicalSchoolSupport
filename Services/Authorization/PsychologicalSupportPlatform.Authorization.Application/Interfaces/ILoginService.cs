@@ -27,4 +27,8 @@ public interface ILoginService
     Task<ResponseInfo> UpdateUserAsync(UpdateUserDTO user);
     
     Task<ResponseInfo> UpdateStudentAsync(UpdateStudentDTO user);
+
+    Task<DataResponseInfo<List<AddStudentDTO>>> GetStudentsByFormAsync(AddFormDTO form, int pageNumber, int pageSize);
+
+    Task<DataResponseInfo<List<AddStudentDTO>>> GetStudentsByParallelAsync(int num, int pageNumber, int pageSize);
 }

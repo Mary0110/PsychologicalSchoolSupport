@@ -8,8 +8,10 @@ public static class ApplicationAuthExtension
 {
     public static IServiceCollection AddAuthenticate(this IServiceCollection services, IConfiguration conf)
     {
-        var authOptions = conf.GetSection("Auth").Get<AuthOptions>();
-
+        var section = conf.GetSection("Auth");
+        services.Configure<AuthOptions>(section);
+        var authOptions = section.Get<AuthOptions>();
+        
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
             {
