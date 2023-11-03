@@ -7,7 +7,15 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="7.0.3" />
+      <Compile Remove="Validators\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Remove="Validators\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="Validators\**" />
     </ItemGroup>
 
 </Project>
