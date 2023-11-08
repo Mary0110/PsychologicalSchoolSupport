@@ -27,7 +27,7 @@ namespace PsychologicalSupportPlatform.Meet.API.Controllers
         }
         
         [HttpPost("order/psychologist")]
-        // [Authorize(Roles = Roles.Admin + "," + Roles.Psychologist)]
+        [Authorize(Roles = Roles.Admin + "," + Roles.Psychologist)]
         public async Task<IActionResult> OrderMeetupByPsychologist(AddMeetupDTO meetup)
         {
             var command = mapper.Map<OrderMeetupCommand>(meetup);
@@ -62,7 +62,7 @@ namespace PsychologicalSupportPlatform.Meet.API.Controllers
         }
 
         [HttpDelete]
-        // [Authorize(Roles = Roles.Admin + "," + Roles.Psychologist + "," + Roles.Manager)]
+        [Authorize(Roles = Roles.Admin + "," + Roles.Psychologist + "," + Roles.Manager)]
         public async Task<IActionResult> DeleteMeetup(int id)
         {
 
@@ -78,7 +78,7 @@ namespace PsychologicalSupportPlatform.Meet.API.Controllers
         }
 
         [HttpPut]
-        // [Authorize(Roles = Roles.Admin + "," + Roles.Psychologist)]
+        [Authorize(Roles = Roles.Admin + "," + Roles.Psychologist)]
         public async Task<IActionResult> UpdateMeetup(MeetupDTO meetup)
         {
             
@@ -94,7 +94,7 @@ namespace PsychologicalSupportPlatform.Meet.API.Controllers
         }
 
         [HttpGet]
-        // [Authorize(Roles = Roles.Admin + "," + Roles.Psychologist + "," + Roles.Manager)]
+        [Authorize(Roles = Roles.Admin + "," + Roles.Psychologist + "," + Roles.Manager)]
         public async Task<IActionResult> GetAllMeetups()
         {
             var command = new GetAllMeetupsQuery();
@@ -109,7 +109,7 @@ namespace PsychologicalSupportPlatform.Meet.API.Controllers
         }
 
         [HttpGet("id={id}")]
-        // [Authorize(Roles = Roles.Admin + "," + Roles.Psychologist + "," + Roles.Manager)]
+        [Authorize(Roles = Roles.Admin + "," + Roles.Psychologist + "," + Roles.Manager)]
         public async Task<IActionResult> GetMeetupById(int id)
         {
             var command = new GetMeetupByIdQuery() { Id = id};
@@ -124,7 +124,7 @@ namespace PsychologicalSupportPlatform.Meet.API.Controllers
         }
         
         [HttpGet("date={date}")]
-        // [Authorize(Roles = Roles.Admin + "," + Roles.Psychologist + "," + Roles.Manager)]
+        [Authorize(Roles = Roles.Admin + "," + Roles.Psychologist + "," + Roles.Manager)]
         public async Task<IActionResult> GetMeetupByDate(DateOnly date)
         {
             var command = new GetMeetupsByDateQuery(){ Date = date};
@@ -139,7 +139,7 @@ namespace PsychologicalSupportPlatform.Meet.API.Controllers
         }
         
         [HttpGet("student={studentId}")]
-        // [Authorize(Roles = Roles.Admin + "," + Roles.Psychologist + "," + Roles.Manager)]
+        [Authorize(Roles = Roles.Admin + "," + Roles.Psychologist + "," + Roles.Manager)]
         public async Task<IActionResult> GetMeetupByStudentId(int studentId)
         {
             var command = new GetMeetupsByStudentIdQuery(){ StudentId = studentId};

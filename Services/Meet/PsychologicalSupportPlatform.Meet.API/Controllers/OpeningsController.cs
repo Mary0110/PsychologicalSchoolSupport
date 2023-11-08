@@ -25,7 +25,7 @@ namespace PsychologicalSupportPlatform.Meet.API.Controllers
         }
         
         [HttpPost]
-        // [Authorize(Roles = Roles.Admin + "," + Roles.Psychologist)]
+        [Authorize(Roles = Roles.Admin + "," + Roles.Psychologist)]
         public async Task<IActionResult> CreateOpening(AddOpeningDTO opening)
         {
             var createCmdOpening = mapper.Map<AddCmdOpeningDTO>(opening);
@@ -41,7 +41,7 @@ namespace PsychologicalSupportPlatform.Meet.API.Controllers
         }
 
         [HttpDelete]
-        // [Authorize(Roles = Roles.Admin + "," + Roles.Psychologist)]
+        [Authorize(Roles = Roles.Admin + "," + Roles.Psychologist)]
         public async Task<IActionResult> DeleteOpening(int id)
         {
             var command = new DeleteOpeningCommand(id);
@@ -56,7 +56,7 @@ namespace PsychologicalSupportPlatform.Meet.API.Controllers
         }
 
         [HttpPut]
-        // [Authorize(Roles = Roles.Admin + "," + Roles.Psychologist)]
+        [Authorize(Roles = Roles.Admin + "," + Roles.Psychologist)]
         public async Task<IActionResult> UpdateOpening(OpeningDTO openingDTO)
         {
             var createCmdOpening = mapper.Map<CmdOpeningDTO>(openingDTO);
@@ -72,7 +72,7 @@ namespace PsychologicalSupportPlatform.Meet.API.Controllers
         }
 
         [HttpGet]
-        // [Authorize(Roles = Roles.Admin + "," + Roles.Psychologist + "," + Roles.Manager)]
+        [Authorize(Roles = Roles.Admin + "," + Roles.Psychologist + "," + Roles.Manager)]
         public async Task<IActionResult> GetAllOpenings()
         {
             var command = new GetAllOpeningsQuery();
@@ -87,7 +87,7 @@ namespace PsychologicalSupportPlatform.Meet.API.Controllers
         }
 
         [HttpGet("id={id}")]
-        // [Authorize(Roles = Roles.Admin + "," + Roles.Psychologist)]
+        [Authorize(Roles = Roles.Admin + "," + Roles.Psychologist)]
         public async Task<IActionResult> GetOpeningById(int id)
         {
             var command = new GetOpeningByIdQuery() { Id = id};
@@ -102,7 +102,7 @@ namespace PsychologicalSupportPlatform.Meet.API.Controllers
         }
         
         [HttpGet("day={day}")]
-        // [Authorize]
+        [Authorize]
         public async Task<IActionResult> GetOpeningByDayOfWeek(DayOfWeek day)
         {
             var command = new GetOpeningsByDayOfWeekQuery() { DayOfWeek = day};
@@ -117,7 +117,7 @@ namespace PsychologicalSupportPlatform.Meet.API.Controllers
         }
         
         [HttpGet("active={active}")]
-        // [Authorize]
+        [Authorize]
         public async Task<IActionResult> GetOpeningByStatus(bool active)
         {
             var command = new GetOpeningsByStatusQuery() { Active = active};
