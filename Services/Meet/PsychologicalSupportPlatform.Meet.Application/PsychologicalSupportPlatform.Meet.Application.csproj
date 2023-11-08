@@ -7,12 +7,33 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\PsychologicalSupportPlatform.Common\PsychologicalSupportPlatform.Common.csproj" />
       <ProjectReference Include="..\PsychologicalSupportPlatform.Meet.Domain\PsychologicalSupportPlatform.Meet.Domain.csproj" />
     </ItemGroup>
 
     <ItemGroup>
+      <PackageReference Include="FluentValidation" Version="11.8.0" />
       <PackageReference Include="Mapster" Version="7.4.0" />
       <PackageReference Include="MediatR" Version="12.1.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Remove="Exceptions\**" />
+      <Compile Remove="Meetups\Commands\Create\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Remove="Exceptions\**" />
+      <EmbeddedResource Remove="Meetups\Commands\Create\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="Exceptions\**" />
+      <None Remove="Meetups\Commands\Create\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Openings\Commands\Order" />
     </ItemGroup>
 
 </Project>

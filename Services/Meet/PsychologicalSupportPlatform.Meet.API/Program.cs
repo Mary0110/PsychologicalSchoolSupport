@@ -1,4 +1,6 @@
 using System.Reflection;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using MapsterMapper;
 using Microsoft.EntityFrameworkCore;
 using PsychologicalSupportPlatform.Authorization.API.Extensions;
@@ -6,13 +8,15 @@ using PsychologicalSupportPlatform.Meet.API.Extensions;
 using PsychologicalSupportPlatform.Meet.Domain.Interfaces;
 using PsychologicalSupportPlatform.Meet.Infrastructure.Data;
 using PsychologicalSupportPlatform.Meet.Application;
+using PsychologicalSupportPlatform.Meet.Application.DTOs;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<DataContext>(
     opt => opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
-        b => b.MigrationsAssembly(builder.Configuration.GetSection("MigrationsAssembly").Get<string>())));
-
+        b => b.MigrationsAssembly(builder.Configuration.GetSection("MigrationsAssembly").Get<string>())), ServiceLifetime.Transient);
+builder.Services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters();
+builder.Services.AddValidatorsFromAssemblyContaining<OpeningDTO>();
 builder.Services.AddControllers();
 builder.Services.AddSwagger();
 builder.Services.AddAuthenticate(builder.Configuration);

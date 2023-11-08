@@ -130,6 +130,8 @@ public class LoginService : ILoginService
         if (form is null) return new ResponseInfo(success: false, message: "no such form");
 
         var newUser = mapper.Map<Student>(studentDTO);
+        newUser.Role = Roles.Student;
+        
         await studentRepository.RegisterStudentAsync(newUser);
         student = await studentRepository.GetStudentByEmailAsync(newUser.Email);
 
@@ -187,6 +189,8 @@ public class LoginService : ILoginService
 
     public async Task<ResponseInfo> UpdateUserAsync(UpdateUserDTO userDto)
     {
+        if (userDto == null) return new ResponseInfo(success: false, message: "wrong request data");
+
         userDto.Password = encryption.HashPassword(userDto.Password);
         var user = await userRepository.GetUserByEmailAsync(userDto.Email);
         var student = await studentRepository.GetStudentByEmailAsync(userDto.Email);
@@ -195,8 +199,6 @@ public class LoginService : ILoginService
         {
             return new ResponseInfo(success: false, message: "user with email already registered");
         }
-        
-        if (userDto == null) return new ResponseInfo(success: false, message: "wrong request data");
         
         var newUser = mapper.Map<User>(userDto);
         user = await userRepository.GetUserByIdAsync(userDto.Id);

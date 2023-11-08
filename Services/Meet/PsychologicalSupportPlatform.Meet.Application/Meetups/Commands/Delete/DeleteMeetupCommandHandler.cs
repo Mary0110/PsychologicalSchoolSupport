@@ -1,11 +1,11 @@
 using MapsterMapper;
 using MediatR;
-using PsychologicalSupportPlatform.Meet.Application.Exceptions;
+using PsychologicalSupportPlatform.Common;
 using PsychologicalSupportPlatform.Meet.Domain.Interfaces;
 
 namespace PsychologicalSupportPlatform.Meet.Application.Meetups.Commands.Delete;
 
-public class DeleteMeetupCommandHandler: IRequestHandler<DeleteMeetupCommand>
+public class DeleteMeetupCommandHandler: IRequestHandler<DeleteMeetupCommand, ResponseInfo>
 {
     private readonly IMeetupRepository meetupRepository;
     private readonly IMapper mapper;
@@ -16,15 +16,14 @@ public class DeleteMeetupCommandHandler: IRequestHandler<DeleteMeetupCommand>
         this.mapper = mapper;
     }
     
-    public async Task Handle(DeleteMeetupCommand request, CancellationToken cancellationToken)
+    public async Task<ResponseInfo> Handle(DeleteMeetupCommand request, CancellationToken cancellationToken)
     {
         var opening = await meetupRepository.GetMeetingByIdAsync(request.Id);
         
-        if (opening == null)
-        {
-            throw new EntityNotFoundException("Meeting with this id does not exist");
-        }
-        
+        if (opening is null) return new ResponseInfo(success: false, message: $"wrong request data, no meetup with id {request.Id}");
+
         await meetupRepository.DeleteMeetingAsync(opening);
+        
+        return new ResponseInfo(success: true, message: "meetup deleted");
     }
 }

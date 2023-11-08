@@ -6,9 +6,9 @@ public class Opening
     
     public int PsychologistId { get; set; }
     
-    public DateTime Time { get; set; }
+    public TimeOnly Time { get; set; }
     
-    public bool Active { get; set; }
+    public bool Active { get; set; }  //set by psychologist
     
     public DayOfWeek Day { get; set; }
     

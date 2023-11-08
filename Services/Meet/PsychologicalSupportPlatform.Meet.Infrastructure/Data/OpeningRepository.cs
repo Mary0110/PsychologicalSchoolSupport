@@ -15,7 +15,7 @@ public class OpeningRepository : IOpeningRepository
     
     public async Task<Opening?> GetOpeningByIdAsync(int id)
     {
-        return await context.Openings.FindAsync(id);
+        return await context.Openings.Include(o => o.Meetups).AsNoTracking().FirstOrDefaultAsync(o =>o.Id == id);
     }
 
     public async Task<IReadOnlyList<Opening>> GetAllOpeningsAsync()
@@ -27,10 +27,21 @@ public class OpeningRepository : IOpeningRepository
     {
         return context.Openings.AsNoTracking().Where(p => p.Day == dayOfWeek).ToList();
     }
+    
+    public async Task<IReadOnlyList<Opening>> GetOpeningsByDayAndTimeAsync(DayOfWeek dayOfWeek, TimeOnly time)
+    {
+        return context.Openings.AsNoTracking().Where(p => p.Day == dayOfWeek && p.Time == time).ToList();
+    }
 
     public async Task<IReadOnlyList<Opening>> GetOpeningsByStatusAsync(bool status)
     {
         return context.Openings.AsNoTracking().Where(p => p.Active == status).ToList();
+    }
+    
+    public async Task<IReadOnlyList<Opening>> GetAvailableOpeningsAsync()
+    {
+        return context.Openings.AsNoTracking().Where(p => p.Active && p.Time >= TimeOnly.FromDateTime(DateTime.Now)).Include(p => p.Meetups)
+            .Where(p => p.Meetups.Any(c => c.Date >= DateOnly.FromDateTime(DateTime.Now.Date))).ToList();
     }
 
     public async Task AddOpeningsAsync(Opening opening)

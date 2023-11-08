@@ -1,12 +1,12 @@
 using MapsterMapper;
 using MediatR;
+using PsychologicalSupportPlatform.Common;
 using PsychologicalSupportPlatform.Meet.Application.DTOs;
-using PsychologicalSupportPlatform.Meet.Application.Exceptions;
 using PsychologicalSupportPlatform.Meet.Domain.Interfaces;
 
-namespace PsychologicalSupportPlatform.Meet.Application.Opening.Queries;
+namespace PsychologicalSupportPlatform.Meet.Application.Openings.Queries;
 
-public class GetOpeningsByDayOfWeekHandler : IRequestHandler<GetOpeningsByDayOfWeekQuery, List<OpeningDTO>>
+public class GetOpeningsByDayOfWeekHandler : IRequestHandler<GetOpeningsByDayOfWeekQuery, DataResponseInfo<List<OpeningDTO>>>
 {
     private readonly IOpeningRepository openingRepository;
     private readonly IMapper mapper;
@@ -17,17 +17,14 @@ public class GetOpeningsByDayOfWeekHandler : IRequestHandler<GetOpeningsByDayOfW
         this.mapper = mapper;
     }
     
-    public async Task<List<OpeningDTO>> Handle(GetOpeningsByDayOfWeekQuery request, CancellationToken cancellationToken)
+    public async Task<DataResponseInfo<List<OpeningDTO>>> Handle(GetOpeningsByDayOfWeekQuery request, CancellationToken cancellationToken)
     {
         var openings = await openingRepository.GetOpeningsByDayOfWeekAsync(request.DayOfWeek);
         
-        if (openings == null)
-        {
-            throw new EntityNotFoundException("No such openings");
-        }
+        if (openings is null) return new DataResponseInfo<List<OpeningDTO>>(data: null, success: false, message: $"no openings on {request.DayOfWeek}");
         
         var openingModel = mapper.Map<List<OpeningDTO>>(openings);
         
-        return openingModel;    
+        return new DataResponseInfo<List<OpeningDTO>>(data: openingModel, success: true, message: $"openings on {request.DayOfWeek}");    
     }
 }

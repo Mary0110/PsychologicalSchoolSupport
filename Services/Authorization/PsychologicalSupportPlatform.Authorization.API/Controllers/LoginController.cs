@@ -19,7 +19,7 @@ namespace PsychologicalSupportPlatform.Authorization.API.Controllers
         }
 
         [HttpPost]
-        [Route("/login")]
+        [Route("login")]
         public async Task<IActionResult> LoginAsync(LoginData data)
         {
             var response = await loginService.GetTokenAsync(data);
@@ -30,7 +30,7 @@ namespace PsychologicalSupportPlatform.Authorization.API.Controllers
         }
         
         [HttpPost]
-        [Route("/register/user")]
+        [Route("register/user")]
         public async Task<IActionResult> RegisterUserAsync(AddUserDTO user)
         {
             var response = await loginService.RegisterUserAsync(user);
@@ -44,7 +44,7 @@ namespace PsychologicalSupportPlatform.Authorization.API.Controllers
         }
         
         [HttpPost]
-        [Route("/register/student")]
+        [Route("register/student")]
         public async Task<IActionResult> RegisterStudentAsync(AddStudentDTO student)
         {
             var response = await loginService.RegisterStudentAsync(student);

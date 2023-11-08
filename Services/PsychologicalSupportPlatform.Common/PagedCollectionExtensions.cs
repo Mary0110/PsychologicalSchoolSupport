@@ -1,4 +1,4 @@
-namespace PsychologicalSupportPlatform.Authorization.Infrastructure.Data;
+namespace PsychologicalSupportPlatform.Common;
 
 public static class PagedCollectionExtensions
 {

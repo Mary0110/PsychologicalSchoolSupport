@@ -1,9 +1,10 @@
 using MediatR;
+using PsychologicalSupportPlatform.Common;
 using PsychologicalSupportPlatform.Meet.Application.DTOs;
 
-namespace PsychologicalSupportPlatform.Meet.Application.Meetup.Queries;
+namespace PsychologicalSupportPlatform.Meet.Application.Meetups.Queries;
 
-public class GetMeetupsByDateQuery: IRequest<List<MeetupDTO>>
+public class GetMeetupsByDateQuery: IRequest<DataResponseInfo<List<MeetupDTO>>>
 {
-    public DateTime Date{ get; set; }
+    public DateOnly Date{ get; set; }
 }

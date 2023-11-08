@@ -1,6 +1,7 @@
 using PsychologicalSupportPlatform.Authorization.Application.Interfaces;
 using PsychologicalSupportPlatform.Authorization.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
+using PsychologicalSupportPlatform.Common;
 
 namespace PsychologicalSupportPlatform.Authorization.Infrastructure.Data;
 

@@ -15,4 +15,14 @@ public class DataContext: DbContext
     {
         modelBuilder.ApplyConfiguration(new OpeningConfigurator());
     }
+
+    protected override void ConfigureConventions(ModelConfigurationBuilder builder)
+    {
+        base.ConfigureConventions(builder);
+        builder.Properties<DateOnly>()
+            .HaveConversion<DateOnlyConverter, DateOnlyComparer>()
+            .HaveColumnType("date");
+        builder.Properties<TimeOnly>()
+            .HaveConversion<TimeOnlyConverter, TimeOnlyComparer>();
+    }
 }

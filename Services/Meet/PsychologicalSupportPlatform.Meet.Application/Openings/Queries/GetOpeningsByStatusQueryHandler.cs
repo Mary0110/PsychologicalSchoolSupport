@@ -1,12 +1,12 @@
 using MapsterMapper;
 using MediatR;
+using PsychologicalSupportPlatform.Common;
 using PsychologicalSupportPlatform.Meet.Application.DTOs;
-using PsychologicalSupportPlatform.Meet.Application.Exceptions;
 using PsychologicalSupportPlatform.Meet.Domain.Interfaces;
 
-namespace PsychologicalSupportPlatform.Meet.Application.Opening.Queries;
+namespace PsychologicalSupportPlatform.Meet.Application.Openings.Queries;
 
-public class GetOpeningsByStatusHandler : IRequestHandler<GetOpeningsByStatusQuery, List<OpeningDTO>>
+public class GetOpeningsByStatusHandler : IRequestHandler<GetOpeningsByStatusQuery, DataResponseInfo<List<OpeningDTO>>>
 {
     private readonly IOpeningRepository openingRepository;
     private readonly IMapper mapper;
@@ -17,17 +17,14 @@ public class GetOpeningsByStatusHandler : IRequestHandler<GetOpeningsByStatusQue
         this.mapper = mapper;
     }
     
-    public async Task<List<OpeningDTO>> Handle(GetOpeningsByStatusQuery request, CancellationToken cancellationToken)
+    public async Task<DataResponseInfo<List<OpeningDTO>>> Handle(GetOpeningsByStatusQuery request, CancellationToken cancellationToken)
     {
         var openings = await openingRepository.GetOpeningsByStatusAsync(request.Active);
         
-        if (openings == null)
-        {
-            throw new EntityNotFoundException("No such openings");
-        }
-        
+        if (openings is null) return new DataResponseInfo<List<OpeningDTO>>(data: null, success: false, message: $"no openings with active status {request.Active}");
+
         var openingModel = mapper.Map<List<OpeningDTO>>(openings);
         
-        return openingModel;
+        return new DataResponseInfo<List<OpeningDTO>>(data: openingModel, success: true, message: $"no openings with active status {request.Active}");
     }
 }

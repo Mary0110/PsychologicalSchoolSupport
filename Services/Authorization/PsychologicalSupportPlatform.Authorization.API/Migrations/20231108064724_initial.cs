@@ -47,7 +47,6 @@ namespace PsychologicalSupportPlatform.Authorization.API.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false),
                     DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    FormId = table.Column<int>(type: "int", nullable: false),
                     Parallel = table.Column<int>(type: "int", nullable: false),
                     Letter = table.Column<string>(type: "nvarchar(1)", nullable: false),
                     Status = table.Column<int>(type: "int", nullable: false)

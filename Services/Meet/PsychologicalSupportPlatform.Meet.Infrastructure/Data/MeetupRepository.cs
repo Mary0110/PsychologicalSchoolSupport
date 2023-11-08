@@ -28,9 +28,9 @@ public class MeetupRepository: IMeetupRepository
         return context.Meetups.AsNoTracking().Where(p => p.StudentId == id).ToList();
     }
 
-    public async Task<IReadOnlyList<Meetup?>> GetMeetingsByDateAsync(DateTime date)
+    public async Task<IReadOnlyList<Meetup?>> GetMeetingsByDateAsync(DateOnly date)
     {
-        return context.Meetups.AsNoTracking().Where(p => p.Date.Date == date.Date).ToList();
+        return context.Meetups.AsNoTracking().Where(p => p.Date == date).ToList();
     }
 
     public async Task AddMeetingAsync(Meetup meet)

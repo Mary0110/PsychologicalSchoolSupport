@@ -1,12 +1,13 @@
 using MapsterMapper;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using PsychologicalSupportPlatform.Common;
 using PsychologicalSupportPlatform.Meet.Application.DTOs;
-using PsychologicalSupportPlatform.Meet.Application.Exceptions;
-using PsychologicalSupportPlatform.Meet.Application.Opening.Queries;
 using PsychologicalSupportPlatform.Meet.Application.Openings.Commands.Create;
 using PsychologicalSupportPlatform.Meet.Application.Openings.Commands.Delete;
 using PsychologicalSupportPlatform.Meet.Application.Openings.Commands.Update;
+using PsychologicalSupportPlatform.Meet.Application.Openings.Queries;
 
 namespace PsychologicalSupportPlatform.Meet.API.Controllers
 {
@@ -23,105 +24,111 @@ namespace PsychologicalSupportPlatform.Meet.API.Controllers
             this.mapper = mapper;
         }
         
-        [HttpPost("Create")]
+        [HttpPost]
+        // [Authorize(Roles = Roles.Admin + "," + Roles.Psychologist)]
         public async Task<IActionResult> CreateOpening(AddOpeningDTO opening)
         {
-            try
+            var createCmdOpening = mapper.Map<AddCmdOpeningDTO>(opening);
+            var command = mapper.Map<CreateOpeningCommand>(createCmdOpening);
+            var response = await mediator.Send(command);
+            
+            if (!response.Success)
             {
-                var command = mapper.Map<CreateOpeningCommand>(opening);
-                int response = await mediator.Send(command);
-                
-                return Ok(response);
+                return NotFound(response.Message);
             }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+        
+            return Ok(response.Message);
         }
 
-        [HttpDelete("Delete")]
+        [HttpDelete]
+        // [Authorize(Roles = Roles.Admin + "," + Roles.Psychologist)]
         public async Task<IActionResult> DeleteOpening(int id)
         {
-            try
+            var command = new DeleteOpeningCommand(id);
+            var response = await mediator.Send(command);
+            
+            if (!response.Success)
             {
-                var command = new DeleteOpeningCommand(id);
-                await mediator.Send(command);
-                
-                return Ok();
+                return NotFound(response.Message);
             }
-            catch (EntityNotFoundException ex)
-            {
-                return NotFound(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+        
+            return Ok(response.Message);
         }
 
-        [HttpPut("Update")]
-        public async Task<IActionResult> UpdateOpening(OpeningDTO eventUpdate)
+        [HttpPut]
+        // [Authorize(Roles = Roles.Admin + "," + Roles.Psychologist)]
+        public async Task<IActionResult> UpdateOpening(OpeningDTO openingDTO)
         {
-            try
+            var createCmdOpening = mapper.Map<CmdOpeningDTO>(openingDTO);
+            var command = mapper.Map<UpdateOpeningCommand>(createCmdOpening);
+            var response = await mediator.Send(command);
+            
+            if (!response.Success)
             {
-                var command = mapper.Map<UpdateOpeningCommand>(eventUpdate);
-                await mediator.Send(command);
-                
-                return Ok();
+                return NotFound(response.Message);
             }
-            catch (EntityNotFoundException ex)
-            {
-                return NotFound(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+        
+            return Ok(response.Message);
         }
 
-        [HttpGet("GetAllOpenings")]
+        [HttpGet]
+        // [Authorize(Roles = Roles.Admin + "," + Roles.Psychologist + "," + Roles.Manager)]
         public async Task<IActionResult> GetAllOpenings()
         {
-            try
-            {
-                var command = new GetAllOpeningsQuery();
-                var response = await mediator.Send(command);
+            var command = new GetAllOpeningsQuery();
+            var response = await mediator.Send(command);
 
-                if (response is null)
-                {
-                    return NotFound();
-                }
-                
-                return Ok(response);
-            }
-            catch (EntityNotFoundException ex)
+            if (!response.Success)
             {
-                return NotFound(ex.Message);
+                return NotFound(response.Message);
             }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+        
+            return Ok(response.Data);
         }
 
-        [HttpGet("GetOpeningById")]
+        [HttpGet("id={id}")]
+        // [Authorize(Roles = Roles.Admin + "," + Roles.Psychologist)]
         public async Task<IActionResult> GetOpeningById(int id)
         {
-            try
+            var command = new GetOpeningByIdQuery() { Id = id};
+            var response = await mediator.Send(command);
+            
+            if (!response.Success)
             {
-                var command = new GetOpeningByIdQuery() { Id = id};
-                var response = await mediator.Send(command);
-                
-                return Ok(response);
+                return NotFound(response.Message);
             }
-            catch (EntityNotFoundException ex)
+            
+            return Ok(response.Data);
+        }
+        
+        [HttpGet("day={day}")]
+        // [Authorize]
+        public async Task<IActionResult> GetOpeningByDayOfWeek(DayOfWeek day)
+        {
+            var command = new GetOpeningsByDayOfWeekQuery() { DayOfWeek = day};
+            var response = await mediator.Send(command);
+            
+            if (!response.Success)
             {
-                return NotFound(ex.Message);
+                return NotFound(response.Message);
             }
-            catch (Exception ex)
+            
+            return Ok(response.Data);
+        }
+        
+        [HttpGet("active={active}")]
+        // [Authorize]
+        public async Task<IActionResult> GetOpeningByStatus(bool active)
+        {
+            var command = new GetOpeningsByStatusQuery() { Active = active};
+            var response = await mediator.Send(command);
+            
+            if (!response.Success)
             {
-                return BadRequest(ex.Message);
+                return NotFound(response.Message);
             }
+            
+            return Ok(response.Data);
         }
     }
 }

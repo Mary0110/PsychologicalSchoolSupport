@@ -1,10 +1,12 @@
 using MapsterMapper;
 using MediatR;
+using PsychologicalSupportPlatform.Common;
 using PsychologicalSupportPlatform.Meet.Domain.Interfaces;
+using PsychologicalSupportPlatform.Meet.Domain.Entities;
 
 namespace PsychologicalSupportPlatform.Meet.Application.Meetups.Commands.Create;
 
-public class CreateMeetupCommandHandler: IRequestHandler<CreateMeetupCommand, int>
+public class CreateMeetupCommandHandler: IRequestHandler<CreateMeetupCommand, ResponseInfo>
 {
     private readonly IMeetupRepository meetupRepository;
     private readonly IMapper mapper;
@@ -15,13 +17,15 @@ public class CreateMeetupCommandHandler: IRequestHandler<CreateMeetupCommand, in
         this.mapper = mapper;
     }
 
-    public async Task<int> Handle(CreateMeetupCommand request, CancellationToken cancellationToken)
+    public async Task<ResponseInfo> Handle(CreateMeetupCommand request, CancellationToken cancellationToken)
     {
-        var newMeetup = mapper.Map<Domain.Entities.Meetup>(request);
-        Console.WriteLine($"handler{newMeetup.OpeningId}");
+        var newMeetup = mapper.Map<Meetup>(request);
+        
+        if (newMeetup is null) return new ResponseInfo(success: false, message: "wrong request data");
+
         await meetupRepository.AddMeetingAsync(newMeetup);
         await meetupRepository.SaveMeetingAsync();
         
-        return newMeetup.Id;    
+        return new ResponseInfo(success: true, message: "meetup created");    
     }
 }

@@ -12,7 +12,7 @@ using PsychologicalSupportPlatform.Meet.Infrastructure.Data;
 namespace PsychologicalSupportPlatform.Meet.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20231102003807_initial")]
+    [Migration("20231107213519_initial")]
     partial class initial
     {
         /// <inheritdoc />
@@ -34,7 +34,7 @@ namespace PsychologicalSupportPlatform.Meet.API.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("date");
 
                     b.Property<int>("OpeningId")
                         .HasColumnType("int");
@@ -66,8 +66,8 @@ namespace PsychologicalSupportPlatform.Meet.API.Migrations
                     b.Property<int>("PsychologistId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("Time")
-                        .HasColumnType("datetime2");
+                    b.Property<TimeSpan>("Time")
+                        .HasColumnType("time");
 
                     b.HasKey("Id");
 

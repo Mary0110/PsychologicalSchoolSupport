@@ -10,7 +10,7 @@ public interface IMeetupRepository
     
     Task<IReadOnlyList<Meetup?>> GetMeetingsByStudentIdAsync(int id);
 
-    Task<IReadOnlyList<Meetup?>> GetMeetingsByDateAsync(DateTime date);
+    Task<IReadOnlyList<Meetup?>> GetMeetingsByDateAsync(DateOnly date);
 
     Task AddMeetingAsync(Meetup meet);
     

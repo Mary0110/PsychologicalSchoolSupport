@@ -1,9 +1,10 @@
 using MediatR;
+using PsychologicalSupportPlatform.Common;
 using PsychologicalSupportPlatform.Meet.Application.DTOs;
 
-namespace PsychologicalSupportPlatform.Meet.Application.Meetup.Queries;
+namespace PsychologicalSupportPlatform.Meet.Application.Meetups.Queries;
 
-public class GetMeetupByIdQuery: IRequest<MeetupDTO>
+public class GetMeetupByIdQuery: IRequest<DataResponseInfo<MeetupDTO>>
 {
     public int Id { get; set; }
 }

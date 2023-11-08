@@ -1,0 +1,24 @@
+﻿FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
+WORKDIR /app
+EXPOSE 80
+EXPOSE 443
+
+FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
+WORKDIR /src
+COPY ["./Meet/PsychologicalSupportPlatform.Meet.API/PsychologicalSupportPlatform.Meet.API.csproj", "Meet/PsychologicalSupportPlatform.Meet.API/"]
+COPY ["./PsychologicalSupportPlatform.Common/PsychologicalSupportPlatform.Common.csproj", "PsychologicalSupportPlatform.Common/"]
+COPY ["./Meet/PsychologicalSupportPlatform.Meet.Application/PsychologicalSupportPlatform.Meet.Application.csproj", "Meet/PsychologicalSupportPlatform.Meet.Application/"]
+COPY ["./Meet/PsychologicalSupportPlatform.Meet.Domain/PsychologicalSupportPlatform.Meet.Domain.csproj", "Meet/PsychologicalSupportPlatform.Meet.Domain/"]
+COPY ["./Meet/PsychologicalSupportPlatform.Meet.Infrastructure/PsychologicalSupportPlatform.Meet.Infrastructure.csproj", "Meet/PsychologicalSupportPlatform.Meet.Infrastructure/"]
+RUN dotnet restore "Meet/PsychologicalSupportPlatform.Meet.API/PsychologicalSupportPlatform.Meet.API.csproj"
+COPY . .
+WORKDIR "/src"
+RUN dotnet build "Meet/PsychologicalSupportPlatform.Meet.API/PsychologicalSupportPlatform.Meet.API.csproj" -c Release -o /app/build
+
+FROM build AS publish
+RUN dotnet publish "Meet/PsychologicalSupportPlatform.Meet.API/PsychologicalSupportPlatform.Meet.API.csproj" -c Release -o /app/publish
+
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app/publish .
+ENTRYPOINT ["dotnet", "PsychologicalSupportPlatform.Meet.API.dll"]

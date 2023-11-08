@@ -1,12 +1,12 @@
 using MapsterMapper;
 using MediatR;
+using PsychologicalSupportPlatform.Common;
 using PsychologicalSupportPlatform.Meet.Application.DTOs;
-using PsychologicalSupportPlatform.Meet.Application.Exceptions;
 using PsychologicalSupportPlatform.Meet.Domain.Interfaces;
 
-namespace PsychologicalSupportPlatform.Meet.Application.Meetup.Queries;
+namespace PsychologicalSupportPlatform.Meet.Application.Meetups.Queries;
 
-public class GetMeetupsByDateQueryHandler: IRequestHandler<GetMeetupsByDateQuery, List<MeetupDTO>>
+public class GetMeetupsByDateQueryHandler: IRequestHandler<GetMeetupsByDateQuery, DataResponseInfo<List<MeetupDTO>>>
 {
     private readonly IMeetupRepository meetupRepository;
     private readonly IMapper mapper;
@@ -17,17 +17,14 @@ public class GetMeetupsByDateQueryHandler: IRequestHandler<GetMeetupsByDateQuery
         this.mapper = mapper;
     }
 
-    public async Task<List<MeetupDTO>> Handle(GetMeetupsByDateQuery request, CancellationToken cancellationToken)
+    public async Task<DataResponseInfo<List<MeetupDTO>>> Handle(GetMeetupsByDateQuery request, CancellationToken cancellationToken)
     {
         var meetup = await meetupRepository.GetMeetingsByDateAsync(request.Date);
         
-        if (meetup == null)
-        {
-            throw new EntityNotFoundException("No such meetups");
-        }
-        
+        if (meetup is null) return new DataResponseInfo<List<MeetupDTO>>(data: null, success: false, message: $"no meetup with date {request.Date}");
+
         var meetupModel = mapper.Map<List<MeetupDTO>>(meetup);
         
-        return meetupModel;    
+        return new DataResponseInfo<List<MeetupDTO>>(data: meetupModel, success: true, message: $"meetups with date {request.Date}");    
     }
 }

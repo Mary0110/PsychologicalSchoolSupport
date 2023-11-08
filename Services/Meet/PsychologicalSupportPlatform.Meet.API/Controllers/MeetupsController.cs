@@ -1,11 +1,13 @@
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using MapsterMapper;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using PsychologicalSupportPlatform.Common;
 using PsychologicalSupportPlatform.Meet.Application.DTOs;
-using PsychologicalSupportPlatform.Meet.Application.Exceptions;
-using PsychologicalSupportPlatform.Meet.Application.Meetup.Queries;
-using PsychologicalSupportPlatform.Meet.Application.Meetups.Commands.Create;
 using PsychologicalSupportPlatform.Meet.Application.Meetups.Commands.Delete;
+using PsychologicalSupportPlatform.Meet.Application.Meetups.Commands.OrderMeetup;
 using PsychologicalSupportPlatform.Meet.Application.Meetups.Commands.Update;
 using PsychologicalSupportPlatform.Meet.Application.Meetups.Queries;
 
@@ -24,105 +26,131 @@ namespace PsychologicalSupportPlatform.Meet.API.Controllers
             this.mapper = mapper;
         }
         
-        [HttpPost("Create")]
-        public async Task<IActionResult> CreateMeetup(AddMeetupDTO meetup)
+        [HttpPost("order/psychologist")]
+        // [Authorize(Roles = Roles.Admin + "," + Roles.Psychologist)]
+        public async Task<IActionResult> OrderMeetupByPsychologist(AddMeetupDTO meetup)
         {
-            try
+            var command = mapper.Map<OrderMeetupCommand>(meetup);
+            var response = await mediator.Send(command);
+            
+            return Ok(response);
+        }
+        
+        [HttpPost("order/student")]
+        [Authorize(Roles = Roles.Student)]
+        public async Task<IActionResult> OrderMeetupByStudent(AddMeetupByStudentDTO meetup)
+        {
+            var user = HttpContext.User.Identity as ClaimsIdentity;
+            var curUserIdStr = user?.FindFirst(ClaimTypes.NameIdentifier).Value;
+            bool success = int.TryParse(curUserIdStr, out int curUserId);
+
+            if (!success)
             {
-                var command = mapper.Map<CreateMeetupCommand>(meetup);
-                int response = await mediator.Send(command);
-                
-                return Ok(response);
+                return BadRequest();
             }
-            catch (Exception ex)
+            
+            var addMeetupDTO = new AddMeetupDTO(meetup.Date, meetup.OpeningId, curUserId);
+            var command = mapper.Map<OrderMeetupCommand>(addMeetupDTO);
+            var response = await mediator.Send(command);
+            
+            if (!response.Success)
             {
-                return BadRequest(ex.Message);
+                return NotFound(response.Message);
             }
+            
+            return Ok(response);
         }
 
-        [HttpDelete("Delete")]
+        [HttpDelete]
+        // [Authorize(Roles = Roles.Admin + "," + Roles.Psychologist + "," + Roles.Manager)]
         public async Task<IActionResult> DeleteMeetup(int id)
         {
-            try
-            {
+
                 var command = new DeleteMeetupCommand(id);
-                await mediator.Send(command);
-                
-                return Ok();
-            }
-            catch (EntityNotFoundException ex)
-            {
-                return NotFound(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
-        [HttpPut("Update")]
-        public async Task<IActionResult> UpdateMeetup(MeetupDTO meetup)
-        {
-            try
-            {
-                var command = mapper.Map<UpdateMeetupCommand>(meetup);
-                await mediator.Send(command);
-                
-                return Ok();
-            }
-            catch (EntityNotFoundException ex)
-            {
-                return NotFound(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
-        [HttpGet("GetAllMeetups")]
-        public async Task<IActionResult> GetAllMeetups()
-        {
-            try
-            {
-                var command = new GetAllMeetupsQuery();
                 var response = await mediator.Send(command);
-
-                if (response is null)
+                
+                if (!response.Success)
                 {
-                    return NotFound();
+                    return NotFound(response.Message);
                 }
                 
-                return Ok(response);
-            }
-            catch (EntityNotFoundException ex)
-            {
-                return NotFound(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+                return Ok();
         }
 
-        [HttpGet("GetMeetupById")]
+        [HttpPut]
+        // [Authorize(Roles = Roles.Admin + "," + Roles.Psychologist)]
+        public async Task<IActionResult> UpdateMeetup(MeetupDTO meetup)
+        {
+            
+            var command = mapper.Map<UpdateMeetupCommand>(meetup);
+            var response = await mediator.Send(command);
+
+            if (!response.Success)
+            {
+                return NotFound(response.Message);
+            }
+            
+            return Ok(response.Message);
+        }
+
+        [HttpGet]
+        // [Authorize(Roles = Roles.Admin + "," + Roles.Psychologist + "," + Roles.Manager)]
+        public async Task<IActionResult> GetAllMeetups()
+        {
+            var command = new GetAllMeetupsQuery();
+            var response = await mediator.Send(command);
+
+            if (!response.Success)
+            {
+                return NotFound(response.Message);
+            }
+        
+            return Ok(response.Data);
+        }
+
+        [HttpGet("id={id}")]
+        // [Authorize(Roles = Roles.Admin + "," + Roles.Psychologist + "," + Roles.Manager)]
         public async Task<IActionResult> GetMeetupById(int id)
         {
-            try
+            var command = new GetMeetupByIdQuery() { Id = id};
+            var response = await mediator.Send(command);
+            
+            if (!response.Success)
             {
-                var command = new GetMeetupByIdQuery() { Id = id};
-                var response = await mediator.Send(command);
-                
-                return Ok(response);
+                return NotFound(response.Message);
             }
-            catch (EntityNotFoundException ex)
+        
+            return Ok(response.Data);
+        }
+        
+        [HttpGet("date={date}")]
+        // [Authorize(Roles = Roles.Admin + "," + Roles.Psychologist + "," + Roles.Manager)]
+        public async Task<IActionResult> GetMeetupByDate(DateOnly date)
+        {
+            var command = new GetMeetupsByDateQuery(){ Date = date};
+            var response = await mediator.Send(command);
+            
+            if (!response.Success)
             {
-                return NotFound(ex.Message);
+                return NotFound(response.Message);
             }
-            catch (Exception ex)
+        
+            return Ok(response.Data);
+        }
+        
+        [HttpGet("student={studentId}")]
+        // [Authorize(Roles = Roles.Admin + "," + Roles.Psychologist + "," + Roles.Manager)]
+        public async Task<IActionResult> GetMeetupByStudentId(int studentId)
+        {
+            var command = new GetMeetupsByStudentIdQuery(){ StudentId = studentId};
+            var response = await mediator.Send(command);
+            
+            if (!response.Success)
             {
-                return BadRequest(ex.Message);
+                return NotFound(response.Message);
             }
+        
+            return Ok(response.Data);
         }
     }
 }
