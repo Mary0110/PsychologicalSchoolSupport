@@ -1,6 +1,7 @@
 using MapsterMapper;
 using MediatR;
 using PsychologicalSupportPlatform.Common;
+using PsychologicalSupportPlatform.Common.Errors;
 using PsychologicalSupportPlatform.Meet.Domain.Entities;
 using PsychologicalSupportPlatform.Meet.Domain.Interfaces;
 
@@ -27,14 +28,11 @@ public class UpdateMeetupCommandHandler: IRequestHandler<UpdateMeetupCommand, Re
 
         var oldMeetup = meetupRepository.GetMeetingByIdAsync(meetup.Id);
         
-        if (oldMeetup is null) return new ResponseInfo(success: false, message: $"wrong request data, meetup with id {meetup.Id} doesn't exist");
+        if (oldMeetup is null) throw new EntityNotFoundException(paramname: nameof(meetup.Id));
 
         var newOpening = await openingRepository.GetOpeningByIdAsync(meetup.OpeningId);
 
-        if (newOpening is null)
-        {
-            return new ResponseInfo(success: false, message: "no such opening");
-        }
+        if (newOpening is null) throw new EntityNotFoundException(paramname: nameof(meetup.OpeningId));
         
         await meetupRepository.UpdateMeetingAsync(meetup);
         

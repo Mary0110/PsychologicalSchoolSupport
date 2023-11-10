@@ -1,6 +1,7 @@
 using MapsterMapper;
 using MediatR;
 using PsychologicalSupportPlatform.Common;
+using PsychologicalSupportPlatform.Common.Errors;
 using PsychologicalSupportPlatform.Meet.Domain.Entities;
 using PsychologicalSupportPlatform.Meet.Domain.Interfaces;
 
@@ -23,7 +24,7 @@ public class OrderMeetupCommandHandler: IRequestHandler<OrderMeetupCommand, Resp
     {
         var chosenOpening = await openingRepository.GetOpeningByIdAsync(request.MeetupDto.OpeningId);
         
-        if (chosenOpening is null) return new ResponseInfo(success: false, message: "wrong request data, no such opening");
+        if (chosenOpening is null) throw new EntityNotFoundException(paramname: nameof(request.MeetupDto.OpeningId));
 
         if (request.MeetupDto.Date.DayOfWeek != chosenOpening.Day)
             return new ResponseInfo(success: false, message: "opening is from different weekday");

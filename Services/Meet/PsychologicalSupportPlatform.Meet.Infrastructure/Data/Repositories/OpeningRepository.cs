@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using PsychologicalSupportPlatform.Meet.Domain.Entities;
 using PsychologicalSupportPlatform.Meet.Domain.Interfaces;
 
-namespace PsychologicalSupportPlatform.Meet.Infrastructure.Data;
+namespace PsychologicalSupportPlatform.Meet.Infrastructure.Data.Repositories;
 
 public class OpeningRepository : IOpeningRepository
 {

@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
-namespace PsychologicalSupportPlatform.Meet.Infrastructure.Data;
+namespace PsychologicalSupportPlatform.Meet.Infrastructure.Data.Comparers;
 
 
 public class DateOnlyComparer : ValueComparer<DateOnly>

@@ -1,6 +1,7 @@
 using MapsterMapper;
 using MediatR;
 using PsychologicalSupportPlatform.Common;
+using PsychologicalSupportPlatform.Common.Errors;
 using PsychologicalSupportPlatform.Meet.Domain.Interfaces;
 
 namespace PsychologicalSupportPlatform.Meet.Application.Openings.Commands.Delete;
@@ -20,7 +21,7 @@ public class DeleteOpeningCommandHandler: IRequestHandler<DeleteOpeningCommand, 
     {
         var opening = await openingRepository.GetOpeningByIdAsync(request.Id);
         
-        if (opening is null) return new ResponseInfo(success: false, message: $"wrong request data, no opening with id {request.Id}");
+        if (opening is null) throw new EntityNotFoundException(paramname: nameof(request.Id));
 
         await openingRepository.DeleteOpeningsAsync(opening);
 

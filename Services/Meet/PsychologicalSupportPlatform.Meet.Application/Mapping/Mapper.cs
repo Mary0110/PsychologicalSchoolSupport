@@ -6,7 +6,7 @@ using PsychologicalSupportPlatform.Meet.Application.Openings.Commands.Create;
 using PsychologicalSupportPlatform.Meet.Application.Openings.Commands.Update;
 using PsychologicalSupportPlatform.Meet.Domain.Entities;
 
-namespace PsychologicalSupportPlatform.Meet.API.Mapping;
+namespace PsychologicalSupportPlatform.Meet.Application.Mapping;
 
 public class Mapper : IRegister
 {

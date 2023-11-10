@@ -1,6 +1,7 @@
 using MapsterMapper;
 using MediatR;
 using PsychologicalSupportPlatform.Common;
+using PsychologicalSupportPlatform.Common.Errors;
 using PsychologicalSupportPlatform.Meet.Application.DTOs;
 using PsychologicalSupportPlatform.Meet.Domain.Interfaces;
 
@@ -21,7 +22,7 @@ public class GetMeetupsByStudentIdQueryHandler: IRequestHandler<GetMeetupsByStud
     {
         var meetups = await meetupRepository.GetMeetingsByStudentIdAsync(request.StudentId);
         
-        if (meetups is null) return new DataResponseInfo<List<MeetupDTO>>(data: null, success: false, message: $"no meetups for student with id {request.StudentId}");
+        if (meetups is null) throw new EntityNotFoundException(paramname: nameof(request.StudentId));
 
         var meetupModel = mapper.Map<List<MeetupDTO>>(meetups);
         

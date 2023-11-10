@@ -1,6 +1,7 @@
 using MapsterMapper;
 using MediatR;
 using PsychologicalSupportPlatform.Common;
+using PsychologicalSupportPlatform.Common.Errors;
 using PsychologicalSupportPlatform.Meet.Application.DTOs;
 using PsychologicalSupportPlatform.Meet.Domain.Interfaces;
 
@@ -21,7 +22,7 @@ public class GetMeetupsByDateQueryHandler: IRequestHandler<GetMeetupsByDateQuery
     {
         var meetup = await meetupRepository.GetMeetingsByDateAsync(request.Date);
         
-        if (meetup is null) return new DataResponseInfo<List<MeetupDTO>>(data: null, success: false, message: $"no meetup with date {request.Date}");
+        if (meetup is null) throw new EntityNotFoundException(paramname: nameof(request.Date));
 
         var meetupModel = mapper.Map<List<MeetupDTO>>(meetup);
         

@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace PsychologicalSupportPlatform.Meet.Infrastructure.Data;
+namespace PsychologicalSupportPlatform.Meet.Infrastructure.Data.Converters;
 
 
 public class TimeOnlyConverter : ValueConverter<TimeOnly, TimeSpan>
