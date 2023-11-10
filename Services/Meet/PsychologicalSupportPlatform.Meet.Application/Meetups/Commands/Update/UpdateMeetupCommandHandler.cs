@@ -23,8 +23,8 @@ public class UpdateMeetupCommandHandler: IRequestHandler<UpdateMeetupCommand, Re
     public async Task<ResponseInfo> Handle(UpdateMeetupCommand request, CancellationToken cancellationToken)
     {
         var meetup = mapper.Map<Meetup>(request.MeetupDTO);
-        
-        if (meetup is null) return new ResponseInfo(success: false, message: "wrong request data");
+
+        if (meetup is null) throw new WrongRequestDataException();
 
         var oldMeetup = meetupRepository.GetMeetingByIdAsync(meetup.Id);
         

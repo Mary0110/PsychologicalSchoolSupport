@@ -1,6 +1,7 @@
 using MapsterMapper;
 using MediatR;
 using PsychologicalSupportPlatform.Common;
+using PsychologicalSupportPlatform.Common.Errors;
 using PsychologicalSupportPlatform.Meet.Application.DTOs;
 using PsychologicalSupportPlatform.Meet.Domain.Interfaces;
 
@@ -21,7 +22,7 @@ public class GetOpeningByIdHandler : IRequestHandler<GetOpeningByIdQuery, DataRe
     {
         var opening = await openingRepository.GetOpeningByIdAsync(request.Id);
         
-        if (opening is null) return new DataResponseInfo<OpeningDTO>(data: null, success: false, message: $"no opening with id {request.Id}");
+        if (opening is null) throw new EntityNotFoundException(nameof(request.Id));
 
         var openingModel = mapper.Map<OpeningDTO>(opening);
         

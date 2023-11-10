@@ -22,7 +22,7 @@ public class UpdateOpeningCommandHandler: IRequestHandler<UpdateOpeningCommand, 
     {
         var opening = mapper.Map<Opening>(request.openingDTO);
         
-        if (opening is null) return new ResponseInfo(success: false, message: "wrong request data");
+        if (opening is null) throw new WrongRequestDataException();
         
         var oldOpening = await openingRepository.GetOpeningByIdAsync(opening.Id);
         

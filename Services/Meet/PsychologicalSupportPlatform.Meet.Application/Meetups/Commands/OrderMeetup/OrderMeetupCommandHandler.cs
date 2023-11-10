@@ -27,14 +27,14 @@ public class OrderMeetupCommandHandler: IRequestHandler<OrderMeetupCommand, Resp
         if (chosenOpening is null) throw new EntityNotFoundException(paramname: nameof(request.MeetupDto.OpeningId));
 
         if (request.MeetupDto.Date.DayOfWeek != chosenOpening.Day)
-            return new ResponseInfo(success: false, message: "opening is from different weekday");
+            throw new WrongRequestDataException();
 
         if (!IsOpeningAvailable(chosenOpening))
-            return new ResponseInfo(success: false, message: "the opening is already reserved");
+            throw new AlreadyExistsException();
 
         var newMeetup = mapper.Map<Meetup>(request);
         
-        if (newMeetup is null) return new ResponseInfo(success: false, message: "wrong request data");
+        if (newMeetup is null) throw new WrongRequestDataException();
         
         await meetupRepository.AddMeetingAsync(newMeetup);
         await meetupRepository.SaveMeetingAsync();     

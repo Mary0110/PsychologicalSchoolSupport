@@ -1,6 +1,7 @@
 using MapsterMapper;
 using MediatR;
 using PsychologicalSupportPlatform.Common;
+using PsychologicalSupportPlatform.Common.Errors;
 using PsychologicalSupportPlatform.Meet.Domain.Interfaces;
 using PsychologicalSupportPlatform.Meet.Domain.Entities;
 
@@ -21,11 +22,11 @@ public class CreateOpeningCommandHandler: IRequestHandler<CreateOpeningCommand, 
     {
         var newOpening = mapper.Map<Opening>(request);
         
-        if (newOpening is null) return new ResponseInfo(success: false, message: "wrong request data");
+        if (newOpening is null) throw new WrongRequestDataException();
 
         var oldOpening = await openingRepository.GetOpeningsByDayAndTimeAsync(newOpening.Day, newOpening.Time);
         
-        if (oldOpening.Count != 0) return new ResponseInfo(success: false, message: "opening already exists");
+        if (oldOpening.Count != 0) throw new AlreadyExistsException();
        
         await openingRepository.AddOpeningsAsync(newOpening);
         await openingRepository.SaveOpeningsAsync();
