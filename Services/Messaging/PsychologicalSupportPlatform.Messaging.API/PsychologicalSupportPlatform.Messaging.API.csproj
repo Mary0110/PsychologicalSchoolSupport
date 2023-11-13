@@ -26,6 +26,19 @@
 
     <ItemGroup>
       <Compile Remove="Controllers\MessagesController.cs" />
+      <Compile Remove="Mapper\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Remove="Mapper\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="Mapper\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Remove="Mapper\**" />
     </ItemGroup>
     
 </Project>

@@ -10,4 +10,16 @@
       <PackageReference Include="MongoDB.Bson" Version="2.22.0" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Compile Remove="DTOs\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Remove="DTOs\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="DTOs\**" />
+    </ItemGroup>
+
 </Project>
