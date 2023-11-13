@@ -7,13 +7,13 @@ namespace PsychologicalSupportPlatform.Messaging.Infrastructure.Data;
 
 public class MessageRepository: IMessageRepository
 {
-    private readonly IMongoCollection<Message> mesCollection;
+    private readonly IMongoCollection<Room> mesCollection;
 
     public MessageRepository(IOptions<ChatDbConfig> options)
     {
-        var mongoClient = new MongoClient(options.Value.ConnectionString);
+        var mongoClient = new MongoClient(options.Value.ConnectionURI);
         var mongoDatabase = mongoClient.GetDatabase(options.Value.DatabaseName);
-        mesCollection = mongoDatabase.GetCollection<Message>(options.Value.ChatsCollectionName);
+        mesCollection = mongoDatabase.GetCollection<Room>(options.Value.CollectionName);
 
         var indexOptions = new CreateIndexOptions { Unique = true };
         var mesBuilder = Builders<Message>.IndexKeys;
@@ -26,7 +26,7 @@ public class MessageRepository: IMessageRepository
         return await mesCollection.Find(_ => true).ToListAsync();
     }
 
-    public async Task<Message?> GetAsync(int mesId)
+    public async Task<Message?> GetAsync(string mesId)
     {
         return await mesCollection.Find(x => x.Id == mesId).FirstOrDefaultAsync();
     }
@@ -36,12 +36,12 @@ public class MessageRepository: IMessageRepository
         await mesCollection.InsertOneAsync(newMes);
     }
 
-    public async Task UpdateAsync(int id, Message updatedMes)
+    public async Task UpdateAsync(string id, Message updatedMes)
     {
         await mesCollection.ReplaceOneAsync(x => x.Id == id, updatedMes);
     }
 
-    public async Task RemoveAsync(int id)
+    public async Task RemoveAsync(string id)
     {
         await mesCollection.DeleteOneAsync(x => x.Id == id);
     }

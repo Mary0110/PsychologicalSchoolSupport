@@ -39,7 +39,7 @@ namespace PsychologicalSupportPlatform.Meet.API.Controllers
         [Authorize(Roles = Roles.Student)]
         public async Task<IActionResult> OrderMeetupByStudent(AddMeetupByStudentDTO meetup)
         {
-            var userId = this.GetCurrentUserId();
+            var userId = User.GetLoggedInUserId<int>();
             var addMeetupDTO = new AddMeetupDTO(meetup.Date, meetup.OpeningId, userId);
             var command = mapper.Map<OrderMeetupCommand>(addMeetupDTO);
             var response = await mediator.Send(command);
@@ -83,7 +83,7 @@ namespace PsychologicalSupportPlatform.Meet.API.Controllers
         }
 
         [HttpGet]
-        // [Authorize(Roles = Roles.Admin + "," + Roles.Psychologist + "," + Roles.Manager)]
+        [Authorize(Roles = Roles.Admin + "," + Roles.Psychologist + "," + Roles.Manager)]
         public async Task<IActionResult> GetAllMeetups()
         {
             var command = new GetAllMeetupsQuery();
@@ -98,7 +98,7 @@ namespace PsychologicalSupportPlatform.Meet.API.Controllers
         }
 
         [HttpGet("id={id}")]
-        // [Authorize(Roles = Roles.Admin + "," + Roles.Psychologist + "," + Roles.Manager)]
+        [Authorize(Roles = Roles.Admin + "," + Roles.Psychologist + "," + Roles.Manager)]
         public async Task<IActionResult> GetMeetupById(int id)
         {
             var command = new GetMeetupByIdQuery() {Id = id};
