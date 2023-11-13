@@ -2,15 +2,15 @@ using PsychologicalSupportPlatform.Messaging.Domain.Entities;
 
 namespace PsychologicalSupportPlatform.Messaging.Application;
 
-public interface IMessageRepository
+public interface IChatRepository
 {
-    public Task<List<Message>> GetAsync() ;
+    Task<Message?> GetAsync (string mesId);
     
-    public Task<Message?> GetAsync (string mesId) ;
+    Task AddAsync (Message newMes);
     
-    public Task AddAsync (Message newMes) ;
+    Task UpdateAsync(string id, Message updatedMes);
         
-    public Task UpdateAsync(string id, Message updatedMes);
-        
-    public Task RemoveAsync(string id);
+    Task RemoveAsync(string id);
+    
+    Task<List<Message>> GetChatHistoryAsync(string getLoggedInUserId, string otherUserId);
 }

@@ -5,15 +5,15 @@ using PsychologicalSupportPlatform.Messaging.Application;
 
 namespace PsychologicalSupportPlatform.Messaging.Infrastructure.Data;
 
-public class MessageRepository: IMessageRepository
+public class ChatRepository: IChatRepository
 {
-    private readonly IMongoCollection<Room> mesCollection;
+    private readonly IMongoCollection<Message> mesCollection;
 
-    public MessageRepository(IOptions<ChatDbConfig> options)
+    public ChatRepository(IOptions<ChatDbConfig> options)
     {
         var mongoClient = new MongoClient(options.Value.ConnectionURI);
         var mongoDatabase = mongoClient.GetDatabase(options.Value.DatabaseName);
-        mesCollection = mongoDatabase.GetCollection<Room>(options.Value.CollectionName);
+        mesCollection = mongoDatabase.GetCollection<Message>(options.Value.CollectionName);
 
         var indexOptions = new CreateIndexOptions { Unique = true };
         var mesBuilder = Builders<Message>.IndexKeys;
@@ -44,5 +44,12 @@ public class MessageRepository: IMessageRepository
     public async Task RemoveAsync(string id)
     {
         await mesCollection.DeleteOneAsync(x => x.Id == id);
+    }
+
+    public async Task<List<Message>> GetChatHistoryAsync(string getLoggedInUserId, string otherUserId)
+    {
+        return await mesCollection.Find(
+            c => c.ConsumerId == otherUserId && c.SenderId == getLoggedInUserId
+            ).Sort(Builders<Message>.Sort.Descending("DateTime")).ToListAsync();
     }
 }

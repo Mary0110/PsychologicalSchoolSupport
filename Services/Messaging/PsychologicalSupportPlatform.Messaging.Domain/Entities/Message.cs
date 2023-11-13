@@ -5,14 +5,22 @@ namespace PsychologicalSupportPlatform.Messaging.Domain.Entities;
 
 public class Message
 {
+    public Message(string consumerId, string senderId, string text, DateTime dateTime)
+    {
+        ConsumerId = consumerId;
+        SenderId = senderId;
+        Text = text;
+        DateTime = dateTime;
+    }
+    
     [BsonId]
     [BsonRepresentation(BsonType.ObjectId)]
-    public int Id { get; set; }
+    public string? Id { get; set; }
     
-    public int SenderId { get; set; }
+    public string SenderId { get; set; }
     
-    public int ConsumerId { get; set; }
-
+    public string ConsumerId { get; set; }
+    
     public string Text { get; set; } = string.Empty;
     
     public DateTime DateTime { get; set; }

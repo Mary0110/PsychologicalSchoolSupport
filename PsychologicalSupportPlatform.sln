@@ -1,9 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{AC53B87B-E538-4BFA-A78C-A24DC163550A}"
-	ProjectSection(SolutionItems) = preProject
-		Services\.gitignore = Services\.gitignore
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Authorization", "Authorization", "{714FA356-50A0-405B-991B-4BE2E0F893EA}"
 EndProject
@@ -27,6 +24,16 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PsychologicalSupportPlatfor
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PsychologicalSupportPlatform.Meet.API", "Services\Meet\PsychologicalSupportPlatform.Meet.API\PsychologicalSupportPlatform.Meet.API.csproj", "{EC1CCA2B-355D-4552-A1F3-6E3D20E3DC7C}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Messaging", "Messaging", "{F17A38D7-D36B-4E52-9F97-4BB95DF1AE22}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PsychologicalSupportPlatform.Messaging.Domain", "Services\Messaging\PsychologicalSupportPlatform.Messaging.Domain\PsychologicalSupportPlatform.Messaging.Domain.csproj", "{B1377729-7013-45C9-8C36-A639C1D739D0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PsychologicalSupportPlatform.Messaging.Application", "Services\Messaging\PsychologicalSupportPlatform.Messaging.Application\PsychologicalSupportPlatform.Messaging.Application.csproj", "{2A726BA4-E454-44C9-8231-77BDA7B12232}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PsychologicalSupportPlatform.Messaging.Infrastructure", "Services\Messaging\PsychologicalSupportPlatform.Messaging.Infrastructure\PsychologicalSupportPlatform.Messaging.Infrastructure.csproj", "{668A97C9-00B0-474D-BF64-E3940E435B78}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PsychologicalSupportPlatform.Messaging.API", "Services\Messaging\PsychologicalSupportPlatform.Messaging.API\PsychologicalSupportPlatform.Messaging.API.csproj", "{4F79F603-D430-4295-B131-83EAB1408DB7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -44,6 +51,11 @@ Global
 		{2AEF147D-87D4-48D8-99CA-F92AFE7CF950} = {7D49942F-FFE1-4CB3-9F33-B781385CADD2}
 		{E805A86F-1035-4BEB-A5A0-F9DD97541E16} = {7D49942F-FFE1-4CB3-9F33-B781385CADD2}
 		{EC1CCA2B-355D-4552-A1F3-6E3D20E3DC7C} = {7D49942F-FFE1-4CB3-9F33-B781385CADD2}
+		{F17A38D7-D36B-4E52-9F97-4BB95DF1AE22} = {AC53B87B-E538-4BFA-A78C-A24DC163550A}
+		{B1377729-7013-45C9-8C36-A639C1D739D0} = {F17A38D7-D36B-4E52-9F97-4BB95DF1AE22}
+		{2A726BA4-E454-44C9-8231-77BDA7B12232} = {F17A38D7-D36B-4E52-9F97-4BB95DF1AE22}
+		{668A97C9-00B0-474D-BF64-E3940E435B78} = {F17A38D7-D36B-4E52-9F97-4BB95DF1AE22}
+		{4F79F603-D430-4295-B131-83EAB1408DB7} = {F17A38D7-D36B-4E52-9F97-4BB95DF1AE22}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{B3945619-7B52-4666-BF83-BCB38D96A9B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -82,5 +94,21 @@ Global
 		{EC1CCA2B-355D-4552-A1F3-6E3D20E3DC7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EC1CCA2B-355D-4552-A1F3-6E3D20E3DC7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EC1CCA2B-355D-4552-A1F3-6E3D20E3DC7C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B1377729-7013-45C9-8C36-A639C1D739D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B1377729-7013-45C9-8C36-A639C1D739D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B1377729-7013-45C9-8C36-A639C1D739D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B1377729-7013-45C9-8C36-A639C1D739D0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2A726BA4-E454-44C9-8231-77BDA7B12232}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A726BA4-E454-44C9-8231-77BDA7B12232}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A726BA4-E454-44C9-8231-77BDA7B12232}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A726BA4-E454-44C9-8231-77BDA7B12232}.Release|Any CPU.Build.0 = Release|Any CPU
+		{668A97C9-00B0-474D-BF64-E3940E435B78}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{668A97C9-00B0-474D-BF64-E3940E435B78}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{668A97C9-00B0-474D-BF64-E3940E435B78}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{668A97C9-00B0-474D-BF64-E3940E435B78}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4F79F603-D430-4295-B131-83EAB1408DB7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4F79F603-D430-4295-B131-83EAB1408DB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4F79F603-D430-4295-B131-83EAB1408DB7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4F79F603-D430-4295-B131-83EAB1408DB7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

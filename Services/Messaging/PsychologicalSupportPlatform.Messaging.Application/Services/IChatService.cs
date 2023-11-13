@@ -1,9 +1,13 @@
 using PsychologicalSupportPlatform.Common;
 using PsychologicalSupportPlatform.Messaging.Domain.DTOs;
+using PsychologicalSupportPlatform.Messaging.Domain.Entities;
 
 namespace PsychologicalSupportPlatform.Messaging.Application.Services;
 
 public interface IChatService
 {
-    Task<ResponseInfo> SendMessage(AddMessageDTO mesDTO);
+    Task<Message> AddMessageAsync(Message message);
+
+    Task<Message?> GetAsync(string mesId);
+    Task<List<Message>> GetAllChatHistoryAsync(string curUserId, string otherUserId);
 }

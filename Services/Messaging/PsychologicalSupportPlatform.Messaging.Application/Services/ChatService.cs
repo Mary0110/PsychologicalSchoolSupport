@@ -1,5 +1,6 @@
 using MapsterMapper;
 using PsychologicalSupportPlatform.Common;
+using PsychologicalSupportPlatform.Common.Errors;
 using PsychologicalSupportPlatform.Messaging.Domain.DTOs;
 using PsychologicalSupportPlatform.Messaging.Domain.Entities;
 
@@ -7,25 +8,48 @@ namespace PsychologicalSupportPlatform.Messaging.Application.Services;
 
 public class ChatService : IChatService
 {
-    private readonly IMapper mapper;
-    private readonly IMessageRepository repository;
+    private readonly IChatRepository repository;
 
-    public ChatService(IMessageRepository repository, IMapper mapper)
+    public ChatService(IChatRepository repository)
     {
         this.repository = repository;
-        this.mapper = mapper;
     }
 
-    public async Task<ResponseInfo> SendMessage(AddMessageDTO mesDTO)
+    public async Task<Message> AddMessageAsync(Message message)
     {
-        if (mesDTO is null) return new ResponseInfo(success: false, message: "wrong request data");
-
-        var newMesDTO = new MessageDTO(mesDTO.SenderId, mesDTO.ConsumerId, mesDTO.Text, DateTime.Now);
+        if (message is null)
+        {
+            throw new WrongRequestDataException();
+        }
         
-        var newMes = mapper.Map<Message>(newMesDTO);
-
-        await repository.AddAsync(newMes);
+        var oldMes = await repository.GetAsync(message.Id);
         
-        return new ResponseInfo(success: true, message: "mes saved");    
+        if (oldMes is not null)
+        {
+            throw new AlreadyExistsException();
+        }
+        
+        await repository.AddAsync(message);
+        
+        return message;
+    }
+
+    public async Task<Message?> GetAsync(string roomId)
+    {
+        var mes = await repository.GetAsync(roomId);
+
+        if (mes is null)
+        {
+            throw new EntityNotFoundException(nameof(roomId));
+        }
+
+        return mes;
+    }
+
+    public async Task<List<Message>> GetAllChatHistoryAsync(string curUserId, string otherUserId)
+    {
+        var messsages = await repository.GetChatHistoryAsync(curUserId, otherUserId);
+
+        return messsages;    
     }
 }
