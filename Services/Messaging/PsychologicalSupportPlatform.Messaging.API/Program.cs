@@ -1,6 +1,7 @@
 using MapsterMapper;
 using PsychologicalSupportPlatform.Messaging.API.Extensions;
 using PsychologicalSupportPlatform.Messaging.API.Hubs;
+using PsychologicalSupportPlatform.Messaging.Application.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,11 +12,13 @@ builder.Services.AddAuthenticate(builder.Configuration);
 builder.Services.AddSingleton(GetConfiguredMapping.GetConfiguredMappingConfig());
 builder.Services.AddSwagger();
 builder.Services.AddMongoDbPersistence(builder.Configuration);
-builder.Services.AddInfrastructureServices();
+builder.Services.AddInfrastructureServices(builder.Configuration);
 builder.Services.AddScoped<IMapper, Mapper>();
 builder.Services.AddSignalR();
+builder.Services.AddGrpc();
 
 var app = builder.Build();
+app.UseMiddleware<ExceptionHandlerMiddleware>();
 
 if (app.Environment.IsDevelopment())
 {

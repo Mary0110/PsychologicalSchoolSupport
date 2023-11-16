@@ -1,4 +1,8 @@
+using PsychologicalSupportPlatform.Common;
 using PsychologicalSupportPlatform.Common.Errors;
+using PsychologicalSupportPlatform.Common.Interfaces;
+using PsychologicalSupportPlatform.Messaging.Application.DTOs;
+using PsychologicalSupportPlatform.Messaging.Application.Errors;
 using PsychologicalSupportPlatform.Messaging.Domain.Entities;
 
 namespace PsychologicalSupportPlatform.Messaging.Application.Services;
@@ -6,29 +10,37 @@ namespace PsychologicalSupportPlatform.Messaging.Application.Services;
 public class ChatService : IChatService
 {
     private readonly IChatRepository repository;
+    private readonly IUserGrpcClient userGrpcClient;
 
-    public ChatService(IChatRepository repository)
+    
+    public ChatService(IChatRepository repository, IUserGrpcClient userGrpcClient)
     {
         this.repository = repository;
+        this.userGrpcClient = userGrpcClient;
     }
 
-    public async Task<Message> AddMessageAsync(Message message)
+    public async Task AddMessageAsync(AddMessageDTO messageDTO)
     {
-        if (message is null)
+        if (messageDTO is null)
         {
             throw new WrongRequestDataException();
         }
         
-        var oldMes = await repository.GetAsync(message.Id);
-        
-        if (oldMes is not null)
+        var sender = await userGrpcClient.CheckUserAsync(int.Parse(messageDTO.ConsumerId));
+        var senderRole = sender.Role;
+        var consumer = await userGrpcClient.CheckUserAsync(int.Parse(messageDTO.ConsumerId));
+        var consumerRole = consumer.Role;
+
+        if (!(senderRole == Roles.Student && consumerRole == Roles.Psychologist ||
+            consumerRole == Roles.Student && senderRole == Roles.Psychologist))
         {
-            throw new AlreadyExistsException();
+            throw new WrongRolesForSendingMessages(senderRole, consumerRole);
         }
-        
+
+        var message = new Message(
+            messageDTO.ConsumerId, messageDTO.SenderId, messageDTO.Text, messageDTO.DateTime
+            );
         await repository.AddAsync(message);
-        
-        return message;
     }
 
     public async Task<Message?> GetAsync(string roomId)
@@ -45,6 +57,7 @@ public class ChatService : IChatService
 
     public async Task<List<Message>> GetAllChatHistoryAsync(string curUserId, string otherUserId)
     {
+        var user = await userGrpcClient.CheckUserAsync(int.Parse(otherUserId));
         var messsages = await repository.GetChatHistoryAsync(curUserId, otherUserId);
 
         return messsages;    

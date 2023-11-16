@@ -2,6 +2,7 @@ using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 using PsychologicalSupportPlatform.Authorization.API.Extensions;
+using PsychologicalSupportPlatform.Authorization.API.GrpcServices;
 using PsychologicalSupportPlatform.Authorization.Domain.Entities;
 using PsychologicalSupportPlatform.Authorization.Infrastructure.Data;
 
@@ -19,6 +20,7 @@ builder.Services.AddAuthorization();
 builder.Services.AddAuthenticate(builder.Configuration);
 builder.Services.AddSwagger();
 builder.Services.AddControllers();
+builder.Services.AddGrpc();
 
 var app = builder.Build();
 
@@ -35,4 +37,5 @@ app.UseAuthorization();
 await app.UseDatabaseSeed();
 
 app.MapControllers();
+app.MapGrpcService<UserCheckerService>();
 app.Run();

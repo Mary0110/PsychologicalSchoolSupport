@@ -2,8 +2,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 using PsychologicalSupportPlatform.Common;
 using PsychologicalSupportPlatform.Messaging.API.Extensions;
+using PsychologicalSupportPlatform.Messaging.Application.DTOs;
 using PsychologicalSupportPlatform.Messaging.Application.Services;
-using PsychologicalSupportPlatform.Messaging.Domain.Entities;
 
 namespace PsychologicalSupportPlatform.Messaging.API.Hubs;
 
@@ -17,22 +17,24 @@ public class ChatHub: Hub
     }
 
     [Authorize(Roles = Roles.Psychologist + "," + Roles.Student)]
-    public async Task SendAsync(string message, string comsumerId)
+    public async Task SendAsync(string message, string consumerId)
     {
-        var senderId = Context.User.GetLoggedInUserId<string>();
+        var senderId = Context.User.GetLoggedInUserId();
         var dateTime = DateTime.Now;
-        await Clients.Group(comsumerId).SendAsync(
-            "Receive message", message, senderId, dateTime
-            );
+        
         await chatService.AddMessageAsync(
-            new Message(comsumerId, senderId, message, dateTime)
+            new AddMessageDTO(senderId, consumerId, message, dateTime)
+        );
+        
+        await Clients.Group(consumerId).SendAsync(
+            "Receive message", message, senderId, dateTime
             );
     }
     
     [Authorize(Roles = Roles.Psychologist + "," + Roles.Student)]
     public override Task OnConnectedAsync()
     {
-        var userId = Context.User.GetLoggedInUserId<string>();
+        var userId = Context.User.GetLoggedInUserId();
         Groups.AddToGroupAsync(Context.ConnectionId, userId);
 
         return base.OnConnectedAsync();
@@ -42,7 +44,7 @@ public class ChatHub: Hub
     public async Task GetChatHistory(string otherUserId)
     {
         var chatHistory = await chatService.GetAllChatHistoryAsync(
-            Context.User.GetLoggedInUserId<string>(), otherUserId
+            Context.User.GetLoggedInUserId(), otherUserId
             );
 
         await Clients.Caller.SendAsync("Receive chat history", chatHistory);

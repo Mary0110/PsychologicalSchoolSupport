@@ -12,6 +12,12 @@
     </ItemGroup>
 
     <ItemGroup>
+      <PackageReference Include="Google.Protobuf" Version="3.25.0" />
+      <PackageReference Include="Grpc.AspNetCore.Server.ClientFactory" Version="2.59.0" />
+      <PackageReference Include="Grpc.Tools" Version="2.59.0">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      </PackageReference>
       <PackageReference Include="Mapster" Version="7.4.0" />
       <PackageReference Include="Microsoft.AspNetCore.SignalR" Version="1.1.0" />
       <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="7.0.13" />
@@ -20,6 +26,15 @@
     <ItemGroup>
       <Compile Remove="Services\MesService.cs" />
       <Compile Remove="Services\IChatClient.cs" />
+      <Compile Remove="Protos\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Remove="Protos\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="Protos\**" />
     </ItemGroup>
 
 </Project>
