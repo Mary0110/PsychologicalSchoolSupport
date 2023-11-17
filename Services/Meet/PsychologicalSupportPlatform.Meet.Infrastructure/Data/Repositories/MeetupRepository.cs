@@ -1,58 +1,20 @@
-using Microsoft.EntityFrameworkCore;
+using PsychologicalSupportPlatform.Common.Repository;
 using PsychologicalSupportPlatform.Meet.Domain.Entities;
 using PsychologicalSupportPlatform.Meet.Domain.Interfaces;
 
 namespace PsychologicalSupportPlatform.Meet.Infrastructure.Data.Repositories;
 
-public class MeetupRepository: IMeetupRepository
+public class MeetupRepository: SQLRepository<DataContext, Meetup>, IMeetupRepository
 {
-    private readonly DataContext context;
+    public MeetupRepository(DataContext context) : base(context) { }
     
-    public MeetupRepository(DataContext context)
+    public async Task<List<Meetup>> GetMeetingsByStudentIdAsync(int id, int pageNumber, int pageSize)
     {
-        this.context = context;
-    }
-    
-    public async Task<Meetup?> GetMeetingByIdAsync(int id)
-    {
-        return await context.Meetups.FindAsync(id);
+        return await GetAllAsync(p => p.StudentId == id, pageNumber, pageSize);
     }
 
-    public async Task<IReadOnlyList<Meetup?>> GetAllMeetingsAsync()
+    public async Task<List<Meetup>> GetMeetingsByDateAsync(DateOnly date, int pageNumber, int pageSize)
     {
-        return await context.Meetups.ToListAsync();
-    }
-
-    public async Task<IReadOnlyList<Meetup?>> GetMeetingsByStudentIdAsync(int id)
-    {
-        return context.Meetups.AsNoTracking().Where(p => p.StudentId == id).ToList();
-    }
-
-    public async Task<IReadOnlyList<Meetup?>> GetMeetingsByDateAsync(DateOnly date)
-    {
-        return context.Meetups.AsNoTracking().Where(p => p.Date == date).ToList();
-    }
-
-    public async Task AddMeetingAsync(Meetup meet)
-    {
-        Console.WriteLine($"meet  {meet.OpeningId}");
-        await context.Meetups.AddAsync(meet);
-    }
-
-    public async Task UpdateMeetingAsync(Meetup meet)
-    {
-        context.Entry(meet).State = EntityState.Modified;
-        await context.SaveChangesAsync();    
-    }
-
-    public async Task DeleteMeetingAsync(Meetup meet)
-    {
-        context.Meetups.Remove(meet);
-        await context.SaveChangesAsync();    
-    }
-
-    public async Task SaveMeetingAsync()
-    {
-        await context.SaveChangesAsync();
+        return await GetAllAsync(p => p.Date == date, pageNumber, pageSize);
     }
 }

@@ -6,9 +6,9 @@ public class Meetup
     
     public DateOnly Date { get; set; }
     
-    public int OpeningId { get; set; }
+    public int ScheduleCellId { get; set; }
 
-    public Opening Opening { get; set; }
+    public ScheduleCell ScheduleCell { get; set; }
 
     public int StudentId { get; set; }
 }

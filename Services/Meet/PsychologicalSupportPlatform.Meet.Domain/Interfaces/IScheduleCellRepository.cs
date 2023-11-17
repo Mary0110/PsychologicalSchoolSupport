@@ -1,26 +1,16 @@
+using PsychologicalSupportPlatform.Common.Repository;
 using PsychologicalSupportPlatform.Meet.Domain.Entities;
+using SpecificationPatternDotNet;
 
 namespace PsychologicalSupportPlatform.Meet.Domain.Interfaces;
 
-public interface IScheduleCellRepository
+public interface IScheduleCellRepository : ISQLRepository<ScheduleCell>
 {
-    Task<ScheduleCell?> GetScheduleCellByIdAsync(int id);
+    Task<List<ScheduleCell>> GetScheduleCellsByDayOfWeekAsync(DayOfWeek dayOfWeek, int pageNumber, int pageSize);
     
-    Task<IReadOnlyList<ScheduleCell>> GetAllScheduleCellsAsync();
+    Task<List<ScheduleCell>> GetScheduleCellsByStatusAsync(bool status, int pageNumber, int pageSize);
     
-    Task<IReadOnlyList<ScheduleCell>> GetScheduleCellsByDayOfWeekAsync(DayOfWeek dayOfWeek);
-    
-    Task<IReadOnlyList<ScheduleCell>> GetScheduleCellsByStatusAsync(bool status);
-    
-    Task<IReadOnlyList<ScheduleCell>> GetAvailableScheduleCellsAsync();
+    Task<List<ScheduleCell>> GetScheduleCellsByDayAndTimeAsync(DayOfWeek dayOfWeek, TimeOnly time);
 
-    Task AddScheduleCellsAsync(ScheduleCell scheduleCell);
-    
-    Task UpdateScheduleCellsAsync(ScheduleCell scheduleCell);
-    
-    Task DeleteScheduleCellsAsync(ScheduleCell scheduleCell);
-
-    Task<IReadOnlyList<ScheduleCell>> GetScheduleCellsByDayAndTimeAsync(DayOfWeek dayOfWeek, TimeOnly time);
-
-    Task SaveScheduleCellsAsync();   
+    Task<List<ScheduleCell>> GetAvailableScheduleCellsAsync(int pageNumber, int pageSize);
 }

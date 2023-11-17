@@ -56,8 +56,7 @@ public class LoginService : ILoginService
             new Claim(JwtRegisteredClaimNames.Email, user.Email),
             new Claim("role", user.Role.ToString()),
         };
-        Console.WriteLine($"loginservice{authParams.Secret}");
-
+        
         var jwt = new JwtSecurityToken(
             authParams.Issuer,
             authParams.Audience,

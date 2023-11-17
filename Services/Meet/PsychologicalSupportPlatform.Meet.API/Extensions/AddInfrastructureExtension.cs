@@ -3,12 +3,12 @@ using PsychologicalSupportPlatform.Meet.Infrastructure.Data.Repositories;
 
 namespace PsychologicalSupportPlatform.Meet.API.Extensions;
 
-public static class InjectRepositories
+public static class AddInfrastructureExtension
 {
-    public static IServiceCollection InjectRepos(this IServiceCollection services)
+    public static IServiceCollection InjectRepositories(this IServiceCollection services)
     {
         services.AddTransient(typeof(IMeetupRepository), typeof(MeetupRepository));
-        services.AddTransient(typeof(IOpeningRepository), typeof(OpeningRepository));
+        services.AddTransient(typeof(IScheduleCellRepository), typeof(ScheduleCellRepository));
         
         return services;
     }

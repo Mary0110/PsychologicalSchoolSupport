@@ -12,7 +12,7 @@ namespace PsychologicalSupportPlatform.Meet.API.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Openings",
+                name: "ScheduleCells",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -24,7 +24,7 @@ namespace PsychologicalSupportPlatform.Meet.API.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Openings", x => x.Id);
+                    table.PrimaryKey("PK_ScheduleCells", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -34,24 +34,24 @@ namespace PsychologicalSupportPlatform.Meet.API.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Date = table.Column<DateTime>(type: "date", nullable: false),
-                    OpeningId = table.Column<int>(type: "int", nullable: false),
+                    ScheduleCellId = table.Column<int>(type: "int", nullable: false),
                     StudentId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Meetups", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Meetups_Openings_OpeningId",
-                        column: x => x.OpeningId,
-                        principalTable: "Openings",
+                        name: "FK_Meetups_ScheduleCells_ScheduleCellId",
+                        column: x => x.ScheduleCellId,
+                        principalTable: "ScheduleCells",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Meetups_OpeningId",
+                name: "IX_Meetups_ScheduleCellId",
                 table: "Meetups",
-                column: "OpeningId");
+                column: "ScheduleCellId");
         }
 
         /// <inheritdoc />
@@ -61,7 +61,7 @@ namespace PsychologicalSupportPlatform.Meet.API.Migrations
                 name: "Meetups");
 
             migrationBuilder.DropTable(
-                name: "Openings");
+                name: "ScheduleCells");
         }
     }
 }

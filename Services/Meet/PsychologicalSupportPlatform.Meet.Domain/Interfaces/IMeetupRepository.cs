@@ -1,22 +1,11 @@
+using PsychologicalSupportPlatform.Common.Repository;
 using PsychologicalSupportPlatform.Meet.Domain.Entities;
 
 namespace PsychologicalSupportPlatform.Meet.Domain.Interfaces;
 
-public interface IMeetupRepository
+public interface IMeetupRepository : ISQLRepository<Meetup>
 {
-    Task<Meetup?> GetMeetingByIdAsync(int id);
+    Task<List<Meetup>> GetMeetingsByStudentIdAsync(int id, int pageNumber, int pageSize);
     
-    Task<IReadOnlyList<Meetup?>> GetAllMeetingsAsync();
-    
-    Task<IReadOnlyList<Meetup?>> GetMeetingsByStudentIdAsync(int id);
-
-    Task<IReadOnlyList<Meetup?>> GetMeetingsByDateAsync(DateOnly date);
-
-    Task AddMeetingAsync(Meetup meet);
-    
-    Task UpdateMeetingAsync(Meetup meet);
-    
-    Task DeleteMeetingAsync(Meetup meet);
-    
-    Task SaveMeetingAsync();   
+    Task<List<Meetup>> GetMeetingsByDateAsync(DateOnly date, int pageNumber, int pageSize);
 }

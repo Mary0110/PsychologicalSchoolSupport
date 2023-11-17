@@ -7,35 +7,45 @@ using PsychologicalSupportPlatform.Meet.Domain.Interfaces;
 
 namespace PsychologicalSupportPlatform.Meet.Application.Meetups.Commands.Update;
 
-public class UpdateMeetupCommandHandler: IRequestHandler<UpdateMeetupCommand, ResponseInfo>
+public class UpdateMeetupCommandHandler: IRequestHandler<UpdateMeetupCommand, int>
 {
     private readonly IMeetupRepository meetupRepository;
-    private readonly IOpeningRepository openingRepository;
+    private readonly IScheduleCellRepository scheduleCellRepository;
     private readonly IMapper mapper;
     
-    public UpdateMeetupCommandHandler(IMeetupRepository meetupRepository, IMapper mapper,  IOpeningRepository openingRepository)
+    public UpdateMeetupCommandHandler(IMeetupRepository meetupRepository, IMapper mapper,  IScheduleCellRepository scheduleCellRepository)
     {
         this.meetupRepository = meetupRepository;
-        this.openingRepository = openingRepository;
+        this.scheduleCellRepository = scheduleCellRepository;
         this.mapper = mapper;
     }
 
-    public async Task<ResponseInfo> Handle(UpdateMeetupCommand request, CancellationToken cancellationToken)
+    public async Task<int> Handle(UpdateMeetupCommand request, CancellationToken cancellationToken)
     {
         var meetup = mapper.Map<Meetup>(request.MeetupDTO);
 
-        if (meetup is null) throw new WrongRequestDataException();
+        if (meetup is null)
+        {
+            throw new WrongRequestDataException();
+        }
 
-        var oldMeetup = meetupRepository.GetMeetingByIdAsync(meetup.Id);
-        
-        if (oldMeetup is null) throw new EntityNotFoundException(paramname: nameof(meetup.Id));
+        var oldMeetup = meetupRepository.GetByIdAsync(meetup.Id);
 
-        var newOpening = await openingRepository.GetOpeningByIdAsync(meetup.OpeningId);
+        if (oldMeetup is null)
+        {
+            throw new EntityNotFoundException(paramname: nameof(meetup.Id));
+        }
 
-        if (newOpening is null) throw new EntityNotFoundException(paramname: nameof(meetup.OpeningId));
+        var newScheduleCell = await scheduleCellRepository.GetByIdAsync(meetup.ScheduleCellId);
+
+        if (newScheduleCell is null)
+        {
+            throw new EntityNotFoundException(paramname: nameof(meetup.ScheduleCellId));
+        }
         
-        await meetupRepository.UpdateMeetingAsync(meetup);
-        
-        return new ResponseInfo(success: true, message: "meetup updated");
+        meetupRepository.Update(meetup);
+        await meetupRepository.SaveAsync();
+
+        return meetup.Id;
     }
 }

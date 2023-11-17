@@ -7,10 +7,10 @@ namespace PsychologicalSupportPlatform.Meet.API.Extensions
     {
         public static TypeAdapterConfig GetConfiguredMappingConfig()
         {
-            var cfg = TypeAdapterConfig.GlobalSettings;
-            cfg.Scan(Assembly.GetExecutingAssembly(), Application.AssemblyReference.Assembly);
+            var adapterConfig = TypeAdapterConfig.GlobalSettings;
+            adapterConfig.Scan(Assembly.GetExecutingAssembly(), Application.AssemblyReference.Assembly);
             
-            return cfg;
+            return adapterConfig;
         }
     }
 }

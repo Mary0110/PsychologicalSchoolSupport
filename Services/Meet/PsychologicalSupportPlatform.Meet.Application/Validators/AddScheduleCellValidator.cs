@@ -4,7 +4,7 @@ using PsychologicalSupportPlatform.Meet.Application.DTOs;
 
 namespace PsychologicalSupportPlatform.Meet.Application.Validators;
 
-public class AddSheduleCellValidator: AbstractValidator<AddScheduleCellDTO>
+public class AddScheduleCellValidator: AbstractValidator<CreateScheduleCellDTO>
 {
     public AddScheduleCellValidator()
     {

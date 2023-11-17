@@ -4,6 +4,4 @@ using PsychologicalSupportPlatform.Meet.Application.DTOs;
 
 namespace PsychologicalSupportPlatform.Meet.Application.Meetups.Queries;
 
-public class GetAllMeetupsQuery: IRequest<DataResponseInfo<List<MeetupDTO>>>
-{
-}
+public record GetAllMeetupsQuery(int pageNumber, int pageSize): IRequest<List<MeetupDTO>> { }
