@@ -14,6 +14,13 @@ public class ScheduleCellMapper : IRegister
                         .TwoWays()
                         .Map(dest => dest.ScheduleCellDto, src => src);
 
+                config.NewConfig<ScheduleCell, ScheduleCellDTO>()
+                        .Map(dest => dest.Hours, src => src.Time.Hour)
+                        .Map(dest => dest.Minutes, src => src.Time.Minute);
+
+                config.NewConfig<ScheduleCellDTO, ScheduleCell>()
+                        .Map(dest => dest.Time, src => new TimeOnly(src.Hours, src.Minutes));
+
                 config.NewConfig<ScheduleCellDTO, UpdateScheduleCellCommand>()
                         .TwoWays()
                         .Map(dest => dest.scheduleCellDTO, src => src);

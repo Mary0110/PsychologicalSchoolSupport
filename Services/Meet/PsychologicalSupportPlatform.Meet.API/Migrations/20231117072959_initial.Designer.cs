@@ -12,7 +12,7 @@ using PsychologicalSupportPlatform.Meet.Infrastructure.Data;
 namespace PsychologicalSupportPlatform.Meet.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20231107213519_initial")]
+    [Migration("20231117072959_initial")]
     partial class initial
     {
         /// <inheritdoc />

@@ -7,8 +7,8 @@ public static class AddInfrastructureExtension
 {
     public static IServiceCollection InjectRepositories(this IServiceCollection services)
     {
-        services.AddTransient(typeof(IMeetupRepository), typeof(MeetupRepository));
-        services.AddTransient(typeof(IScheduleCellRepository), typeof(ScheduleCellRepository));
+        services.AddScoped(typeof(IMeetupRepository), typeof(MeetupRepository));
+        services.AddScoped(typeof(IScheduleCellRepository), typeof(ScheduleCellRepository));
         
         return services;
     }
