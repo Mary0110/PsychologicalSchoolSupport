@@ -22,7 +22,9 @@ public class GetMeetupsByDateQueryHandler: IRequestHandler<GetMeetupsByDateQuery
 
     public async Task<List<MeetupDTO>> Handle(GetMeetupsByDateQuery request, CancellationToken cancellationToken)
     {
-        var meetup = await meetupRepository.GetMeetingsByDateAsync(request.Date, request.pageNumber, request.pageSize);
+        var meetup = await meetupRepository.GetAllAsync(
+            m => m.Date == request.Date, request.pageNumber, request.pageSize
+            );
 
         if (meetup is null)
         {

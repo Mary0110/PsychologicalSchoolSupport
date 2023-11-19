@@ -1,4 +1,4 @@
-namespace PsychologicalSupportPlatform.Meet.Application.DTOs;
+namespace PsychologicalSupportPlatform.Meet.Application.DTOs.Meetup;
 
 public class AddMeetupByStudentDTO
 {

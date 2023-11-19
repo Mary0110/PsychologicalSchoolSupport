@@ -22,7 +22,9 @@ public class GetMeetupsByStudentIdQueryHandler: IRequestHandler<GetMeetupsByStud
 
     public async Task<List<MeetupDTO>> Handle(GetMeetupsByStudentIdQuery request, CancellationToken cancellationToken)
     {
-        var meetups = await meetupRepository.GetMeetingsByStudentIdAsync(request.StudentId, request.pageNumber, request.pageSize);
+        var meetups = await meetupRepository.GetAllAsync(
+            m => m.StudentId == request.StudentId, request.pageNumber, request.pageSize
+            );
 
         if (meetups is null)
         {

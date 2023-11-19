@@ -28,21 +28,29 @@ public class UpdateMeetupCommandHandler: IRequestHandler<UpdateMeetupCommand, in
             throw new WrongRequestDataException();
         }
 
-        var oldMeetup = meetupRepository.GetByIdAsync(meetup.Id);
+        var oldMeetup = await meetupRepository.GetAsync(m => meetup.Id == m.Id);
 
         if (oldMeetup is null)
         {
             throw new EntityNotFoundException(paramname: nameof(meetup.Id));
         }
 
-        var newScheduleCell = await scheduleCellRepository.GetByIdAsync(meetup.ScheduleCellId);
-
-        if (newScheduleCell is null)
+        if (oldMeetup.ScheduleCellId != meetup.ScheduleCellId)
         {
-            throw new EntityNotFoundException(paramname: nameof(meetup.ScheduleCellId));
+            var newScheduleCell = await scheduleCellRepository.GetByIdAsync(meetup.ScheduleCellId);
+
+            if (newScheduleCell is null)
+            {
+                throw new EntityNotFoundException(paramname: nameof(meetup.ScheduleCellId));
+            }
+
+            if (!HandlerHelper.IsScheduleCellAvailable(newScheduleCell))
+            {
+                throw new AlreadyExistsException();
+            }
         }
-        
-        meetupRepository.Update(meetup);
+
+        await meetupRepository.UpdateAsync(meetup);
         await meetupRepository.SaveAsync();
 
         return meetup.Id;

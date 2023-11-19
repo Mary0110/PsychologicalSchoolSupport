@@ -31,10 +31,10 @@ public class OrderMeetupCommandHandler: IRequestHandler<OrderMeetupCommand, int>
 
         if (request.MeetupDto.Date.DayOfWeek != chosenScheduleCell.Day)
         {
-            throw new WrongRequestDataException();
+            throw new WrongDateWeekdayException();
         }
 
-        if (!IsScheduleCellAvailable(chosenScheduleCell))
+        if (!HandlerHelper.IsScheduleCellAvailable(chosenScheduleCell))
         {
             throw new AlreadyExistsException();
         }
@@ -50,22 +50,5 @@ public class OrderMeetupCommandHandler: IRequestHandler<OrderMeetupCommand, int>
         await meetupRepository.SaveAsync();
 
         return addedMeetup.Id;
-    }
-    
-    private bool IsScheduleCellAvailable(ScheduleCell scheduleCell)
-    {
-        var hasOrderedMeetups = scheduleCell.Meetups.Any(m => m.Date > DateOnly.FromDateTime(DateTime.Now));
-        
-        if (!hasOrderedMeetups)
-        {
-            var hasOrderedMeetupsToday = scheduleCell.Meetups.Any(m => m.Date == DateOnly.FromDateTime(DateTime.Now));
-            
-            if (hasOrderedMeetupsToday)
-            {
-                hasOrderedMeetups = scheduleCell.Time >= TimeOnly.FromDateTime(DateTime.Now);
-            }
-        }
-
-        return scheduleCell.Active && !hasOrderedMeetups;
     }
 }

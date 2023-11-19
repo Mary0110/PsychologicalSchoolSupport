@@ -27,14 +27,14 @@ public class UpdateScheduleCellCommandHandler: IRequestHandler<UpdateScheduleCel
             throw new WrongRequestDataException();
         }
         
-        var oldScheduleCell = await scheduleCellRepository.GetByIdAsync(scheduleCell.Id);
+        var oldScheduleCell = await scheduleCellRepository.GetAsync(cell => cell.Id == scheduleCell.Id);
 
         if (oldScheduleCell is null)
         {
             throw new EntityNotFoundException(paramname: nameof(scheduleCell.Id));
         }
         
-        scheduleCellRepository.Update(scheduleCell);
+        await scheduleCellRepository.UpdateAsync(scheduleCell);
         await scheduleCellRepository.SaveAsync();
 
         return scheduleCell.Id;

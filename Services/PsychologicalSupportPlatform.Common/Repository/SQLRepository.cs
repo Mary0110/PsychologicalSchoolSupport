@@ -32,8 +32,7 @@ public abstract class SQLRepository<TDbContext, TEntity> : ISQLRepository<TEntit
         int pageSize
     )
     {
-        return DbContext
-            .Set<TEntity>()
+        return _table
             .AsNoTracking()
             .Where(predicate)
             .ToPagedCollection(pageNumber, pageSize)
@@ -44,8 +43,7 @@ public abstract class SQLRepository<TDbContext, TEntity> : ISQLRepository<TEntit
         Expression<Func<TEntity, bool>> predicate
     )
     {
-        return DbContext
-            .Set<TEntity>()
+        return _table
             .AsNoTracking()
             .Where(predicate)
             .ToList();
@@ -60,7 +58,7 @@ public abstract class SQLRepository<TDbContext, TEntity> : ISQLRepository<TEntit
         Expression<Func<TEntity, bool>> predicate
     )
     {
-        return await _table.FirstOrDefaultAsync(predicate);
+        return await _table.AsNoTracking().FirstOrDefaultAsync(predicate);
     }
 
     public async Task<TEntity> AddAsync(
@@ -69,14 +67,19 @@ public abstract class SQLRepository<TDbContext, TEntity> : ISQLRepository<TEntit
         return (await DbContext.AddAsync(entity)).Entity;
     }
 
-    public virtual void Update(TEntity entity)
+    public virtual async Task UpdateAsync(TEntity entity)
     {
         DbContext.Entry(entity).State = EntityState.Modified;
     }
 
-    public virtual void Delete(TEntity entity)
-    {
-        DbContext.Set<TEntity>().Remove(entity);
+    public virtual async Task DeleteAsync(TEntity entity)
+    {    
+        if (DbContext.Entry(entity).State == EntityState.Detached)
+        {
+            _table.Attach(entity);
+        }
+        
+        _table.Remove(entity);
     }
 
     public virtual async Task<TEntity?> DeleteByIdAsync(int id)
@@ -85,7 +88,7 @@ public abstract class SQLRepository<TDbContext, TEntity> : ISQLRepository<TEntit
 
         if (entity != null)
         {
-            Delete(entity);
+            DeleteAsync(entity);
         }
 
         return entity;
@@ -98,7 +101,7 @@ public abstract class SQLRepository<TDbContext, TEntity> : ISQLRepository<TEntit
     
     public async Task<List<TEntity>> GetBySpecificationAsync(Specification<TEntity> specification, int pageNumber, int pageSize)
     {
-        var query = SpecificationQueryBuilder.GetQuery(DbContext.Set<TEntity>().AsQueryable(), specification);
+        var query = SpecificationQueryBuilder.GetQuery(_table.AsQueryable(), specification);
         var pagedQuery = query.ToPagedCollection(pageNumber, pageSize);
 
         return pagedQuery.ToList();

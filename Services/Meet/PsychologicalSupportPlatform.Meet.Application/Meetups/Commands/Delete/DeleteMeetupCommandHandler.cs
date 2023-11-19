@@ -8,24 +8,22 @@ namespace PsychologicalSupportPlatform.Meet.Application.Meetups.Commands.Delete;
 public class DeleteMeetupCommandHandler: IRequestHandler<DeleteMeetupCommand, int>
 {
     private readonly IMeetupRepository meetupRepository;
-    private readonly IMapper mapper;
     
-    public DeleteMeetupCommandHandler(IMeetupRepository meetupRepository, IMapper mapper)
+    public DeleteMeetupCommandHandler(IMeetupRepository meetupRepository)
     {
         this.meetupRepository = meetupRepository;
-        this.mapper = mapper;
     }
     
     public async Task<int> Handle(DeleteMeetupCommand request, CancellationToken cancellationToken)
     {
-        var meetup = await meetupRepository.GetByIdAsync(request.Id);
+        var meetup = await meetupRepository.GetAsync(m => m.Id == request.Id);
 
         if (meetup is null)
         {
             throw new EntityNotFoundException(paramname: nameof(request.Id));
         }
         
-        meetupRepository.Delete(meetup);
+        await meetupRepository.DeleteAsync(meetup);
         await meetupRepository.SaveAsync();
 
         return meetup.Id;

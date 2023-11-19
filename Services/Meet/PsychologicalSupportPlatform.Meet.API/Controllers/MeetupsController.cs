@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using PsychologicalSupportPlatform.Common;
 using PsychologicalSupportPlatform.Meet.API.Extensions;
 using PsychologicalSupportPlatform.Meet.Application.DTOs;
+using PsychologicalSupportPlatform.Meet.Application.DTOs.Meetup;
 using PsychologicalSupportPlatform.Meet.Application.Meetups.Commands.Delete;
 using PsychologicalSupportPlatform.Meet.Application.Meetups.Commands.OrderMeetup;
 using PsychologicalSupportPlatform.Meet.Application.Meetups.Commands.Update;
