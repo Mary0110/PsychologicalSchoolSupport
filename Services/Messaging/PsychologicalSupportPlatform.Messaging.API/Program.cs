@@ -10,7 +10,6 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddAuthenticate(builder.Configuration);
 builder.Services.AddSingleton(GetConfiguredMapping.GetConfiguredMappingConfig());
-builder.Services.AddSwagger();
 builder.Services.AddMongoDbPersistence(builder.Configuration);
 builder.Services.AddInfrastructureServices(builder.Configuration);
 builder.Services.AddScoped<IMapper, Mapper>();

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using PsychologicalSupportPlatform.Common;
 using PsychologicalSupportPlatform.Meet.API.Extensions;
 using PsychologicalSupportPlatform.Meet.Application.DTOs;
+using PsychologicalSupportPlatform.Meet.Application.DTOs.Meetup;
 using PsychologicalSupportPlatform.Meet.Application.Meetups.Commands.Delete;
 using PsychologicalSupportPlatform.Meet.Application.Meetups.Commands.OrderMeetup;
 using PsychologicalSupportPlatform.Meet.Application.Meetups.Commands.Update;
@@ -39,16 +40,11 @@ namespace PsychologicalSupportPlatform.Meet.API.Controllers
         [Authorize(Roles = Roles.Student)]
         public async Task<IActionResult> OrderMeetupByStudent(AddMeetupByStudentDTO meetup)
         {
-            var userId = User.GetLoggedInUserId<int>();
-            var addMeetupDTO = new AddMeetupDTO(meetup.Date, meetup.OpeningId, userId);
+            var userId = User.GetLoggedInUserId();
+            var addMeetupDTO = new AddMeetupDTO(meetup.Date, meetup.ScheduleCellId, int.Parse(userId));
             var command = mapper.Map<OrderMeetupCommand>(addMeetupDTO);
             var response = await mediator.Send(command);
-            
-            if (!response.Success)
-            {
-                return NotFound(response.Message);
-            }
-            
+
             return Ok(response);
         }
 
@@ -58,13 +54,8 @@ namespace PsychologicalSupportPlatform.Meet.API.Controllers
         {
             var command = new DeleteMeetupCommand(id);
             var response = await mediator.Send(command);
-            
-            if (!response.Success)
-            {
-                return NotFound(response.Message);
-            }
-            
-            return Ok();
+
+            return Ok(response);
         }
 
         [HttpPut]
@@ -74,27 +65,17 @@ namespace PsychologicalSupportPlatform.Meet.API.Controllers
             var command = mapper.Map<UpdateMeetupCommand>(meetup);
             var response = await mediator.Send(command);
 
-            if (!response.Success)
-            {
-                return NotFound(response.Message);
-            }
-            
-            return Ok(response.Message);
+            return Ok(response);
         }
 
         [HttpGet]
         [Authorize(Roles = Roles.Admin + "," + Roles.Psychologist + "," + Roles.Manager)]
-        public async Task<IActionResult> GetAllMeetups()
+        public async Task<IActionResult> GetAllMeetups([FromQuery] int pageNumber, [FromQuery] int pageSize)
         {
-            var command = new GetAllMeetupsQuery();
+            var command = new GetAllMeetupsQuery(pageNumber, pageSize);
             var response = await mediator.Send(command);
 
-            if (!response.Success)
-            {
-                return NotFound(response.Message);
-            }
-        
-            return Ok(response.Data);
+            return Ok(response);
         }
 
         [HttpGet("id={id}")]
@@ -103,43 +84,28 @@ namespace PsychologicalSupportPlatform.Meet.API.Controllers
         {
             var command = new GetMeetupByIdQuery() {Id = id};
             var response = await mediator.Send(command);
-            
-            if (!response.Success)
-            {
-                return NotFound(response.Message);
-            }
-        
-            return Ok(response.Data);
+
+            return Ok(response);
         }
         
         [HttpGet("date={date}")]
         [Authorize(Roles = Roles.Admin + "," + Roles.Psychologist + "," + Roles.Manager)]
-        public async Task<IActionResult> GetMeetupByDate(DateOnly date)
+        public async Task<IActionResult> GetMeetupByDate(DateOnly date, [FromQuery] int pageNumber, [FromQuery] int pageSize)
         {
-            var command = new GetMeetupsByDateQuery(){Date = date};
+            var command = new GetMeetupsByDateQuery(date, pageNumber, pageSize);
             var response = await mediator.Send(command);
-            
-            if (!response.Success)
-            {
-                return NotFound(response.Message);
-            }
-        
-            return Ok(response.Data);
+
+            return Ok(response);
         }
         
         [HttpGet("student={studentId}")]
         [Authorize(Roles = Roles.Admin + "," + Roles.Psychologist + "," + Roles.Manager)]
-        public async Task<IActionResult> GetMeetupByStudentId(int studentId)
+        public async Task<IActionResult> GetMeetupByStudentId(int studentId, [FromQuery] int pageNumber, [FromQuery] int pageSize)
         {
-            var command = new GetMeetupsByStudentIdQuery(){StudentId = studentId};
+            var command = new GetMeetupsByStudentIdQuery(studentId, pageNumber, pageSize);
             var response = await mediator.Send(command);
-            
-            if (!response.Success)
-            {
-                return NotFound(response.Message);
-            }
-        
-            return Ok(response.Data);
+
+            return Ok(response);
         }
     }
 }

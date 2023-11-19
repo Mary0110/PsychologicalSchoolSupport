@@ -12,16 +12,17 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDatabaseContext(builder.Configuration);
 builder.Services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters();
-builder.Services.AddValidatorsFromAssemblyContaining<OpeningDTO>();
+builder.Services.AddValidatorsFromAssemblyContaining<ScheduleCellDTO>();
 builder.Services.AddControllers();
 builder.Services.AddSwagger();
 builder.Services.AddAuthenticate(builder.Configuration);
-builder.Services.InjectRepos();
+builder.Services.AddInfrastructure();
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly(), AssemblyReference.Assembly));
 builder.Services.AddSingleton(GetConfiguredMapping.GetConfiguredMappingConfig());
 builder.Services.AddScoped<IMapper, ServiceMapper>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddRouting(options => options.LowercaseUrls = true);
 
 var app = builder.Build();
 

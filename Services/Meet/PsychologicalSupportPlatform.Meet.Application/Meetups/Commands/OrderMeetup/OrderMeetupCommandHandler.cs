@@ -7,55 +7,48 @@ using PsychologicalSupportPlatform.Meet.Domain.Interfaces;
 
 namespace PsychologicalSupportPlatform.Meet.Application.Meetups.Commands.OrderMeetup;
 
-public class OrderMeetupCommandHandler: IRequestHandler<OrderMeetupCommand, ResponseInfo>
+public class OrderMeetupCommandHandler: IRequestHandler<OrderMeetupCommand, int>
 {
     private readonly IMeetupRepository meetupRepository;
-    private readonly IOpeningRepository openingRepository;
+    private readonly IScheduleCellRepository scheduleCellRepository;
     private readonly IMapper mapper;
     
-    public OrderMeetupCommandHandler(IMeetupRepository meetupRepository, IOpeningRepository openingRepository, IMapper mapper)
+    public OrderMeetupCommandHandler(IMeetupRepository meetupRepository, IScheduleCellRepository scheduleCellRepository, IMapper mapper)
     {
         this.meetupRepository = meetupRepository;
-        this.openingRepository = openingRepository;
+        this.scheduleCellRepository = scheduleCellRepository;
         this.mapper = mapper;
     }
 
-    public async Task<ResponseInfo> Handle(OrderMeetupCommand request, CancellationToken cancellationToken)
+    public async Task<int> Handle(OrderMeetupCommand request, CancellationToken cancellationToken)
     {
-        var chosenOpening = await openingRepository.GetOpeningByIdAsync(request.MeetupDto.OpeningId);
-        
-        if (chosenOpening is null) throw new EntityNotFoundException(paramname: nameof(request.MeetupDto.OpeningId));
+        var chosenScheduleCell = await scheduleCellRepository.GetByIdAsync(request.MeetupDto.ScheduleCellId);
 
-        if (request.MeetupDto.Date.DayOfWeek != chosenOpening.Day)
-            throw new WrongRequestDataException();
-
-        if (!IsOpeningAvailable(chosenOpening))
-            throw new AlreadyExistsException();
-
-        var newMeetup = mapper.Map<Meetup>(request);
-        
-        if (newMeetup is null) throw new WrongRequestDataException();
-        
-        await meetupRepository.AddMeetingAsync(newMeetup);
-        await meetupRepository.SaveMeetingAsync();     
-        
-        return new ResponseInfo(success: true, message: "meetup created");
-    }
-    
-    private bool IsOpeningAvailable(Opening opening)
-    {
-        var hasOrderedMeetups = opening.Meetups.Any(m => m.Date > DateOnly.FromDateTime(DateTime.Now));
-        
-        if (!hasOrderedMeetups)
+        if (chosenScheduleCell is null)
         {
-            var hasOrderedMeetupsToday = opening.Meetups.Any(m => m.Date == DateOnly.FromDateTime(DateTime.Now));
-            
-            if (hasOrderedMeetupsToday)
-            {
-                hasOrderedMeetups = opening.Time >= TimeOnly.FromDateTime(DateTime.Now);
-            }
+            throw new EntityNotFoundException(paramname: nameof(request.MeetupDto.ScheduleCellId));
         }
 
-        return opening.Active && !hasOrderedMeetups;
+        if (request.MeetupDto.Date.DayOfWeek != chosenScheduleCell.Day)
+        {
+            throw new WrongDateWeekdayException();
+        }
+
+        if (!HandlerHelper.IsScheduleCellAvailable(chosenScheduleCell))
+        {
+            throw new AlreadyExistsException();
+        }
+
+        var newMeetup = mapper.Map<Meetup>(request);
+
+        if (newMeetup is null)
+        {
+            throw new WrongRequestDataException();
+        }
+        
+        var addedMeetup = await meetupRepository.AddAsync(newMeetup);
+        await meetupRepository.SaveAsync();
+
+        return addedMeetup.Id;
     }
 }

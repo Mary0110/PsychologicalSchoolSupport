@@ -31,9 +31,9 @@ namespace PsychologicalSupportPlatform.Meet.API.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("date");
 
-                    b.Property<int>("OpeningId")
+                    b.Property<int>("ScheduleCellId")
                         .HasColumnType("int");
 
                     b.Property<int>("StudentId")
@@ -41,12 +41,12 @@ namespace PsychologicalSupportPlatform.Meet.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("OpeningId");
+                    b.HasIndex("ScheduleCellId");
 
                     b.ToTable("Meetups");
                 });
 
-            modelBuilder.Entity("PsychologicalSupportPlatform.Meet.Domain.Entities.Opening", b =>
+            modelBuilder.Entity("PsychologicalSupportPlatform.Meet.Domain.Entities.ScheduleCell", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -63,26 +63,26 @@ namespace PsychologicalSupportPlatform.Meet.API.Migrations
                     b.Property<int>("PsychologistId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("Time")
-                        .HasColumnType("datetime2");
+                    b.Property<TimeSpan>("Time")
+                        .HasColumnType("time");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Openings");
+                    b.ToTable("ScheduleCells");
                 });
 
             modelBuilder.Entity("PsychologicalSupportPlatform.Meet.Domain.Entities.Meetup", b =>
                 {
-                    b.HasOne("PsychologicalSupportPlatform.Meet.Domain.Entities.Opening", "Opening")
+                    b.HasOne("PsychologicalSupportPlatform.Meet.Domain.Entities.ScheduleCell", "ScheduleCell")
                         .WithMany("Meetups")
-                        .HasForeignKey("OpeningId")
+                        .HasForeignKey("ScheduleCellId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Opening");
+                    b.Navigation("ScheduleCell");
                 });
 
-            modelBuilder.Entity("PsychologicalSupportPlatform.Meet.Domain.Entities.Opening", b =>
+            modelBuilder.Entity("PsychologicalSupportPlatform.Meet.Domain.Entities.ScheduleCell", b =>
                 {
                     b.Navigation("Meetups");
                 });

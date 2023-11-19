@@ -4,7 +4,4 @@ using PsychologicalSupportPlatform.Meet.Application.DTOs;
 
 namespace PsychologicalSupportPlatform.Meet.Application.Meetups.Queries;
 
-public class GetMeetupsByStudentIdQuery: IRequest<DataResponseInfo<List<MeetupDTO>>>
-{
-    public int StudentId { get; set; }
-}
+public record GetMeetupsByStudentIdQuery(int StudentId, int pageNumber, int pageSize): IRequest<List<MeetupDTO>> { }

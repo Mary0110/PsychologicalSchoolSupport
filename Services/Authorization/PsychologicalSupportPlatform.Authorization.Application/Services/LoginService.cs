@@ -42,8 +42,11 @@ public class LoginService : ILoginService
         if (user is null)
         {
             user = await studentRepository.AuthenticateStudentAsync(data.Email, data.Password);
-            
-            if (user is null) return new DataResponseInfo<string>(data: null, success: false, message: "user is not found");
+
+            if (user is null)
+            {
+                return new DataResponseInfo<string>(data: null, success: false, message: "user is not found");
+            }
         }
 
         var authParams = authOptions.Value;
@@ -53,8 +56,7 @@ public class LoginService : ILoginService
             new Claim(JwtRegisteredClaimNames.Email, user.Email),
             new Claim("role", user.Role.ToString()),
         };
-        Console.WriteLine($"loginservice{authParams.Secret}");
-
+        
         var jwt = new JwtSecurityToken(
             authParams.Issuer,
             authParams.Audience,
@@ -78,8 +80,10 @@ public class LoginService : ILoginService
     {
         var user = await userRepository.GetUserByIdAsync(id);
 
-        if (user is null) return new DataResponseInfo<User>(data: null, success: false, 
-            message: $"user with id {id} not found");
+        if (user is null) 
+        {
+            return new DataResponseInfo<User>(data: null, success: false, message: $"user with id {id} not found");
+        }
 
         return new DataResponseInfo<User>(data: user, success: true, message: $"user with id {user.Id}");
     }
@@ -88,8 +92,11 @@ public class LoginService : ILoginService
     {
         var user = await studentRepository.GetStudentByIdAsync(id);
 
-        if (user is null) return new DataResponseInfo<AddStudentDTO>(data: null, success: false, 
+        if (user is null) 
+        {
+            return new DataResponseInfo<AddStudentDTO>(data: null, success: false, 
             message: $"user with id {id} not found");
+        }
         
         var studDTO = mapper.Map<AddStudentDTO>(user);
 
@@ -109,7 +116,10 @@ public class LoginService : ILoginService
     {
         studentDTO.Password = encryption.HashPassword(studentDTO.Password);
 
-        if (studentDTO is null) return new ResponseInfo(success: false, message: "wrong request data");
+        if (studentDTO is null)
+        {
+            return new ResponseInfo(success: false, message: "wrong request data");
+        }
 
         var student = await studentRepository.GetStudentByEmailAsync(studentDTO.Email);
 
@@ -127,7 +137,10 @@ public class LoginService : ILoginService
 
         var form = await formRepository.GetFormAsync(studentDTO.Parallel, studentDTO.Letter);
 
-        if (form is null) return new ResponseInfo(success: false, message: "no such form");
+        if (form is null)
+        {
+            return new ResponseInfo(success: false, message: "no such form");
+        }
 
         var newUser = mapper.Map<Student>(studentDTO);
         newUser.Role = Roles.Student;
@@ -142,7 +155,10 @@ public class LoginService : ILoginService
     {
         userDto.Password = encryption.HashPassword(userDto.Password);
 
-        if (userDto is null) return new ResponseInfo(success: false, message: "wrong request data");
+        if (userDto is null)
+        {
+            return new ResponseInfo(success: false, message: "wrong request data");
+        }
 
         var user = await userRepository.GetUserByEmailAsync(userDto.Email);
 
@@ -169,7 +185,10 @@ public class LoginService : ILoginService
     {
         var user = await userRepository.GetUserByIdAsync(id);
 
-        if (user is null) return new ResponseInfo(success: false, message: $"user with id {id} not found");
+        if (user is null)
+        {
+            return new ResponseInfo(success: false, message: $"user with id {id} not found");
+        }
 
         await userRepository.DeleteUserAsync(id);
 
@@ -180,7 +199,10 @@ public class LoginService : ILoginService
     {
         var user = await studentRepository.GetStudentByIdAsync(id);
 
-        if (user is null) return new ResponseInfo(success: false, message: $"student with id {id} not found");
+        if (user is null)
+        {
+            return new ResponseInfo(success: false, message: $"student with id {id} not found");
+        }
 
         await studentRepository.DeleteStudentAsync(id);
 
@@ -202,8 +224,11 @@ public class LoginService : ILoginService
         
         var newUser = mapper.Map<User>(userDto);
         user = await userRepository.GetUserByIdAsync(userDto.Id);
-        
-        if (user is null) return new ResponseInfo(success: false, message: "user with id {newUser.Id} not found");
+
+        if (user is null)
+        {
+            return new ResponseInfo(success: false, message: "user with id {newUser.Id} not found");
+        }
 
         await userRepository.EditUserAsync(newUser);
 
@@ -214,7 +239,10 @@ public class LoginService : ILoginService
     {
         studentDTO.Password = encryption.HashPassword(studentDTO.Password);
 
-        if (studentDTO == null) return new ResponseInfo(success: false, message: "wrong request data");
+        if (studentDTO == null)
+        {
+            return new ResponseInfo(success: false, message: "wrong request data");
+        }
         
         var user = await userRepository.GetUserByEmailAsync(studentDTO.Email);
         var student = await studentRepository.GetStudentByEmailAsync(studentDTO.Email);
@@ -226,8 +254,11 @@ public class LoginService : ILoginService
         
         var newUser = mapper.Map<Student>(studentDTO);
         user = await studentRepository.GetStudentByIdAsync(studentDTO.Id);
-        
-        if (user is null) return new ResponseInfo(success: false, message: $"user with id {newUser.Id} not found");
+
+        if (user is null)
+        {
+            return new ResponseInfo(success: false, message: $"user with id {newUser.Id} not found");
+        }
 
         await studentRepository.EditStudentAsync(newUser);
 
@@ -238,13 +269,19 @@ public class LoginService : ILoginService
     {
         var form = await formRepository.GetFormAsync(formDTO.Parallel, formDTO.Letter);
         
-        if (form is null) return new DataResponseInfo<List<AddStudentDTO>>(data: null, success: false, 
+        if (form is null) 
+        {
+            return new DataResponseInfo<List<AddStudentDTO>>(data: null, success: false, 
             message: $"form {formDTO.Parallel} '{formDTO.Letter}' not found");
+        }
         
         var users = await studentRepository.GetStudentsByFormAsync(form, pageNumber, pageSize);
 
-        if (users is null) return new DataResponseInfo<List<AddStudentDTO>>(data: null, success: false, 
+        if (users is null) 
+        {
+            return new DataResponseInfo<List<AddStudentDTO>>(data: null, success: false, 
             message: $"users in {formDTO.Parallel} '{formDTO.Letter}' not found");
+        }
         
         var studDTOs = mapper.Map<List<Student>, List<AddStudentDTO>>(users);
 
@@ -255,8 +292,11 @@ public class LoginService : ILoginService
     {
         var users = await studentRepository.GetStudentsByParallelAsync(num, pageNumber, pageSize);
 
-        if (users is null) return new DataResponseInfo<List<AddStudentDTO>>(data: null, success: false, 
+        if (users is null) 
+        {
+            return new DataResponseInfo<List<AddStudentDTO>>(data: null, success: false, 
             message: $"users in {num} parallel not found");
+        }
         
         var studDTOs = mapper.Map<List<Student>, List<AddStudentDTO>>(users);
 
