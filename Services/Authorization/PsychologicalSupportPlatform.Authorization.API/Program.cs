@@ -1,5 +1,6 @@
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 using PsychologicalSupportPlatform.Authorization.API.Extensions;
 using PsychologicalSupportPlatform.Authorization.API.GrpcServices;
 using PsychologicalSupportPlatform.Authorization.Domain.Entities;
@@ -35,4 +36,9 @@ await app.UseDatabaseSeed();
 
 app.MapControllers();
 app.MapGrpcService<UserCheckerService>();
+// builder.WebHost.ConfigureKestrel(options =>
+// {
+//     options.ListenLocalhost(5131, o => o.Protocols =
+//         HttpProtocols.Http2);
+// });
 app.Run();

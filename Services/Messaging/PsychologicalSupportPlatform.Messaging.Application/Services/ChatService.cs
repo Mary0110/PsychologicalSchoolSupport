@@ -26,7 +26,7 @@ public class ChatService : IChatService
             throw new WrongRequestDataException();
         }
         
-        var sender = await userGrpcClient.CheckUserAsync(int.Parse(messageDTO.ConsumerId));
+        var sender = await userGrpcClient.CheckUserAsync(int.Parse(messageDTO.SenderId));
         var senderRole = sender.Role;
         var consumer = await userGrpcClient.CheckUserAsync(int.Parse(messageDTO.ConsumerId));
         var consumerRole = consumer.Role;

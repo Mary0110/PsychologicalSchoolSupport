@@ -14,7 +14,7 @@ public static class InfrastructureServicesExtension
         services.AddTransient<IUserGrpcClient, UserGrpcClient>();
         var section = configuration.GetSection("GrpcConfig");
         services.Configure<GrpcConfig>(section);
-        var grpcConfig = configuration.Get<GrpcConfig>();
+        var grpcConfig = section.Get<GrpcConfig>();
         services.AddGrpcServices(grpcConfig);
 
         return services;
