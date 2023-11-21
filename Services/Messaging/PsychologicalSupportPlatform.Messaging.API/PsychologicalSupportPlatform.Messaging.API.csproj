@@ -17,28 +17,28 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Controllers" />
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\PsychologicalSupportPlatform.Messaging.Infrastructure\PsychologicalSupportPlatform.Messaging.Infrastructure.csproj" />
     </ItemGroup>
 
     <ItemGroup>
       <Compile Remove="Controllers\MessagesController.cs" />
       <Compile Remove="Mapper\**" />
+      <Compile Remove="Controllers\**" />
     </ItemGroup>
 
     <ItemGroup>
       <EmbeddedResource Remove="Mapper\**" />
+      <EmbeddedResource Remove="Controllers\**" />
     </ItemGroup>
 
     <ItemGroup>
       <None Remove="Mapper\**" />
+      <None Remove="Controllers\**" />
     </ItemGroup>
 
     <ItemGroup>
       <Content Remove="Mapper\**" />
+      <Content Remove="Controllers\**" />
     </ItemGroup>
     
 </Project>

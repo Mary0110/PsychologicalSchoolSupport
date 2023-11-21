@@ -13,9 +13,9 @@ public class UserGrpcClient : IUserGrpcClient
         this.userCheckerClient = userCheckerClient;
     }
 
-    public async Task<UserReply> CheckUserAsync(int userId, CancellationToken cancellationToken = default)
+    public async Task<UserReply> CheckUserAsync(int userId, CancellationToken cancellationToken)
     {
-        var reply = await userCheckerClient.CheckUserAsync(new UserRequest { UserId = userId });
+        var reply = await userCheckerClient.CheckUserAsync(new UserRequest { UserId = userId }, cancellationToken: cancellationToken);
         
         if (!reply.Exists)
         {
