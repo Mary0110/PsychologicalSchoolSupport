@@ -1,9 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using PsychologicalSupportPlatform.Authorization.Application.Interfaces;
 using PsychologicalSupportPlatform.Authorization.Domain.DTOs;
-using PsychologicalSupportPlatform.Authorization.Domain.Entities;
 using PsychologicalSupportPlatform.Common;
 
 namespace PsychologicalSupportPlatform.Authorization.API.Controllers

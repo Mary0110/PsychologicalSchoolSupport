@@ -17,6 +17,16 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PsychologicalSupportPlatfor
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PsychologicalSupportPlatform.Common", "Services\PsychologicalSupportPlatform.Common\PsychologicalSupportPlatform.Common.csproj", "{96206FBF-6C5B-45B0-976E-A8D881F5AA8D}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Meet", "Meet", "{7D49942F-FFE1-4CB3-9F33-B781385CADD2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PsychologicalSupportPlatform.Meet.Domain", "Services\Meet\PsychologicalSupportPlatform.Meet.Domain\PsychologicalSupportPlatform.Meet.Domain.csproj", "{3C52A3E6-4D81-47BE-BD43-AAC954E15182}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PsychologicalSupportPlatform.Meet.Application", "Services\Meet\PsychologicalSupportPlatform.Meet.Application\PsychologicalSupportPlatform.Meet.Application.csproj", "{2AEF147D-87D4-48D8-99CA-F92AFE7CF950}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PsychologicalSupportPlatform.Meet.Infrastructure", "Services\Meet\PsychologicalSupportPlatform.Meet.Infrastructure\PsychologicalSupportPlatform.Meet.Infrastructure.csproj", "{E805A86F-1035-4BEB-A5A0-F9DD97541E16}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PsychologicalSupportPlatform.Meet.API", "Services\Meet\PsychologicalSupportPlatform.Meet.API\PsychologicalSupportPlatform.Meet.API.csproj", "{EC1CCA2B-355D-4552-A1F3-6E3D20E3DC7C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,6 +39,11 @@ Global
 		{762B2F37-79B2-4180-B60A-6311BCAA40E5} = {714FA356-50A0-405B-991B-4BE2E0F893EA}
 		{EF558ACA-7E38-48D2-9740-72DFC04245FF} = {714FA356-50A0-405B-991B-4BE2E0F893EA}
 		{96206FBF-6C5B-45B0-976E-A8D881F5AA8D} = {AC53B87B-E538-4BFA-A78C-A24DC163550A}
+		{7D49942F-FFE1-4CB3-9F33-B781385CADD2} = {AC53B87B-E538-4BFA-A78C-A24DC163550A}
+		{3C52A3E6-4D81-47BE-BD43-AAC954E15182} = {7D49942F-FFE1-4CB3-9F33-B781385CADD2}
+		{2AEF147D-87D4-48D8-99CA-F92AFE7CF950} = {7D49942F-FFE1-4CB3-9F33-B781385CADD2}
+		{E805A86F-1035-4BEB-A5A0-F9DD97541E16} = {7D49942F-FFE1-4CB3-9F33-B781385CADD2}
+		{EC1CCA2B-355D-4552-A1F3-6E3D20E3DC7C} = {7D49942F-FFE1-4CB3-9F33-B781385CADD2}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{B3945619-7B52-4666-BF83-BCB38D96A9B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -51,5 +66,21 @@ Global
 		{96206FBF-6C5B-45B0-976E-A8D881F5AA8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{96206FBF-6C5B-45B0-976E-A8D881F5AA8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{96206FBF-6C5B-45B0-976E-A8D881F5AA8D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3C52A3E6-4D81-47BE-BD43-AAC954E15182}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3C52A3E6-4D81-47BE-BD43-AAC954E15182}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3C52A3E6-4D81-47BE-BD43-AAC954E15182}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3C52A3E6-4D81-47BE-BD43-AAC954E15182}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2AEF147D-87D4-48D8-99CA-F92AFE7CF950}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2AEF147D-87D4-48D8-99CA-F92AFE7CF950}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2AEF147D-87D4-48D8-99CA-F92AFE7CF950}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2AEF147D-87D4-48D8-99CA-F92AFE7CF950}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E805A86F-1035-4BEB-A5A0-F9DD97541E16}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E805A86F-1035-4BEB-A5A0-F9DD97541E16}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E805A86F-1035-4BEB-A5A0-F9DD97541E16}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E805A86F-1035-4BEB-A5A0-F9DD97541E16}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC1CCA2B-355D-4552-A1F3-6E3D20E3DC7C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC1CCA2B-355D-4552-A1F3-6E3D20E3DC7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC1CCA2B-355D-4552-A1F3-6E3D20E3DC7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC1CCA2B-355D-4552-A1F3-6E3D20E3DC7C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

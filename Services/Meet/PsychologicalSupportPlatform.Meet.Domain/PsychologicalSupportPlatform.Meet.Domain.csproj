@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Compile Remove="Validators\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Remove="Validators\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="Validators\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\PsychologicalSupportPlatform.Common\PsychologicalSupportPlatform.Common.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Include="SpecificationPatternDotNet">
+        <HintPath>..\..\..\..\..\.nuget\packages\specificationpatterndotnet\3.0.0\lib\netstandard2.0\SpecificationPatternDotNet.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+
+</Project>

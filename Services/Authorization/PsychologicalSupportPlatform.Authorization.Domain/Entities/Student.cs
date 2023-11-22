@@ -4,8 +4,6 @@ public class Student: User
 {
     public DateTime DateOfBirth { get; set; }
     
-    public int FormId { get; set; }
-    
     public int Parallel { get; set; }
     
     public char Letter { get; set; }

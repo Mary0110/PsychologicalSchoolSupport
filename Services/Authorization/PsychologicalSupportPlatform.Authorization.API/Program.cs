@@ -1,9 +1,7 @@
 using FluentValidation;
 using FluentValidation.AspNetCore;
-using Microsoft.EntityFrameworkCore;
 using PsychologicalSupportPlatform.Authorization.API.Extensions;
 using PsychologicalSupportPlatform.Authorization.Domain.Entities;
-using PsychologicalSupportPlatform.Authorization.Infrastructure.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,14 +9,13 @@ builder.Services.InjectRepos();
 builder.Services.InjectServices();
 builder.Services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters();
 builder.Services.AddValidatorsFromAssemblyContaining<User>();
-builder.Services.AddDbContext<DataContext>(
-    opt => opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
-        b => b.MigrationsAssembly(builder.Configuration.GetSection("MigrationsAssembly").Get<string>())));
+builder.Services.AddDatabaseContext(builder.Configuration);
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 builder.Services.AddAuthorization();
 builder.Services.AddAuthenticate(builder.Configuration);
 builder.Services.AddSwagger();
 builder.Services.AddControllers();
+builder.Services.AddRouting(options => options.LowercaseUrls = true);
 
 var app = builder.Build();
 

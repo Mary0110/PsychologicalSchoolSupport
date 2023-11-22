@@ -9,6 +9,9 @@ public class AddFormDTO
         Letter = letter;
         Parallel = num;
     }
+    public AddFormDTO()
+    {
+    }
     
     public char Letter { get; set; } = Constants.A;
     
