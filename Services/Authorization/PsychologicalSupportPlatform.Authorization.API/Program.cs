@@ -36,9 +36,4 @@ await app.UseDatabaseSeed();
 
 app.MapControllers();
 app.MapGrpcService<UserCheckerService>();
-// builder.WebHost.ConfigureKestrel(options =>
-// {
-//     options.ListenLocalhost(5131, o => o.Protocols =
-//         HttpProtocols.Http2);
-// });
 app.Run();

@@ -12,7 +12,7 @@ builder.Services.AddAuthenticate(builder.Configuration);
 builder.Services.AddSingleton(GetConfiguredMapping.GetConfiguredMappingConfig());
 builder.Services.AddMongoDbPersistence(builder.Configuration);
 builder.Services.AddInfrastructureServices(builder.Configuration);
-builder.Services.AddScoped<IMapper, Mapper>();
+builder.Services.AddScoped<IMapper, ServiceMapper>();
 builder.Services.AddSignalR();
 builder.Services.AddGrpc();
 

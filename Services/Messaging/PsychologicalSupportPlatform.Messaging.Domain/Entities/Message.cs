@@ -5,14 +5,6 @@ namespace PsychologicalSupportPlatform.Messaging.Domain.Entities;
 
 public class Message
 {
-    public Message(string consumerId, string senderId, string text, DateTime dateTime)
-    {
-        ConsumerId = consumerId;
-        SenderId = senderId;
-        Text = text;
-        DateTime = dateTime;
-    }
-    
     [BsonId]
     [BsonRepresentation(BsonType.ObjectId)]
     public string? Id { get; set; }
@@ -24,4 +16,12 @@ public class Message
     public string Text { get; set; } = string.Empty;
     
     public DateTime DateTime { get; set; }
+    
+    public Message(string consumerId, string senderId, string text, DateTime dateTime)
+    {
+        ConsumerId = consumerId;
+        SenderId = senderId;
+        Text = text;
+        DateTime = dateTime;
+    }
 }

@@ -10,6 +10,7 @@ namespace PsychologicalSupportPlatform.Messaging.Application.Middleware;
 public class ExceptionHandlerMiddleware
 {
     private readonly RequestDelegate _next;
+    
     private readonly ILogger<ExceptionHandlerMiddleware> _logger;
 
     public ExceptionHandlerMiddleware(RequestDelegate next, ILogger<ExceptionHandlerMiddleware> logger)
@@ -26,16 +27,19 @@ public class ExceptionHandlerMiddleware
         }
         catch (EntityNotFoundException ex)
         {
+            _logger.LogInformation(message: "Entity not found exception");
             var code = HttpStatusCode.BadRequest;
             await HandleExceptionAsync(context, code, ex);
         }
-        catch (Exception _) when (_ is OperationCanceledException or TaskCanceledException)
+        catch (Exception ex) when (ex is OperationCanceledException or TaskCanceledException)
         {
-            _logger.LogInformation( message: "Task cancelled");    
-            
+            _logger.LogInformation(message: "Task cancelled");
+            var code = HttpStatusCode.BadRequest;
+            await HandleExceptionAsync(context, code, ex);
         }
         catch(Exception ex)
         {
+            _logger.LogInformation(message: "Internal server error");
             var code = HttpStatusCode.InternalServerError;
             await HandleExceptionAsync(context, code, ex);
         }

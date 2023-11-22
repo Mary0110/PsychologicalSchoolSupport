@@ -7,7 +7,7 @@ namespace PsychologicalSupportPlatform.Messaging.Infrastructure.Data;
 
 public class ApplicationDbContext
 {
-    public readonly IMongoCollection<Message> MesCollection;
+    public IMongoCollection<Message> MesCollection { get; }
 
     public ApplicationDbContext(IOptions<ChatDbConfig> options)
     {
