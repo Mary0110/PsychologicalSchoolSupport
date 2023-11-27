@@ -1,4 +1,4 @@
-namespace PsychologicalSupportPlatform.Messaging.Infrastructure.Data;
+namespace PsychologicalSupportPlatform.Messaging.Infrastructure.Config;
 
 public class ChatDbConfig
 {

@@ -10,11 +10,12 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddAuthenticate(builder.Configuration);
 builder.Services.AddSingleton(GetConfiguredMapping.GetConfiguredMappingConfig());
-builder.Services.AddMongoDbPersistence(builder.Configuration);
 builder.Services.AddInfrastructureServices(builder.Configuration);
-builder.Services.AddScoped<IMapper, ServiceMapper>();
+builder.Services.AddMongoDbPersistence(builder.Configuration);
+builder.Services.AddScoped<IMapper, Mapper>();
 builder.Services.AddSignalR();
 builder.Services.AddGrpc();
+builder.Services.AddCorsPolicy(builder.Configuration);
 
 var app = builder.Build();
 app.UseMiddleware<ExceptionHandlerMiddleware>();
@@ -25,7 +26,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseCors();
+app.UseCors("SignalRClient");
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
