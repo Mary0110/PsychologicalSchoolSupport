@@ -1,0 +1,29 @@
+syntax = "proto3";
+ 
+option csharp_namespace = "PsychologicalSupportPlatform.Authorization.API.Protos";
+ 
+package user;
+ 
+service UserChecker {
+  rpc CheckUser (UserRequest) returns (UserReply);
+  rpc GetUserName(UserNameRequest) returns (UserNameReply);
+}
+ 
+message UserRequest {
+  int32 userId = 1;
+}
+ 
+message UserReply {
+  bool exists = 1; 
+  string role = 2;
+}
+
+message UserNameRequest {
+  int32 userId = 1;
+}
+ 
+message UserNameReply {
+  string name = 1; 
+  string patronymic = 2;
+  string surname = 3;
+}

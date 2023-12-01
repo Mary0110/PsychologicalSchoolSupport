@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Real-Time Chat with SignalR</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/5.0.13/signalr.min.js"></script>
+    <script src="chat.js"></script>
+</head>
+<body>
+<div id="loginBlock">
+    <input id="userName" type="text" placeholder="Enter login"/>
+    <input id="userPassword" type="text" placeholder="Enter password"/>
+    <button id="loginButton">Sign in </button>
+</div><br />
+<div id="getChatHistoryBlock">
+    <input id="otherUserId" type="text" placeholder="Enter other user id"/>
+    <input id="pageNum" type="number" placeholder="Enter page number"/>
+    <input id="pageSize" type="number" placeholder="Enter page size"/>
+    <button id="getChatHistoryButton">Get history</button>
+</div><br />
+<div>
+    <input type="text" id="consumerId" placeholder="Enter consumer id" />
+    <input type="text" id="message" placeholder="Enter your message" />
+    <button id="sendButton">Send</button>
+</div>
+<ul id="chatBox"></ul>
+</body>
+</html>
