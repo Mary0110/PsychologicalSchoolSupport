@@ -1,6 +1,5 @@
 using FluentValidation;
 using FluentValidation.AspNetCore;
-using Microsoft.AspNetCore.Server.Kestrel.Core;
 using PsychologicalSupportPlatform.Authorization.API.Extensions;
 using PsychologicalSupportPlatform.Authorization.API.GrpcServices;
 using PsychologicalSupportPlatform.Authorization.Domain.Entities;

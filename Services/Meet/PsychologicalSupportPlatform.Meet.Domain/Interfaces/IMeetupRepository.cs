@@ -3,4 +3,6 @@ using PsychologicalSupportPlatform.Meet.Domain.Entities;
 
 namespace PsychologicalSupportPlatform.Meet.Domain.Interfaces;
 
-public interface IMeetupRepository : ISQLRepository<Meetup> { }
+public interface IMeetupRepository : ISQLRepository<Meetup>
+{
+}

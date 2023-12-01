@@ -6,6 +6,7 @@ using PsychologicalSupportPlatform.Common;
 using PsychologicalSupportPlatform.Meet.API.Extensions;
 using PsychologicalSupportPlatform.Meet.Application.DTOs;
 using PsychologicalSupportPlatform.Meet.Application.DTOs.Meetup;
+using PsychologicalSupportPlatform.Meet.Application.Meetups.Commands.Approve;
 using PsychologicalSupportPlatform.Meet.Application.Meetups.Commands.Delete;
 using PsychologicalSupportPlatform.Meet.Application.Meetups.Commands.OrderMeetup;
 using PsychologicalSupportPlatform.Meet.Application.Meetups.Commands.Update;
@@ -103,6 +104,17 @@ namespace PsychologicalSupportPlatform.Meet.API.Controllers
         public async Task<IActionResult> GetMeetupByStudentId(int studentId, [FromQuery] int pageNumber, [FromQuery] int pageSize)
         {
             var command = new GetMeetupsByStudentIdQuery(studentId, pageNumber, pageSize);
+            var response = await mediator.Send(command);
+
+            return Ok(response);
+        }
+
+        [HttpPut("approve/meetup_id={meetupId}")]
+        [Authorize(Roles = Roles.Student)]
+        public async Task<IActionResult> ApproveMeetupByStudent(int meetupId)
+        {
+            var userId = User.GetLoggedInUserId();
+            var command = new ApproveMeetupByStudentCommand(new ApproveMeetupDTO(int.Parse(userId), meetupId));
             var response = await mediator.Send(command);
 
             return Ok(response);

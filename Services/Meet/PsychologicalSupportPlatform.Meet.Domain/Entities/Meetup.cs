@@ -11,4 +11,6 @@ public class Meetup
     public ScheduleCell ScheduleCell { get; set; }
 
     public int StudentId { get; set; }
+
+    public bool IsApprovedByStudent { get; set; }
 }

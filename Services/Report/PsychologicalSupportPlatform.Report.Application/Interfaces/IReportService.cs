@@ -1,16 +1,24 @@
+using PsychologicalSupportPlatform.Common;
+using PsychologicalSupportPlatform.Report.Application.DTOs;
+using PsychologicalSupportPlatform.Report.Domain.Entities;
+
 namespace PsychologicalSupportPlatform.Report.Application.Interfaces;
 
 public interface IReportService
 {
-    Task<List<QuarterReport>> GetAllQuarterReportsAsync(int pageNumber, int pageSize);
+    Task<List<MeetupReportDTO>> GetAllMeetupReportsAsync(int pageNumber, int pageSize);
     
-    Task<QuarterReport?> GetQuarterReportAsync(int parallel, char letter);
-
-    Task<List<QuarterReport>> GetQuarterReportsFromDateAsync(DateTime date, int pageNumber, int pageSize);
+    Task<MeetupReportDTO?> GetMeetupReportAsync(int id);
     
-    Task DeleteQuarterReportAsync(QuarterReport form);
+    Task<List<MeetupReportDTO>> GetMeetupReportsByCreatorIdAsync(int creatorId, int pageNumber, int pageSize);
 
-    Task EditQuarterReportAsync(QuarterReport form);
+    Task<List<MeetupReportDTO>> GetMeetupReportsByDateAsync(DateTime date, int pageNumber, int pageSize);
+    
+    Task<int> DeleteMeetupReportAsync(int id);
 
-    Task AddQuarterReportAsync(QuarterReport form);
+    Task EditMeetupReportAsync(MeetupReportDTO form);
+
+    Task<int> AddMeetupReportAsync(MeetupMessageObject form);
+    
+    Task GenerateReportAsync(int meetId, string comments, string id);
 }

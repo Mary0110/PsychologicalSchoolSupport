@@ -34,6 +34,19 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PsychologicalSupportPlatfor
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PsychologicalSupportPlatform.Messaging.API", "Services\Messaging\PsychologicalSupportPlatform.Messaging.API\PsychologicalSupportPlatform.Messaging.API.csproj", "{4F79F603-D430-4295-B131-83EAB1408DB7}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Report", "Report", "{4C4569FF-FA6A-4481-9A2F-53EFE2C6B979}"
+	ProjectSection(SolutionItems) = preProject
+		Services\Report\Files\example.docx = Services\Report\Files\example.docx
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PsychologicalSupportPlatform.Report.Domain", "Services\Report\PsychologicalSupportPlatform.Report.Domain\PsychologicalSupportPlatform.Report.Domain.csproj", "{70C1E12E-F407-4608-9ACD-89BEEEB72691}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PsychologicalSupportPlatform.Report.Application", "Services\Report\PsychologicalSupportPlatform.Report.Application\PsychologicalSupportPlatform.Report.Application.csproj", "{C35850D7-2CC1-472F-8E2D-72356415D058}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PsychologicalSupportPlatform.Report.Infrastracture", "Services\Report\PsychologicalSupportPlatform.Report.Infrastracture\PsychologicalSupportPlatform.Report.Infrastracture.csproj", "{217D8CDA-EF8A-4DDF-BCA9-868E4D35FBD0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PsychologicalSupportPlatform.Report.API", "Services\Report\PsychologicalSupportPlatform.Report.API\PsychologicalSupportPlatform.Report.API.csproj", "{64F7FA77-5ED3-432F-BE45-D162AFCA1181}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -56,6 +69,11 @@ Global
 		{2A726BA4-E454-44C9-8231-77BDA7B12232} = {F17A38D7-D36B-4E52-9F97-4BB95DF1AE22}
 		{668A97C9-00B0-474D-BF64-E3940E435B78} = {F17A38D7-D36B-4E52-9F97-4BB95DF1AE22}
 		{4F79F603-D430-4295-B131-83EAB1408DB7} = {F17A38D7-D36B-4E52-9F97-4BB95DF1AE22}
+		{4C4569FF-FA6A-4481-9A2F-53EFE2C6B979} = {AC53B87B-E538-4BFA-A78C-A24DC163550A}
+		{70C1E12E-F407-4608-9ACD-89BEEEB72691} = {4C4569FF-FA6A-4481-9A2F-53EFE2C6B979}
+		{C35850D7-2CC1-472F-8E2D-72356415D058} = {4C4569FF-FA6A-4481-9A2F-53EFE2C6B979}
+		{217D8CDA-EF8A-4DDF-BCA9-868E4D35FBD0} = {4C4569FF-FA6A-4481-9A2F-53EFE2C6B979}
+		{64F7FA77-5ED3-432F-BE45-D162AFCA1181} = {4C4569FF-FA6A-4481-9A2F-53EFE2C6B979}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{B3945619-7B52-4666-BF83-BCB38D96A9B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -110,5 +128,21 @@ Global
 		{4F79F603-D430-4295-B131-83EAB1408DB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4F79F603-D430-4295-B131-83EAB1408DB7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4F79F603-D430-4295-B131-83EAB1408DB7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{70C1E12E-F407-4608-9ACD-89BEEEB72691}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70C1E12E-F407-4608-9ACD-89BEEEB72691}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70C1E12E-F407-4608-9ACD-89BEEEB72691}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70C1E12E-F407-4608-9ACD-89BEEEB72691}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C35850D7-2CC1-472F-8E2D-72356415D058}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C35850D7-2CC1-472F-8E2D-72356415D058}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C35850D7-2CC1-472F-8E2D-72356415D058}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C35850D7-2CC1-472F-8E2D-72356415D058}.Release|Any CPU.Build.0 = Release|Any CPU
+		{217D8CDA-EF8A-4DDF-BCA9-868E4D35FBD0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{217D8CDA-EF8A-4DDF-BCA9-868E4D35FBD0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{217D8CDA-EF8A-4DDF-BCA9-868E4D35FBD0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{217D8CDA-EF8A-4DDF-BCA9-868E4D35FBD0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{64F7FA77-5ED3-432F-BE45-D162AFCA1181}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{64F7FA77-5ED3-432F-BE45-D162AFCA1181}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{64F7FA77-5ED3-432F-BE45-D162AFCA1181}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{64F7FA77-5ED3-432F-BE45-D162AFCA1181}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

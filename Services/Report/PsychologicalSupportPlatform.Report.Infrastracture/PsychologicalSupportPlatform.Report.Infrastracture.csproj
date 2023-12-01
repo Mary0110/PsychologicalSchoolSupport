@@ -6,4 +6,8 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\PsychologicalSupportPlatform.Report.Application\PsychologicalSupportPlatform.Report.Application.csproj" />
+    </ItemGroup>
+
 </Project>

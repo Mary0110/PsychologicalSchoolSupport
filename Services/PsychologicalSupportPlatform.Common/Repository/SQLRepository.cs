@@ -99,7 +99,9 @@ public abstract class SQLRepository<TDbContext, TEntity> : ISQLRepository<TEntit
         await DbContext.SaveChangesAsync();
     }
     
-    public async Task<List<TEntity>> GetBySpecificationAsync(Specification<TEntity> specification, int pageNumber, int pageSize)
+    public async Task<List<TEntity>> GetBySpecificationAsync(
+        Specification<TEntity> specification, int pageNumber, int pageSize
+        )
     {
         var query = SpecificationQueryBuilder.GetQuery(_table.AsQueryable(), specification);
         var pagedQuery = query.ToPagedCollection(pageNumber, pageSize);
