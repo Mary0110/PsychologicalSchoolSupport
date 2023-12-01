@@ -1,6 +1,5 @@
 using FluentValidation;
 using FluentValidation.AspNetCore;
-using Microsoft.AspNetCore.Server.Kestrel.Core;
 using PsychologicalSupportPlatform.Authorization.API.Extensions;
 using PsychologicalSupportPlatform.Authorization.API.GrpcServices;
 using PsychologicalSupportPlatform.Authorization.Domain.Entities;
@@ -19,17 +18,7 @@ builder.Services.AddSwagger();
 builder.Services.AddControllers();
 builder.Services.AddGrpc();
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
-//TODO:make ext
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("AllowAll", builder =>
-    {
-        builder
-            .AllowAnyOrigin()
-            .AllowAnyMethod()
-            .AllowAnyHeader();
-    });
-});
+builder.Services.AddCorsPolicy();
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
