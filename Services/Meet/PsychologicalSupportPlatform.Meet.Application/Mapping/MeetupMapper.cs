@@ -1,5 +1,7 @@
 using Mapster;
 using PsychologicalSupportPlatform.Meet.Application.DTOs;
+using PsychologicalSupportPlatform.Meet.Application.DTOs.Meetup;
+using PsychologicalSupportPlatform.Meet.Application.Meetups.Commands.Approve;
 using PsychologicalSupportPlatform.Meet.Application.Meetups.Commands.OrderMeetup;
 using PsychologicalSupportPlatform.Meet.Application.Meetups.Commands.Update;
 using PsychologicalSupportPlatform.Meet.Application.ScheduleCells.Commands.Create;
@@ -15,6 +17,10 @@ public class Mapper : IRegister
         config.NewConfig<Meetup, OrderMeetupCommand>()
             .TwoWays()
             .Map(dest => dest.MeetupDto, src => src);
+        
+        config.NewConfig<ApproveMeetupDTO, ApproveMeetupByStudentCommand>()
+            .TwoWays()
+            .Map(dest => dest.MeetupDTO, src => src);
 
         config.NewConfig<MeetupDTO, UpdateMeetupCommand>()
             .TwoWays()

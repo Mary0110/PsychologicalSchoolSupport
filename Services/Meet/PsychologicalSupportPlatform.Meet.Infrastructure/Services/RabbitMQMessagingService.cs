@@ -11,7 +11,7 @@ public class RabbitMQMessagingService : IRabbitMQMessagingService
 
     public RabbitMQMessagingService()
     {
-        var factory = new ConnectionFactory() { HostName = "rabbitmq" }; //TODO: appsettings
+        var factory = new ConnectionFactory() { HostName = "localhost" }; //TODO: appsettings
         _connection = factory.CreateConnection();
         _channel = _connection.CreateModel();
     }

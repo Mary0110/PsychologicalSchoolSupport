@@ -1,5 +1,6 @@
 using MapsterMapper;
 using PsychologicalSupportPlatform.Report.API.Extensions;
+using PsychologicalSupportPlatform.Report.Application.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +17,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDatabaseContext(builder.Configuration);
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
+builder.Services.AddHostedService<RabbitMQBackgroundConsumerService>();
 
 var app = builder.Build();
 

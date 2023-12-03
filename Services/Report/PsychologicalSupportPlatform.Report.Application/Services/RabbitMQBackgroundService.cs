@@ -18,7 +18,7 @@ namespace PsychologicalSupportPlatform.Report.Application.Services;
     public RabbitMQBackgroundConsumerService(IServiceProvider serviceProvider)
     {
         _serviceProvider = serviceProvider;
-        var factory = new ConnectionFactory(){ HostName = "rabbitmq" }; //TODO:to appsettings
+        var factory = new ConnectionFactory(){ HostName = "localhost" }; //TODO:to appsettings
         _connection = factory.CreateConnection();
         _channel = _connection.CreateModel();
     }

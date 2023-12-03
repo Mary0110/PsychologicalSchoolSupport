@@ -6,7 +6,9 @@ using PsychologicalSupportPlatform.Authorization.API.Extensions;
 using PsychologicalSupportPlatform.Meet.API.Extensions;
 using PsychologicalSupportPlatform.Meet.Application;
 using PsychologicalSupportPlatform.Meet.Application.DTOs;
+using PsychologicalSupportPlatform.Meet.Application.Interfaces;
 using PsychologicalSupportPlatform.Meet.Application.Middleware;
+using PsychologicalSupportPlatform.Meet.Infrastructure.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +22,8 @@ builder.Services.AddInfrastructure();
 builder.Services.AddMediatR(config => config.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly(), AssemblyReference.Assembly));
 builder.Services.AddSingleton(GetConfiguredMapping.GetConfiguredMappingConfig());
 builder.Services.AddScoped<IMapper, ServiceMapper>();
+builder.Services.AddTransient<IRabbitMQMessagingService, RabbitMQMessagingService>();
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
