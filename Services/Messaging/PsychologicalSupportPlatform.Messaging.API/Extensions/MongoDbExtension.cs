@@ -1,4 +1,3 @@
-using PsychologicalSupportPlatform.Messaging.Application;
 using PsychologicalSupportPlatform.Messaging.Application.Interfaces;
 using PsychologicalSupportPlatform.Messaging.Infrastructure.Config;
 using PsychologicalSupportPlatform.Messaging.Infrastructure.Data;

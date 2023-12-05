@@ -15,13 +15,27 @@ public class UserGrpcClient : IUserGrpcClient
 
     public async Task<UserReply> CheckUserAsync(int userId, CancellationToken token)
     {
-        var reply = await userCheckerClient.CheckUserAsync(new UserRequest { UserId = userId }, cancellationToken: token);
+        var reply = await userCheckerClient.CheckUserAsync(new UserRequest { UserId = userId }, 
+            cancellationToken: token);
         
         if (!reply.Exists)
         {
             throw new EntityNotFoundException(nameof(userId));
         }
 
+        return reply;
+    }
+
+    public async Task<UserNameReply> CheckUserNameAsync(int userId, CancellationToken token)
+    {
+        var reply = await userCheckerClient.GetUserNameAsync(new UserNameRequest { UserId = userId }, 
+            cancellationToken: token);
+        
+        if (reply is null)
+        {
+            throw new EntityNotFoundException(nameof(userId));
+        }
+    
         return reply;
     }
 }

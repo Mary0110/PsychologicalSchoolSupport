@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using PsychologicalSupportPlatform.Common;
 using PsychologicalSupportPlatform.Common.Errors;
 using PsychologicalSupportPlatform.Meet.Application.Interfaces;
+using PsychologicalSupportPlatform.Meet.Domain.Entities;
 using PsychologicalSupportPlatform.Meet.Domain.Interfaces;
 
 namespace PsychologicalSupportPlatform.Meet.Application.Meetups.Commands.Approve;
@@ -32,6 +33,16 @@ public class ApproveMeetupByStudentCommandHandler: IRequestHandler<ApproveMeetup
             throw new WrongMeetupForTheStudent();
         }
 
+        if (!HasStarted(oldMeetup))
+        {
+            throw new MeetupHasntStartedException();
+        }
+
+        if (oldMeetup.IsApprovedByStudent)
+        {
+            throw new IsAlreadyApprovedException();
+        }
+
         oldMeetup.IsApprovedByStudent = true;
         await _meetupRepository.UpdateAsync(oldMeetup);
         await _meetupRepository.SaveAsync();
@@ -40,12 +51,23 @@ public class ApproveMeetupByStudentCommandHandler: IRequestHandler<ApproveMeetup
         {
             StudentId = oldMeetup.StudentId,
             MeetupId = oldMeetup.Id,
-            Date = oldMeetup.Date
+            Date = oldMeetup.Date.ToDateTime(oldMeetup.ScheduleCell.Time)
         };
         
         var messageJson = JsonConvert.SerializeObject(messageObject);
         _service.PublishMessage("meetup-info", messageJson);
 
         return oldMeetup.Id;
+    }
+
+    private static bool HasStarted(Meetup meetup)
+    {
+        if (meetup.ScheduleCell.Time <= TimeOnly.FromDateTime(DateTime.Now) &&
+            meetup.Date == DateOnly.FromDateTime(DateTime.Today))
+        {
+            return true;
+        }
+
+        return false;
     }
 }

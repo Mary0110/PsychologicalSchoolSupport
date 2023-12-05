@@ -15,5 +15,4 @@ public abstract class Specification<TEntity>
     }
 
     public Expression<Func<TEntity, bool>>? Criteria { get; }
-    
 }

@@ -17,6 +17,7 @@ public class DataContext: DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfiguration(new ScheduleCellConfigurator());
+        modelBuilder.ApplyConfiguration(new MeetupConfigurator());
     }
 
     protected override void ConfigureConventions(ModelConfigurationBuilder builder)

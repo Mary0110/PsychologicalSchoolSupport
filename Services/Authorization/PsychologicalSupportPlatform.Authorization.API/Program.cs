@@ -18,17 +18,7 @@ builder.Services.AddSwagger();
 builder.Services.AddControllers();
 builder.Services.AddGrpc();
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
-//TODO:make ext
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("AllowAll", builder =>
-    {
-        builder
-            .AllowAnyOrigin()
-            .AllowAnyMethod()
-            .AllowAnyHeader();
-    });
-});
+builder.Services.AddCorsPolicy();
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -40,7 +30,6 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
-
 await app.UseDatabaseSeed();
 app.UseCors("AllowAll");
 app.MapControllers();

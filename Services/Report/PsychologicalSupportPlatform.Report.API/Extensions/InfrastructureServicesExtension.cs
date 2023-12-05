@@ -2,15 +2,17 @@ using PsychologicalSupportPlatform.Common.Config;
 using PsychologicalSupportPlatform.Common.Interfaces;
 using PsychologicalSupportPlatform.Common.Protos;
 using PsychologicalSupportPlatform.Common.Services;
-using PsychologicalSupportPlatform.Messaging.Application.Services;
+using PsychologicalSupportPlatform.Report.Application.Interfaces;
+using PsychologicalSupportPlatform.Report.Application.Services;
 
-namespace PsychologicalSupportPlatform.Messaging.API.Extensions;
+namespace PsychologicalSupportPlatform.Report.API.Extensions;
 
 public static class InfrastructureServicesExtension
 {
     public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddTransient<IChatService, ChatService>();
+        services.AddTransient<IGenerateReportService, GenerateReportService>();
+        services.AddTransient<IReportService, ReportService>();
         services.AddTransient<IUserGrpcClient, UserGrpcClient>();
         var section = configuration.GetSection("GrpcConfig");
         services.Configure<GrpcConfig>(section);

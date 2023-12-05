@@ -7,6 +7,7 @@ using PsychologicalSupportPlatform.Authorization.Domain.Entities;
 using PsychologicalSupportPlatform.Common;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using PsychologicalSupportPlatform.Common.Config;
 
 namespace PsychologicalSupportPlatform.Authorization.Application.Services;
 

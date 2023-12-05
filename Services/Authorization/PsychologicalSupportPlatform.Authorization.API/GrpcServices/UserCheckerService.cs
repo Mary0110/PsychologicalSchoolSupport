@@ -24,4 +24,16 @@ public class UserCheckerService : UserChecker.UserCheckerBase
             Role = record!.Role
         });
     }
+    
+    public override async Task<UserNameReply> GetUserName(UserNameRequest request, ServerCallContext context)
+    {
+        var record = await repository.GetUserByIdAsync(request.UserId);
+        
+        return await Task.FromResult(new UserNameReply
+        {
+            Name = record.Name,
+            Surname = record.Surname,
+            Patronymic = record.Patronymic
+        });
+    }
 }

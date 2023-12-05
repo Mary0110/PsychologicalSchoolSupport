@@ -6,5 +6,5 @@ public class MeetupMessageObject
     
     public int MeetupId { get; set; }
     
-    public DateOnly Date { get; set; }
+    public DateTime Date { get; set; }
 }

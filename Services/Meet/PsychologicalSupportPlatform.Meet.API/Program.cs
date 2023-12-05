@@ -22,7 +22,7 @@ builder.Services.AddInfrastructure();
 builder.Services.AddMediatR(config => config.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly(), AssemblyReference.Assembly));
 builder.Services.AddSingleton(GetConfiguredMapping.GetConfiguredMappingConfig());
 builder.Services.AddScoped<IMapper, ServiceMapper>();
-builder.Services.AddTransient<IRabbitMQMessagingService, RabbitMQMessagingService>();
+builder.Services.AddRabbitMQ(builder.Configuration);
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

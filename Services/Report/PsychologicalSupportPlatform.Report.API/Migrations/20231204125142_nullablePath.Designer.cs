@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PsychologicalSupportPlatform.Report.Infrastracture.Data;
 
@@ -11,9 +12,11 @@ using PsychologicalSupportPlatform.Report.Infrastracture.Data;
 namespace PsychologicalSupportPlatform.Report.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20231204125142_nullablePath")]
+    partial class nullablePath
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -33,14 +36,14 @@ namespace PsychologicalSupportPlatform.Report.API.Migrations
                     b.Property<string>("Comments")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Conclusion")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("CreatorId")
+                    b.Property<int>("CreatorId")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("DateTime")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("Filepath")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("MeetupId")
                         .HasColumnType("int");

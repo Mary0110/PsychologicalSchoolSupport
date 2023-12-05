@@ -35,9 +35,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PsychologicalSupportPlatform.Messaging.API", "Services\Messaging\PsychologicalSupportPlatform.Messaging.API\PsychologicalSupportPlatform.Messaging.API.csproj", "{4F79F603-D430-4295-B131-83EAB1408DB7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Report", "Report", "{4C4569FF-FA6A-4481-9A2F-53EFE2C6B979}"
-	ProjectSection(SolutionItems) = preProject
-		Services\Report\Files\example.docx = Services\Report\Files\example.docx
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PsychologicalSupportPlatform.Report.Domain", "Services\Report\PsychologicalSupportPlatform.Report.Domain\PsychologicalSupportPlatform.Report.Domain.csproj", "{70C1E12E-F407-4608-9ACD-89BEEEB72691}"
 EndProject

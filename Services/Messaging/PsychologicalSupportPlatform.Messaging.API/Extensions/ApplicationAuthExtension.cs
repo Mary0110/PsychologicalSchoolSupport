@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using PsychologicalSupportPlatform.Common;
+using PsychologicalSupportPlatform.Common.Config;
 
 namespace PsychologicalSupportPlatform.Messaging.API.Extensions;
 

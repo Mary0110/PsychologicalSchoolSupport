@@ -1,4 +1,6 @@
 using System.Text;
+using Microsoft.Extensions.Options;
+using PsychologicalSupportPlatform.Common.Config;
 using PsychologicalSupportPlatform.Meet.Application.Interfaces;
 using RabbitMQ.Client;
 
@@ -9,9 +11,9 @@ public class RabbitMQMessagingService : IRabbitMQMessagingService
     private readonly IConnection _connection;
     private readonly IModel _channel;
 
-    public RabbitMQMessagingService()
+    public RabbitMQMessagingService(IOptions<RabbitMQConfig> rabbitMQConfig)
     {
-        var factory = new ConnectionFactory() { HostName = "localhost" }; //TODO: appsettings
+        var factory = new ConnectionFactory() { HostName = rabbitMQConfig.Value.HostName };
         _connection = factory.CreateConnection();
         _channel = _connection.CreateModel();
     }

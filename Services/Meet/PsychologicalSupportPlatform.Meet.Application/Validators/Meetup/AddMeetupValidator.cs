@@ -21,6 +21,6 @@ public class AddMeetupValidator : AbstractValidator<AddMeetupDTO>
     
     private static bool IsFutureDate(DateOnly date)
     {
-        return date > DateOnly.FromDateTime(DateTime.Now);
+        return date >= DateOnly.FromDateTime(DateTime.Now);
     }
 }

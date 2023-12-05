@@ -4,10 +4,8 @@ public class MeetupReport
 {
     public int Id { get; set; }
     
-    public int CreatorId { get; set; }
+    public int? CreatorId { get; set; }
     
-    public string Filepath { get; set; }
-
     public DateTime? DateTime { get; set; }
     
     public int StudentId { get; set; }
@@ -15,4 +13,6 @@ public class MeetupReport
     public int MeetupId { get; set; }
     
     public string? Comments { get; set; }
+    
+    public string? Conclusion { get; set; }
 }

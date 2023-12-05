@@ -1,7 +1,7 @@
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 
-namespace PsychologicalSupportPlatform.Common;
+namespace PsychologicalSupportPlatform.Common.Config;
 
 public class AuthOptions
 {

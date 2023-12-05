@@ -1,13 +1,11 @@
 using MapsterMapper;
 using PsychologicalSupportPlatform.Report.API.Extensions;
-using PsychologicalSupportPlatform.Report.Application.Services;
 
 var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
 builder.Services.InjectRepositories();
-builder.Services.InjectServices();
 builder.Services.AddControllers();
+builder.Services.AddGrpc();
+builder.Services.AddInfrastructureServices(builder.Configuration);
 builder.Services.AddAuthorization();
 builder.Services.AddAuthenticate(builder.Configuration);
 builder.Services.AddSingleton(GetConfiguredMapping.GetConfiguredMappingConfig());
@@ -17,11 +15,10 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDatabaseContext(builder.Configuration);
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
-builder.Services.AddHostedService<RabbitMQBackgroundConsumerService>();
+builder.Services.AddRabbitMQBackground(builder.Configuration);
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -29,9 +26,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
-
 app.MapControllers();
-
 app.Run();
