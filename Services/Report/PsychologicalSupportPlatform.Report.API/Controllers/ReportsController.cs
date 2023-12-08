@@ -9,11 +9,11 @@ namespace PsychologicalSupportPlatform.Report.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ReportController : ControllerBase
+    public class ReportsController : ControllerBase
     {
         private readonly IReportService _service;
 
-        public ReportController(IReportService formService)
+        public ReportsController(IReportService formService)
         {
             _service = formService;
         }

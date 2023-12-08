@@ -8,4 +8,6 @@ public class DataContext: DbContext
     public DataContext(DbContextOptions<DataContext> options) : base(options) { }
 
     public DbSet<MeetupReport> MeetupReports { get; set; }
+
+    public DbSet<MonthlyReport> MonthlyReports { get; set; }
 }
