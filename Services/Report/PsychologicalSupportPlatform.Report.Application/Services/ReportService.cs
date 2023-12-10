@@ -1,3 +1,4 @@
+using Mapster;
 using MapsterMapper;
 using PsychologicalSupportPlatform.Common;
 using PsychologicalSupportPlatform.Common.Errors;
@@ -41,19 +42,20 @@ public class ReportService: IReportService
 
     public async Task<MemoryStream> GenerateReportAsync(GenerateReportDTO dto, CancellationToken token)
     {
-        var report = await _repository.GetAsync(r => r.MeetupId == dto.meetId);
+        var report = await _repository.GetAsync(r => r.MeetupId == dto.MeetId);
         
         if (report is null)
         {
-            throw new EntityNotFoundException(paramname: nameof(dto.meetId));
+            throw new EntityNotFoundException(paramname: nameof(dto.MeetId));
         }
         
-        report.Comments = dto.comment;
-        report.CreatorId = dto.creatorId;
-        report.Conclusion = dto.conclusion;
+        report.Comments = dto.Comment;
+        report.CreatorId = dto.CreatorId;
+        report.Conclusion = dto.Conclusion;
         await _repository.UpdateAsync(report);
         await _repository.SaveAsync();
-        var creatorReply = await _userGrpcClient.CheckUserNameAsync(dto.creatorId, token);
+        
+        var creatorReply = await _userGrpcClient.CheckUserNameAsync(dto.CreatorId, token);
         var studentReply = await _userGrpcClient.CheckUserNameAsync(report.StudentId, token);
         var reportMeetupDto = new ReportMeetupDTO(
             creatorReply.Name, 
@@ -63,8 +65,8 @@ public class ReportService: IReportService
             studentReply.Name, 
             studentReply.Surname, 
             studentReply.Patronymic,  
-            dto.comment, 
-            dto.conclusion
+            dto.Comment, 
+            dto.Conclusion
             );
         var stream = _generateReportService.GenerateReport(reportMeetupDto);
         

@@ -1,15 +1,20 @@
 using Microsoft.EntityFrameworkCore;
-using PsychologicalSupportPlatform.Report.Infrastracture.Data;
+using PsychologicalSupportPlatform.Report.Infrastructure.Data;
 
 namespace PsychologicalSupportPlatform.Report.API.Extensions;
 
 public static class DbContextAdder
 {
-    public static IServiceCollection AddDatabaseContext(this IServiceCollection services,  IConfiguration conf)
+    public static IServiceCollection AddDatabaseContext(this IServiceCollection services,  IConfiguration configuration)
     {
         services.AddDbContext<DataContext>(
-            opt => opt.UseSqlServer(conf.GetConnectionString("DefaultConnection"),
-                b => b.MigrationsAssembly(conf.GetSection("MigrationsAssembly").Get<string>())));
+            optionsBuilder => 
+                optionsBuilder.UseSqlServer(configuration.GetConnectionString("DefaultConnection"),
+                sqlServerDbContextOptionsBuilder => 
+                    sqlServerDbContextOptionsBuilder.MigrationsAssembly(
+                        configuration.GetSection("MigrationsAssembly").Get<string>())
+                    )
+                );
         
         return services;
     }

@@ -19,10 +19,13 @@ builder.Services.AddDatabaseContext(builder.Configuration);
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
 builder.Services.AddRabbitMQBackground(builder.Configuration);
 builder.Services.AddHangfireService(builder.Configuration);
+builder.Services.ConfigureMinio(builder.Configuration);
+
 var app = builder.Build();
 
 app.UseHangfireDashboard();
-RecurringJob.AddOrUpdate<IMonthlyReportService>("monthly-report-job", x => x.AddMonthlyReportAsync(), Cron.Minutely);
+
+RecurringJob.AddOrUpdate<IMonthlyReportService>("monthly-report-job", monthlyReportService => monthlyReportService.AddMonthlyReportAsync(), Cron.Monthly);
 
 if (app.Environment.IsDevelopment())
 {

@@ -1,5 +1,6 @@
 using FluentValidation;
 using PsychologicalSupportPlatform.Authorization.Domain.DTOs;
+using PsychologicalSupportPlatform.Authorization.Domain.Entities;
 
 namespace PsychologicalSupportPlatform.Authorization.Domain.Validators.StudentValidators;
 

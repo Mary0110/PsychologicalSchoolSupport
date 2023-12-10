@@ -4,7 +4,7 @@ public class MonthlyReport
 {
     public int Id { get; set; }
     
-    public DateTime DateTime { get; set; } = DateTime.Today;
+    public DateTime Date { get; set; } = DateTime.Today;
     
-    public string? Filepath { get; set; }
+    public string? Name { get; set; }
 }

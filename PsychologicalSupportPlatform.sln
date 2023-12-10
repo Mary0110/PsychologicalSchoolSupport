@@ -40,7 +40,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PsychologicalSupportPlatfor
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PsychologicalSupportPlatform.Report.Application", "Services\Report\PsychologicalSupportPlatform.Report.Application\PsychologicalSupportPlatform.Report.Application.csproj", "{C35850D7-2CC1-472F-8E2D-72356415D058}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PsychologicalSupportPlatform.Report.Infrastracture", "Services\Report\PsychologicalSupportPlatform.Report.Infrastracture\PsychologicalSupportPlatform.Report.Infrastracture.csproj", "{217D8CDA-EF8A-4DDF-BCA9-868E4D35FBD0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PsychologicalSupportPlatform.Report.Infrastructure", "Services\Report\PsychologicalSupportPlatform.Report.Infrastructure\PsychologicalSupportPlatform.Report.Infrastructure.csproj", "{217D8CDA-EF8A-4DDF-BCA9-868E4D35FBD0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PsychologicalSupportPlatform.Report.API", "Services\Report\PsychologicalSupportPlatform.Report.API\PsychologicalSupportPlatform.Report.API.csproj", "{64F7FA77-5ED3-432F-BE45-D162AFCA1181}"
 EndProject

@@ -12,8 +12,8 @@ using PsychologicalSupportPlatform.Report.Infrastructure.Data;
 namespace PsychologicalSupportPlatform.Report.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20231205040046_conclusion")]
-    partial class conclusion
+    [Migration("20231210173826_smallchanges")]
+    partial class smallchanges
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -54,6 +54,26 @@ namespace PsychologicalSupportPlatform.Report.API.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("MeetupReports");
+                });
+
+            modelBuilder.Entity("PsychologicalSupportPlatform.Report.Domain.Entities.MonthlyReport", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("MonthlyReports");
                 });
 #pragma warning restore 612, 618
         }

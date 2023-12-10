@@ -6,5 +6,5 @@ public interface IMonthlyReportService
 {
     Task<int> AddMonthlyReportAsync();
     
-    // Task<MemoryStream> GetMonthlyReportAsync(MonthlyReportDTO dto, CancellationToken token);
+    Task<MemoryStream> GetMonthlyReportAsync(GetMonthlyReportDTO num, CancellationToken token);
 }

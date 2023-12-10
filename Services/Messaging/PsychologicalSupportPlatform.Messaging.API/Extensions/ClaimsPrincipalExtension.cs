@@ -15,16 +15,4 @@ public static class ClaimsPrincipalExtensions
 
         return loggedInUserId;
     }
-    
-    public static string GetLoggedInUserRole(this ClaimsPrincipal principal)
-    {
-        if (principal == null)
-        {
-            throw new ArgumentNullException(nameof(principal));
-        }
-
-        var loggedInUserRole = principal.FindFirstValue(ClaimTypes.Role);
-
-        return loggedInUserRole;
-    }
 }
