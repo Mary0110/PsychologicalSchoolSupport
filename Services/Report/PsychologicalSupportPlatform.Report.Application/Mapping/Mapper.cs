@@ -23,5 +23,9 @@ public class Mapper: IRegister
         
         config.NewConfig<AddMonthlyReportDTO, MonthlyReport>()
             .Map(dest => dest.Date, src => DateTime.Today);
+
+        config.NewConfig<MeetupReport, GenerateReportDTO>()
+            .TwoWays()
+            .Map(dest => dest, src => src);
     }
 }

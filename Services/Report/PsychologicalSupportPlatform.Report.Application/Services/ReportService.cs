@@ -48,15 +48,14 @@ public class ReportService: IReportService
         {
             throw new EntityNotFoundException(paramname: nameof(dto.MeetId));
         }
-        
-        report.Comments = dto.Comment;
-        report.CreatorId = dto.CreatorId;
-        report.Conclusion = dto.Conclusion;
-        await _repository.UpdateAsync(report);
+
+        var adaptedReport = dto.Adapt(report);
+        adaptedReport.DateTime = DateTime.Now;
+        await _repository.UpdateAsync(adaptedReport);
         await _repository.SaveAsync();
         
         var creatorReply = await _userGrpcClient.CheckUserNameAsync(dto.CreatorId, token);
-        var studentReply = await _userGrpcClient.CheckUserNameAsync(report.StudentId, token);
+        var studentReply = await _userGrpcClient.CheckUserNameAsync(adaptedReport.StudentId, token);
         var reportMeetupDto = new ReportMeetupDTO(
             creatorReply.Name, 
             creatorReply.Surname, 
@@ -64,8 +63,8 @@ public class ReportService: IReportService
             DateOnly.FromDateTime(DateTime.Now), 
             studentReply.Name, 
             studentReply.Surname, 
-            studentReply.Patronymic,  
-            dto.Comment, 
+            studentReply.Patronymic,
+            dto.Comments, 
             dto.Conclusion
             );
         var stream = _generateReportService.GenerateReport(reportMeetupDto);
