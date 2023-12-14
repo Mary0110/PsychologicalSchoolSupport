@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\PsychologicalSupportPlatform.Common\PsychologicalSupportPlatform.Common.csproj" />
+      <ProjectReference Include="..\PsychologicalSupportPlatform.Edu.Domain\PsychologicalSupportPlatform.Edu.Domain.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Grpc.AspNetCore.Server.ClientFactory" Version="2.59.0" />
+      <PackageReference Include="Mapster" Version="7.4.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Include="FluentValidation">
+        <HintPath>..\..\..\..\..\.nuget\packages\fluentvalidation\11.8.1\lib\net7.0\FluentValidation.dll</HintPath>
+      </Reference>
+      <Reference Include="Microsoft.AspNetCore.Http.Features">
+        <HintPath>..\..\..\..\..\..\..\usr\local\share\dotnet\shared\Microsoft.AspNetCore.App\7.0.5\Microsoft.AspNetCore.Http.Features.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Validators\Tests" />
+    </ItemGroup>
+
+</Project>

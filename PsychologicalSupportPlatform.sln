@@ -44,6 +44,16 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PsychologicalSupportPlatfor
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PsychologicalSupportPlatform.Report.API", "Services\Report\PsychologicalSupportPlatform.Report.API\PsychologicalSupportPlatform.Report.API.csproj", "{64F7FA77-5ED3-432F-BE45-D162AFCA1181}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Edu", "Edu", "{CCB0DFB2-1AE2-4AEF-99C7-8E1332ED7E4F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PsychologicalSupportPlatform.Edu.Domain", "Services\Edu\PsychologicalSupportPlatform.Edu.Domain\PsychologicalSupportPlatform.Edu.Domain.csproj", "{91AA3A3D-F40F-4AB2-8D2B-5CCD7ED9D68D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PsychologicalSupportPlatform.Edu.Application", "Services\Edu\PsychologicalSupportPlatform.Edu.Application\PsychologicalSupportPlatform.Edu.Application.csproj", "{EACA960C-9A24-4901-89A4-2BD13D9CFFB8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PsychologicalSupportPlatform.Edu.Infrastructure", "Services\Edu\PsychologicalSupportPlatform.Edu.Infrastructure\PsychologicalSupportPlatform.Edu.Infrastructure.csproj", "{DAFF04FC-3E9D-430F-8532-2149FB11051F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PsychologicalSupportPlatform.Edu.API", "Services\Edu\PsychologicalSupportPlatform.Edu.API\PsychologicalSupportPlatform.Edu.API.csproj", "{5A3C1C41-9247-4921-8422-C529FADD3E41}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -71,6 +81,11 @@ Global
 		{C35850D7-2CC1-472F-8E2D-72356415D058} = {4C4569FF-FA6A-4481-9A2F-53EFE2C6B979}
 		{217D8CDA-EF8A-4DDF-BCA9-868E4D35FBD0} = {4C4569FF-FA6A-4481-9A2F-53EFE2C6B979}
 		{64F7FA77-5ED3-432F-BE45-D162AFCA1181} = {4C4569FF-FA6A-4481-9A2F-53EFE2C6B979}
+		{CCB0DFB2-1AE2-4AEF-99C7-8E1332ED7E4F} = {AC53B87B-E538-4BFA-A78C-A24DC163550A}
+		{91AA3A3D-F40F-4AB2-8D2B-5CCD7ED9D68D} = {CCB0DFB2-1AE2-4AEF-99C7-8E1332ED7E4F}
+		{EACA960C-9A24-4901-89A4-2BD13D9CFFB8} = {CCB0DFB2-1AE2-4AEF-99C7-8E1332ED7E4F}
+		{DAFF04FC-3E9D-430F-8532-2149FB11051F} = {CCB0DFB2-1AE2-4AEF-99C7-8E1332ED7E4F}
+		{5A3C1C41-9247-4921-8422-C529FADD3E41} = {CCB0DFB2-1AE2-4AEF-99C7-8E1332ED7E4F}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{B3945619-7B52-4666-BF83-BCB38D96A9B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -141,5 +156,21 @@ Global
 		{64F7FA77-5ED3-432F-BE45-D162AFCA1181}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{64F7FA77-5ED3-432F-BE45-D162AFCA1181}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{64F7FA77-5ED3-432F-BE45-D162AFCA1181}.Release|Any CPU.Build.0 = Release|Any CPU
+		{91AA3A3D-F40F-4AB2-8D2B-5CCD7ED9D68D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{91AA3A3D-F40F-4AB2-8D2B-5CCD7ED9D68D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{91AA3A3D-F40F-4AB2-8D2B-5CCD7ED9D68D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{91AA3A3D-F40F-4AB2-8D2B-5CCD7ED9D68D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EACA960C-9A24-4901-89A4-2BD13D9CFFB8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EACA960C-9A24-4901-89A4-2BD13D9CFFB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EACA960C-9A24-4901-89A4-2BD13D9CFFB8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EACA960C-9A24-4901-89A4-2BD13D9CFFB8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DAFF04FC-3E9D-430F-8532-2149FB11051F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DAFF04FC-3E9D-430F-8532-2149FB11051F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DAFF04FC-3E9D-430F-8532-2149FB11051F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DAFF04FC-3E9D-430F-8532-2149FB11051F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5A3C1C41-9247-4921-8422-C529FADD3E41}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5A3C1C41-9247-4921-8422-C529FADD3E41}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5A3C1C41-9247-4921-8422-C529FADD3E41}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5A3C1C41-9247-4921-8422-C529FADD3E41}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

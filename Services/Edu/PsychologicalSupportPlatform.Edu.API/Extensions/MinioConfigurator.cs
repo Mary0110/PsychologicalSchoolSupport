@@ -2,7 +2,7 @@ using Minio;
 using PsychologicalSupportPlatform.Common.Repository;
 using PsychologicalSupportPlatform.Report.Infrastructure.Config;
 
-namespace PsychologicalSupportPlatform.Report.API.Extensions;
+namespace PsychologicalSupportPlatform.Edu.API.Extensions;
 
 public static class MinioConfigurator
 {

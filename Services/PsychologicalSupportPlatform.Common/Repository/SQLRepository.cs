@@ -67,6 +67,11 @@ public abstract class SQLRepository<TDbContext, TEntity> : ISQLRepository<TEntit
         return (await DbContext.AddAsync(entity)).Entity;
     }
 
+    public async Task AddRangeAsync(List<TEntity> entity)
+    {
+        await _table.AddRangeAsync(entity);
+    }
+
     public virtual async Task UpdateAsync(TEntity entity)
     {
         DbContext.Entry(entity).State = EntityState.Modified;

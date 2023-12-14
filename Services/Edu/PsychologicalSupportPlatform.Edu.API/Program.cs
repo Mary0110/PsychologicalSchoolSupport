@@ -1,7 +1,6 @@
-using Hangfire;
 using MapsterMapper;
+using PsychologicalSupportPlatform.Edu.API.Extensions;
 using PsychologicalSupportPlatform.Report.API.Extensions;
-using PsychologicalSupportPlatform.Report.Application.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.InjectRepositories();
@@ -17,15 +16,9 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDatabaseContext(builder.Configuration);
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
-builder.Services.AddRabbitMQBackground(builder.Configuration);
-builder.Services.AddHangfireService(builder.Configuration);
 builder.Services.ConfigureMinio(builder.Configuration);
 
 var app = builder.Build();
-
-app.UseHangfireDashboard();
-
-RecurringJob.AddOrUpdate<IMonthlyReportService>("monthly-report-job", monthlyReportService => monthlyReportService.AddMonthlyReportAsync(), Cron.Minutely);
 
 if (app.Environment.IsDevelopment())
 {

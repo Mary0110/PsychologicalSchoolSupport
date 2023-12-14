@@ -1,36 +1,35 @@
 using Microsoft.Extensions.Options;
 using Minio;
 using Minio.DataModel.Args;
-using PsychologicalSupportPlatform.Report.Application.Interfaces;
 using PsychologicalSupportPlatform.Report.Infrastructure.Config;
 
-namespace PsychologicalSupportPlatform.Report.Infrastructure.Data.Repositories;
+namespace PsychologicalSupportPlatform.Common.Repository;
 
 public class MinioRepository: IMinioRepository
 {
     private readonly IMinioClient _minioClient;
-    private readonly IOptions<MinioReportsConfig> _options;
+    private readonly string _bucketName;
 
     public MinioRepository(IOptions<MinioReportsConfig> minioConfig, IMinioClient minioClient)
     {
         _minioClient = minioClient;
-        _options = minioConfig;
+        _bucketName = minioConfig.Value.BucketName;
     }
     
     public async Task UploadReportAsync(Stream data, string objectName)
     {
         data.Seek(0, SeekOrigin.Begin);
-        var beArgs = new BucketExistsArgs().WithBucket(_options.Value.BucketName);
+        var beArgs = new BucketExistsArgs().WithBucket(_bucketName);
         var found = await _minioClient.BucketExistsAsync(beArgs).ConfigureAwait(false);
         
         if (!found)
         {
-            var mbArgs = new MakeBucketArgs().WithBucket(_options.Value.BucketName);
+            var mbArgs = new MakeBucketArgs().WithBucket(_bucketName);
             await _minioClient.MakeBucketAsync(mbArgs).ConfigureAwait(false);
         }
 
         var putObjectArgs = new PutObjectArgs()
-            .WithBucket(_options.Value.BucketName)
+            .WithBucket(_bucketName)
             .WithObject(objectName)
             .WithStreamData(data)
             .WithObjectSize(data.Length);
@@ -41,7 +40,7 @@ public class MinioRepository: IMinioRepository
     {
         var outputStream = new MemoryStream();
         var getObjectArgs = new GetObjectArgs()
-            .WithBucket(_options.Value.BucketName)
+            .WithBucket(_bucketName)
             .WithObject(objectName)
             .WithCallbackStream((stream) =>
             {
