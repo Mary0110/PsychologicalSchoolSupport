@@ -19,9 +19,10 @@ public class ScheduleCellRepository : SQLRepository<DataContext, ScheduleCell>, 
         return await GetAllAsync(cell => cell.Active == status, pageNumber, pageSize);
     }
 
-    public async Task<List<ScheduleCell>> GetScheduleCellsByDayAndTimeAsync(DayOfWeek dayOfWeek, TimeOnly time)
+    public async Task<List<ScheduleCell>> GetScheduleCellsByDayAndTimeAsync(DayOfWeek dayOfWeek, TimeOnly time, int PsyId)
     {
-        return await GetAllAsync(cell => cell.Day == dayOfWeek && cell.Time == time);
+        return await GetAllAsync(cell => cell.Day == dayOfWeek && cell.Time == time
+        && cell.PsychologistId == PsyId);
     }
 
     public async Task<List<ScheduleCell>> GetAvailableScheduleCellsAsync(int pageNumber, int pageSize)

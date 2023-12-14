@@ -1,5 +1,6 @@
 using FluentValidation;
 using PsychologicalSupportPlatform.Meet.Application.DTOs;
+using PsychologicalSupportPlatform.Meet.Application.DTOs.Meetup;
 
 namespace PsychologicalSupportPlatform.Meet.Application.Validators.Meetup;
 

@@ -2,38 +2,39 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PsychologicalSupportPlatform.Authorization.Application.Interfaces;
 using PsychologicalSupportPlatform.Authorization.Domain.DTOs;
-using PsychologicalSupportPlatform.Authorization.Domain.Entities;
 using PsychologicalSupportPlatform.Common;
 
 namespace PsychologicalSupportPlatform.Authorization.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class LoginController : ControllerBase
+    public class AccountsController : ControllerBase
     {
-        private readonly ILoginService loginService;
+        private readonly IAccountsService _accountsService;
 
-        public LoginController(ILoginService loginService)
+        public AccountsController(IAccountsService accountsService)
         {
-            this.loginService = loginService;
+            _accountsService = accountsService;
         }
 
-        [HttpPost]
-        [Route("login")]
+        [HttpPost("login")]
         public async Task<IActionResult> LoginAsync(LoginData data)
         {
-            var response = await loginService.GetTokenAsync(data);
+            var response = await _accountsService.GetTokenAsync(data);
 
-            if (response.Data is null) return Unauthorized(response.Message);
+            if (response.Data is null)
+            {
+                return Unauthorized(response.Message);
+            }
 
             return Ok(new { access_token = response.Data });
         }
         
         [HttpPost]
-        [Route("register/user")]
+        [Route("user/register")]
         public async Task<IActionResult> RegisterUserAsync(AddUserDTO user)
         {
-            var response = await loginService.RegisterUserAsync(user);
+            var response = await _accountsService.RegisterUserAsync(user);
 
             if (!response.Success)
             {
@@ -44,10 +45,10 @@ namespace PsychologicalSupportPlatform.Authorization.API.Controllers
         }
         
         [HttpPost]
-        [Route("register/student")]
+        [Route("student/register")]
         public async Task<IActionResult> RegisterStudentAsync(AddStudentDTO student)
         {
-            var response = await loginService.RegisterStudentAsync(student);
+            var response = await _accountsService.RegisterStudentAsync(student);
 
             if (!response.Success)
             {
@@ -59,18 +60,20 @@ namespace PsychologicalSupportPlatform.Authorization.API.Controllers
 
         [HttpGet("users")]
         [Authorize(Roles = Roles.Admin)]
-        public async Task<IActionResult> GetAllUsersAsync([FromQuery] int pageNumber, [FromQuery] int pageSize)
+        public async Task<IActionResult> GetAllUsersAsync(
+            [FromQuery] int pageNumber, [FromQuery] int pageSize
+            )
         {
-            var response = await loginService.GetAllUsersAsync(pageNumber, pageSize);
+            var response = await _accountsService.GetAllUsersAsync(pageNumber, pageSize);
             
             return Ok(response.Data);
         }
         
-        [HttpGet("user/{id}")]
+        [HttpGet("users/{id}")]
         [Authorize(Roles = Roles.Admin + "," + Roles.Psychologist + "," + Roles.Manager)]
         public async Task<IActionResult> GetSingleUserAsync(int id)
         {
-            var response = await loginService.GetUserByIdAsync(id);
+            var response = await _accountsService.GetUserByIdAsync(id);
 
             if (!response.Success)
             {
@@ -80,11 +83,12 @@ namespace PsychologicalSupportPlatform.Authorization.API.Controllers
             return Ok(response.Data);
         }
         
-        [HttpPut("user")]
+        [HttpPut("users/{id}")]
         [Authorize(Roles = Roles.Admin + "," + Roles.Psychologist + "," + Roles.Manager)]
-        public async Task<IActionResult> UpdateUserAsync(UpdateUserDTO user)
+        public async Task<IActionResult> UpdateUserAsync(int id, UpdateUserDTO user)
         {
-            var response = await loginService.UpdateUserAsync(user);
+            
+            var response = await _accountsService.UpdateUserAsync(id, user);
 
             if (!response.Success)
             {
@@ -94,11 +98,11 @@ namespace PsychologicalSupportPlatform.Authorization.API.Controllers
             return Ok(response.Message);
         }
         
-        [HttpDelete("user/{id}")]
+        [HttpDelete("users/{id}")]
         [Authorize(Roles = Roles.Admin)]
         public async Task<IActionResult> DeleteUserAsync(int id)
         {
-            var response = await loginService.DeleteUserAsync(id);
+            var response = await _accountsService.DeleteUserAsync(id);
 
             if (!response.Success)
             {
@@ -110,18 +114,20 @@ namespace PsychologicalSupportPlatform.Authorization.API.Controllers
         
         [HttpGet("students")]
         [Authorize(Roles = Roles.Admin + "," + Roles.Psychologist + "," + Roles.Manager)]
-        public async Task<IActionResult> GetAllStudentsAsync([FromQuery] int pageNumber, [FromQuery] int pageSize)
+        public async Task<IActionResult> GetAllStudentsAsync(
+            [FromQuery] int pageNumber, [FromQuery] int pageSize
+            )
         {
-            var response = await loginService.GetAllStudentsAsync(pageNumber, pageSize);
+            var response = await _accountsService.GetAllStudentsAsync(pageNumber, pageSize);
             
             return Ok(response.Data);
         }
         
-        [HttpGet("student/{id}")]
+        [HttpGet("students/{id}")]
         [Authorize(Roles = Roles.Admin + "," + Roles.Psychologist + "," + Roles.Manager)]
         public async Task<IActionResult> GetSingleStudentAsync(int id)
         {
-            var response = await loginService.GetStudentByIdAsync(id);
+            var response = await _accountsService.GetStudentByIdAsync(id);
 
             if (!response.Success)
             {
@@ -131,12 +137,15 @@ namespace PsychologicalSupportPlatform.Authorization.API.Controllers
             return Ok(response.Data);
         }
         
-        [HttpGet("students/byForm/{num}/{letter}")]
+        [HttpGet("forms/{formNum}/{formLetter}/students")]
         [Authorize(Roles = Roles.Admin + "," + Roles.Psychologist + "," + Roles.Manager)]
-        public async Task<IActionResult> GetStudentsByFormAsync(int num, char letter, [FromQuery] int pageNumber, [FromQuery] int pageSize)
+        public async Task<IActionResult> GetStudentsByFormAsync(
+            [FromRoute] int formNum, [FromRoute] char formLetter, 
+            [FromQuery] int pageNumber, [FromQuery] int pageSize
+            )
         {
-            var formDto = new AddFormDTO(num, letter);
-            var response = await loginService.GetStudentsByFormAsync(formDto, pageNumber, pageSize);
+            var formDto = new AddFormDTO(formNum, formLetter);
+            var response = await _accountsService.GetStudentsByFormAsync(formDto, pageNumber, pageSize);
 
             if (!response.Success)
             {
@@ -146,11 +155,12 @@ namespace PsychologicalSupportPlatform.Authorization.API.Controllers
             return Ok(response.Data);
         }
         
-        [HttpGet("students/byParallel/{num}")]
+        [HttpGet("parallel/{num}/students")]
         [Authorize(Roles = Roles.Admin + "," + Roles.Psychologist + "," + Roles.Manager)]
-        public async Task<IActionResult> GetStudentsByParallelAsync(int num, [FromQuery] int pageNumber, [FromQuery] int pageSize)
+        public async Task<IActionResult> GetStudentsByParallelAsync(int num, 
+            [FromQuery] int pageNumber, [FromQuery] int pageSize)
         {
-            var response = await loginService.GetStudentsByParallelAsync(num, pageNumber, pageSize);
+            var response = await _accountsService.GetStudentsByParallelAsync(num, pageNumber, pageSize);
 
             if (!response.Success)
             {
@@ -160,11 +170,11 @@ namespace PsychologicalSupportPlatform.Authorization.API.Controllers
             return Ok(response.Data);
         }
         
-        [HttpPut("student")]
+        [HttpPut("students/{id}")]
         [Authorize(Roles = Roles.Admin + "," + Roles.Psychologist + "," + Roles.Manager)]
-        public async Task<IActionResult> UpdateStudentAsync(UpdateStudentDTO user)
+        public async Task<IActionResult> UpdateStudentAsync(int id, UpdateStudentDTO user)
         {
-            var response = await loginService.UpdateStudentAsync(user);
+            var response = await _accountsService.UpdateStudentAsync(id, user);
 
             if (!response.Success)
             {
@@ -174,11 +184,11 @@ namespace PsychologicalSupportPlatform.Authorization.API.Controllers
             return Ok(response.Message);
         }
 
-        [HttpDelete("student/{id}")]
+        [HttpDelete("students/{id}")]
         [Authorize(Roles = Roles.Admin + "," + Roles.Psychologist + "," + Roles.Manager)]
         public async Task<IActionResult> DeleteStudentAsync(int id)
         {
-            var response = await loginService.DeleteStudentAsync(id);
+            var response = await _accountsService.DeleteStudentAsync(id);
 
             if (!response.Success)
             {

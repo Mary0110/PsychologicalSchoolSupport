@@ -6,7 +6,7 @@ public static class HandlerHelper
 {
     public static bool IsScheduleCellAvailable(ScheduleCell scheduleCell)
     {
-        var hasOrderedMeetups = scheduleCell.Meetups.Any(m => m.Date > DateOnly.FromDateTime(DateTime.Now));
+        var hasOrderedMeetups = scheduleCell.Meetups.Any(m => m.Date > DateOnly.FromDateTime(DateTime.Today));
         
         if (!hasOrderedMeetups)
         {

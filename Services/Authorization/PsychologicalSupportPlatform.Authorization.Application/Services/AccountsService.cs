@@ -11,7 +11,7 @@ using PsychologicalSupportPlatform.Common.Config;
 
 namespace PsychologicalSupportPlatform.Authorization.Application.Services;
 
-public class LoginService : ILoginService
+public class AccountsService : IAccountsService
 {
     private readonly IUserRepository userRepository;
     private readonly IStudentRepository studentRepository;
@@ -20,7 +20,7 @@ public class LoginService : ILoginService
     private readonly IFormRepository formRepository;
     private readonly IEncryptionService encryption;
 
-    public LoginService(IUserRepository userRepository,
+    public AccountsService(IUserRepository userRepository,
                         IStudentRepository studentRepository,
                         IOptions<AuthOptions> authOptions,
                         IMapper mapper,
@@ -210,21 +210,25 @@ public class LoginService : ILoginService
         return new ResponseInfo(success: true, message: $"student with id {id} deleted");    
     }
 
-    public async Task<ResponseInfo> UpdateUserAsync(UpdateUserDTO userDto)
+    public async Task<ResponseInfo> UpdateUserAsync(int id, UpdateUserDTO userDto)
     {
-        if (userDto == null) return new ResponseInfo(success: false, message: "wrong request data");
+        if (userDto == null)
+        {
+            return new ResponseInfo(success: false, message: "wrong request data");
+        }
 
         userDto.Password = encryption.HashPassword(userDto.Password);
         var user = await userRepository.GetUserByEmailAsync(userDto.Email);
         var student = await studentRepository.GetStudentByEmailAsync(userDto.Email);
 
-        if (user is not null || student is not null)
+        if (user is not null && user.Id != id || student is not null && student.Id != id)
         {
             return new ResponseInfo(success: false, message: "user with email already registered");
         }
         
         var newUser = mapper.Map<User>(userDto);
-        user = await userRepository.GetUserByIdAsync(userDto.Id);
+        newUser.Id = id;
+        user = await userRepository.GetUserByIdAsync(id);
 
         if (user is null)
         {
@@ -236,7 +240,7 @@ public class LoginService : ILoginService
         return new ResponseInfo(success: true, message: $"user with id {newUser.Id} updated");
     }
 
-    public async Task<ResponseInfo> UpdateStudentAsync(UpdateStudentDTO studentDTO)
+    public async Task<ResponseInfo> UpdateStudentAsync(int id, UpdateStudentDTO studentDTO)
     {
         studentDTO.Password = encryption.HashPassword(studentDTO.Password);
 
@@ -248,13 +252,14 @@ public class LoginService : ILoginService
         var user = await userRepository.GetUserByEmailAsync(studentDTO.Email);
         var student = await studentRepository.GetStudentByEmailAsync(studentDTO.Email);
 
-        if (user is not null || student is not null)
+        if (user is not null  && user.Id != id || student is not null  && student.Id != id)
         {
             return new ResponseInfo(success: false, message: "user with email already registered");
         }
         
         var newUser = mapper.Map<Student>(studentDTO);
-        user = await studentRepository.GetStudentByIdAsync(studentDTO.Id);
+        newUser.Id = id;
+        user = await studentRepository.GetStudentByIdAsync(id);
 
         if (user is null)
         {

@@ -4,7 +4,7 @@ using PsychologicalSupportPlatform.Common;
 
 namespace PsychologicalSupportPlatform.Authorization.Application.Interfaces;
 
-public interface ILoginService
+public interface IAccountsService
 {
     Task<DataResponseInfo<string>> GetTokenAsync(LoginData data);
 
@@ -24,9 +24,9 @@ public interface ILoginService
     
     Task<ResponseInfo> DeleteStudentAsync(int id);
     
-    Task<ResponseInfo> UpdateUserAsync(UpdateUserDTO user);
+    Task<ResponseInfo> UpdateUserAsync(int id, UpdateUserDTO user);
     
-    Task<ResponseInfo> UpdateStudentAsync(UpdateStudentDTO user);
+    Task<ResponseInfo> UpdateStudentAsync(int id, UpdateStudentDTO user);
 
     Task<DataResponseInfo<List<AddStudentDTO>>> GetStudentsByFormAsync(AddFormDTO form, int pageNumber, int pageSize);
 

@@ -26,20 +26,20 @@ namespace PsychologicalSupportPlatform.Authorization.API.Controllers
             return Ok(response.Data);
         }
 
-        [HttpPost]
+        [HttpPost("{num}/{letter}")]
         [Authorize(Roles = Roles.Admin + "," + Roles.Manager)]
-        public async Task<IActionResult> AddFormAsync(AddFormDTO addProductDto)
+        public async Task<IActionResult> AddFormAsync([FromRoute] int num, [FromRoute] char letter)
         {
-            var response = await formService.AddFormAsync(addProductDto);
+            var response = await formService.AddFormAsync(num, letter);
 
             return Ok(response.Message);
         }
 
-        [HttpDelete]
+        [HttpDelete("{num}/{letter}")]
         [Authorize(Roles = Roles.Admin + "," + Roles.Manager)]
-        public async Task<IActionResult> RemoveFormAsync(AddFormDTO form)
+        public async Task<IActionResult> RemoveFormAsync(int formNum, char formLetter)
         {
-            var response = await formService.DeleteFormAsync(form);
+            var response = await formService.DeleteFormAsync(formNum, formLetter);
 
             if (!response.Success)
             {
@@ -48,10 +48,10 @@ namespace PsychologicalSupportPlatform.Authorization.API.Controllers
 
             return Ok(response.Message);
         }
-
-        [HttpGet("byParallel{num}")]
+        
+        [HttpGet("parallel/{num}/forms")]
         [Authorize]
-        public async Task<IActionResult> GetFormsByParallelAsync(int num, [FromQuery] int pageNumber, [FromQuery] int pageSize)
+        public async Task<IActionResult> GetFormsByParallelAsync([FromRoute] int num, [FromQuery] int pageNumber, [FromQuery] int pageSize)
         {
             var response = await formService.GetFormsByParallelAsync(num, pageNumber, pageSize);
 

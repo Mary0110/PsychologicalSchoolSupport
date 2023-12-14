@@ -21,12 +21,19 @@ public class CreateScheduleCellCommandHandler: IRequestHandler<CreateScheduleCel
     public async Task<int> Handle(CreateScheduleCellCommand request, CancellationToken cancellationToken)
     {
         var newScheduleCell = mapper.Map<ScheduleCell>(request);
-        
-        if (newScheduleCell is null) throw new WrongRequestDataException();
 
-        var oldScheduleCell = await scheduleCellRepository.GetScheduleCellsByDayAndTimeAsync(newScheduleCell.Day, newScheduleCell.Time);
-        
-        if (oldScheduleCell.Count != 0) throw new AlreadyExistsException();
+        if (newScheduleCell is null)
+        {
+            throw new WrongRequestDataException();
+        }
+
+        var oldScheduleCells = await scheduleCellRepository.GetScheduleCellsByDayAndTimeAsync(
+            newScheduleCell.Day, newScheduleCell.Time, newScheduleCell.PsychologistId);
+
+        if (oldScheduleCells.Count != 0)
+        {
+            throw new AlreadyExistsException();
+        }
        
         var addedCell = await scheduleCellRepository.AddAsync(newScheduleCell);
         await scheduleCellRepository.SaveAsync();
