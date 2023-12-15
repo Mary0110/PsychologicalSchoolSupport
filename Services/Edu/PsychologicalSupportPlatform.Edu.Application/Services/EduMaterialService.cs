@@ -1,5 +1,6 @@
 using MapsterMapper;
 using Microsoft.AspNetCore.Http;
+using Nest;
 using PsychologicalSupportPlatform.Common;
 using PsychologicalSupportPlatform.Common.Errors;
 using PsychologicalSupportPlatform.Common.Interfaces;
@@ -17,16 +18,19 @@ public class EduMaterialService: IEduMaterialService
     private readonly IMapper _mapper;
     private readonly IMinioRepository _minioRepository;
     private readonly IStudentHasEduMaterialRepository _studentHasEduMaterialRepository;
+    private readonly IElasticClient _elasticClient;
+
 
     public EduMaterialService(IMapper mapper, IMinioRepository minioRepository,
         IEduMaterialRepository eduMaterialRepository, IUserGrpcClient userGrpcClient,
-        IStudentHasEduMaterialRepository studentHasEduMaterialRepository)
+        IStudentHasEduMaterialRepository studentHasEduMaterialRepository, IElasticClient elasticClient)
     {
         _mapper = mapper;
         _eduMaterialRepository = eduMaterialRepository;
         _userGrpcClient = userGrpcClient;
         _studentHasEduMaterialRepository = studentHasEduMaterialRepository;
         _minioRepository = minioRepository;
+        _elasticClient = elasticClient;
     }
 
     public async Task<int> UploadEduMaterialAsync(IFormFile file, AddEduMaterialDTO dto)
@@ -83,7 +87,7 @@ public class EduMaterialService: IEduMaterialService
         return dtos;
     }
 
-    public async Task AddEduMaterialToStudent(AddEduMaterialToStudentDTO dto, CancellationToken token)
+    public async Task AddEduMaterialToStudentAsync(AddEduMaterialToStudentDTO dto, CancellationToken token)
     {
         var userReply = await _userGrpcClient.CheckUserAsync(dto.StudentId, token);
         
@@ -100,5 +104,28 @@ public class EduMaterialService: IEduMaterialService
         var shm = _mapper.Map<StudentHasEduMaterial>(dto);
         await _studentHasEduMaterialRepository.AddAsync(shm);
         await _studentHasEduMaterialRepository.SaveAsync();
+    }
+
+    public async Task<IEnumerable<EduMaterialDTO>> SearchAsync(string text, CancellationToken cancellationToken)
+    {
+        var searchResponse = await _elasticClient.SearchAsync<EduMaterialDTO>(s => s
+            .Query(q => q
+                .QueryString(qs => qs
+                    .Fields(f => f
+                        .Field(ff => ff.Name)
+                        .Field(ff => ff.Theme)
+                    )
+                    .Query($"*{text}*")
+                )
+            )
+        );
+        if (searchResponse.IsValid)
+        {
+            return searchResponse.Documents;
+        }
+        else
+        {
+            throw new Exception($"Failed to perform search: {searchResponse.DebugInformation}");
+        }    
     }
 }

@@ -8,5 +8,5 @@ public class StudentHasEduMaterial
     
     public DateTime Date { get; set; } = DateTime.Now;
     
-    public EduMaterial EduMaterial { get; set; }
+    public EduMaterial EduMaterial { get; set; } = null!;
 }

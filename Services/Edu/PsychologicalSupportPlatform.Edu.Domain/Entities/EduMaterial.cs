@@ -6,7 +6,7 @@ public class EduMaterial
 
     public string Name { get; set; }
 
-    public string Theme { get; set; } = String.Empty;
+    public string Theme { get; set; } = string.Empty;
     
-    public List<StudentHasEduMaterial> StudentHasEduMaterials { get; set; }
+    public List<StudentHasEduMaterial>? StudentHasEduMaterials { get; set; }
 }

@@ -5,9 +5,9 @@ using PsychologicalSupportPlatform.Edu.Domain.Entities.Tests;
 
 namespace PsychologicalSupportPlatform.Edu.Infrastructure.Data.Repositories.Tests;
 
-public class TestResultRepository: SQLRepository<DataContext, TestResult>, ITestResultRepository
+public class AnswerRepository: SQLRepository<DataContext, Answer>, IAnswerRepository
 {
-    public TestResultRepository(DataContext context) : base(context)
+    public AnswerRepository(DataContext context) : base(context)
     {
     }
 }

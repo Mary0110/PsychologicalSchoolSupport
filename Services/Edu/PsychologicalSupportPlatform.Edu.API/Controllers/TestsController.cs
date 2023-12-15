@@ -1,15 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PsychologicalSupportPlatform.Common;
 using PsychologicalSupportPlatform.Edu.API.Extensions;
 using PsychologicalSupportPlatform.Edu.Application.DTOs.Tests;
-using PsychologicalSupportPlatform.Edu.Application.Interfaces;
-using PsychologicalSupportPlatform.Edu.Application.Interfaces.Tests;
+using PsychologicalSupportPlatform.Edu.Application.Interfaces.Tests.Services;
 
 namespace PsychologicalSupportPlatform.Edu.API.Controllers
 {
@@ -24,7 +18,7 @@ namespace PsychologicalSupportPlatform.Edu.API.Controllers
             _psychologicalTestService = psychologicalTestService;
         }
         
-        [HttpPost("{testId}/pass")]
+        [HttpPost("evaluation/{testId}")]
         [Authorize]
         public async Task<IActionResult> PassTest([FromRoute] int testId, [FromBody] List<AnswerRequestDTO> answers)
         {

@@ -5,6 +5,8 @@ using PsychologicalSupportPlatform.Common.Interfaces;
 using PsychologicalSupportPlatform.Edu.Application.DTOs.Tests;
 using PsychologicalSupportPlatform.Edu.Application.Interfaces;
 using PsychologicalSupportPlatform.Edu.Application.Interfaces.Tests;
+using PsychologicalSupportPlatform.Edu.Application.Interfaces.Tests.Repositories;
+using PsychologicalSupportPlatform.Edu.Application.Interfaces.Tests.Services;
 using PsychologicalSupportPlatform.Edu.Domain.Entities.Tests;
 
 namespace PsychologicalSupportPlatform.Edu.Application.Services;
@@ -40,7 +42,7 @@ public class TestService: ITestService
         
         foreach (var entity in answ)
         {
-            entity.StudentHasTestId = added.Id;
+            entity.TestResultId = added.Id;
         }
         await _answerRequestRepository.AddRangeAsync(answ);
         await _answerRequestRepository.SaveAsync();

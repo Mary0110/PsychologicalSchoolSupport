@@ -1,6 +1,6 @@
 using PsychologicalSupportPlatform.Edu.Application.DTOs.Tests;
 
-namespace PsychologicalSupportPlatform.Edu.Application.Interfaces.Tests;
+namespace PsychologicalSupportPlatform.Edu.Application.Interfaces.Tests.Services;
 
 public interface ITestService
 {

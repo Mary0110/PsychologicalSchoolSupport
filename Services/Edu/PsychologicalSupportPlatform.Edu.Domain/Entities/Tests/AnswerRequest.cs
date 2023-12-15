@@ -8,7 +8,11 @@ public class AnswerRequest
     
     public Answer SelectedAnswer { get; set; }
 
-    public int StudentHasTestId { get; set; }
+    public int QuestionId { get; set; }
+    
+    public Question Question { get; set; }
+    
+    public int TestResultId { get; set; }
     
     public TestResult TestResult{ get; set; }
 }

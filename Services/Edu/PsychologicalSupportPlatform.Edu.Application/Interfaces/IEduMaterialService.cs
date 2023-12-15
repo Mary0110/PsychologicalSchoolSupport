@@ -13,5 +13,7 @@ public interface IEduMaterialService
 
     Task<List<EduMaterialDTO>> GetAllEduMaterialsAsync(int pageNumber, int pageSize);
 
-    Task AddEduMaterialToStudent(AddEduMaterialToStudentDTO dto, CancellationToken token);
+    Task AddEduMaterialToStudentAsync(AddEduMaterialToStudentDTO dto, CancellationToken token);
+    
+    Task<IEnumerable<EduMaterialDTO>> SearchAsync(string text, CancellationToken cancellationToken);
 }

@@ -23,6 +23,9 @@
       <Reference Include="Microsoft.AspNetCore.Http.Features">
         <HintPath>..\..\..\..\..\..\..\usr\local\share\dotnet\shared\Microsoft.AspNetCore.App\7.0.5\Microsoft.AspNetCore.Http.Features.dll</HintPath>
       </Reference>
+      <Reference Include="Nest">
+        <HintPath>..\..\..\..\..\.nuget\packages\nest\7.17.5\lib\netstandard2.0\Nest.dll</HintPath>
+      </Reference>
     </ItemGroup>
 
     <ItemGroup>

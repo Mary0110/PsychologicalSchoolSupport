@@ -1,9 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PsychologicalSupportPlatform.Common;
 using PsychologicalSupportPlatform.Edu.Application.DTOs;
@@ -22,6 +17,14 @@ namespace PsychologicalSupportPlatform.Edu.API.Controllers
             _reportService = reportService;
         }
         
+        [HttpGet("search")]
+        public async Task<IActionResult> SearchAsync(
+            [FromQuery] string text,
+            CancellationToken cancellationToken = default)
+        {
+            return Ok(await _reportService.SearchAsync(text, cancellationToken));
+        }
+        
         [HttpGet("{id]")]
         [Authorize]
         public async Task<IActionResult> DownloadEduMaterial(int id, CancellationToken token)
@@ -35,25 +38,26 @@ namespace PsychologicalSupportPlatform.Edu.API.Controllers
             );
         }
 
-        [HttpPost("upload")]
-        [Authorize(Roles = Roles.Psychologist)]
-        public async Task<IActionResult> UploadEduMaterial(IFormFile file, AddEduMaterialDTO dto)
-        {
-            var id = await _reportService.UploadEduMaterialAsync(file, dto);
-
-            return Ok(id);
-        }
-        
         [HttpPost]
         [Authorize(Roles = Roles.Psychologist)]
-        public async Task<IActionResult> AddMaterialToStudent(AddEduMaterialToStudentDTO dto, CancellationToken token)
+        public async Task<IActionResult> UploadEduMaterial(IFormFile file, [FromBody] AddEduMaterialDTO dto)
         {
-            await _reportService.AddEduMaterialToStudent(dto, token);
+            var addedId = await _reportService.UploadEduMaterialAsync(file, dto);
+
+            return Ok(addedId);
+        }
+        
+        [HttpPost("students/{studentId}/edu-materials/{id}")]
+        [Authorize(Roles = Roles.Psychologist)]
+        public async Task<IActionResult> AddMaterialToStudent([FromRoute] int studentId, [FromRoute] int id, CancellationToken token)
+        {
+            var dto = new AddEduMaterialToStudentDTO(studentId, id);
+            await _reportService.AddEduMaterialToStudentAsync(dto, token);
 
             return Ok();
         }
         
-        [HttpGet("student={studentId}")]
+        [HttpGet("students/{studentId}/edu-materials")]
         [Authorize(Roles = Roles.Psychologist +","+Roles.Student)]
         public async Task<IActionResult> GetMaterialsByStudent(int studentId, [FromQuery] int pageNumber, [FromQuery] int pageSize, CancellationToken token)
         {
@@ -62,7 +66,7 @@ namespace PsychologicalSupportPlatform.Edu.API.Controllers
             return Ok(materials);
         }
         
-        [HttpGet("materials")]
+        [HttpGet]
         [Authorize(Roles = Roles.Psychologist)]
         public async Task<IActionResult> GetMaterials([FromQuery] int pageNumber, [FromQuery] int pageSize)
         {
