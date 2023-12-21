@@ -33,14 +33,14 @@ public class EduMaterialService: IEduMaterialService
         _elasticClient = elasticClient;
     }
 
-    public async Task<int> UploadEduMaterialAsync(IFormFile file, AddEduMaterialDTO dto)
+    public async Task<int> UploadEduMaterialAsync(AddEduMaterialDTO dto)
     {
         var eduMaterial = _mapper.Map<EduMaterial>(dto);
 
         var added = await _eduMaterialRepository.AddAsync(eduMaterial);
         await _eduMaterialRepository.SaveAsync();
 
-        await _minioRepository.UploadReportAsync(file.OpenReadStream(), eduMaterial.Name);
+        await _minioRepository.UploadReportAsync(dto.file.OpenReadStream(), eduMaterial.Name);
 
         return added.Id;    
     }

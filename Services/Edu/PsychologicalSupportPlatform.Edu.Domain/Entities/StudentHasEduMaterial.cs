@@ -2,6 +2,8 @@ namespace PsychologicalSupportPlatform.Edu.Domain.Entities;
 
 public class StudentHasEduMaterial
 {
+    public int Id { get; set; }
+
     public int StudentId { get; set; }
     
     public int EduMaterialId { get; set; }

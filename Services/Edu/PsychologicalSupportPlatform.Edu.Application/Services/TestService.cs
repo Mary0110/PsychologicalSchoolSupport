@@ -7,7 +7,7 @@ using PsychologicalSupportPlatform.Edu.Application.Interfaces;
 using PsychologicalSupportPlatform.Edu.Application.Interfaces.Tests;
 using PsychologicalSupportPlatform.Edu.Application.Interfaces.Tests.Repositories;
 using PsychologicalSupportPlatform.Edu.Application.Interfaces.Tests.Services;
-using PsychologicalSupportPlatform.Edu.Domain.Entities.Tests;
+using PsychologicalSupportPlatform.Edu.Domain.Entities;
 
 namespace PsychologicalSupportPlatform.Edu.Application.Services;
 
@@ -15,37 +15,42 @@ public class TestService: ITestService
 {
     private readonly ITestResultRepository _testResultRepository;
     private readonly ITestRepository _psychologicalTestRepository;
-    private readonly IAnswerRequestRepository _answerRequestRepository;
+    private readonly IQuestionResultRepository _questionResultRepository;
+    private readonly IQuestionRepository _questionRepository;
+    private readonly IAnswerRepository _answerRepository;
     private readonly IMapper _mapper;
     private readonly IUserGrpcClient _userGrpcClient;
+    
 
-    public TestService(IUserGrpcClient userGrpcClient, ITestResultRepository testResultRepository,IMapper mapper, ITestRepository psychologicalTestRepository)
+    public TestService(IUserGrpcClient userGrpcClient, ITestResultRepository testResultRepository,IMapper mapper, ITestRepository psychologicalTestRepository, IQuestionRepository questionRepository, IAnswerRepository answerRepository)
     {
+        _answerRepository = answerRepository;
+        _questionRepository = questionRepository;
         _testResultRepository = testResultRepository;
         _psychologicalTestRepository = psychologicalTestRepository;
         _mapper = mapper;
         _userGrpcClient = userGrpcClient;
     }
 
-    public async Task PassTestAsync(PassTestDTO dto)
+    public async Task PassTestAsync(UserAnswerRequestDTO dto)
     {
-        var answ = _mapper.Map<List<AnswerRequest>>(dto.Answers);
-
-        if (answ == null || !answ.Any())
+        if (!dto.AnswerRequestDTO.QuestionResultDTOs.Any())
         {
-            throw new ArgumentException("Answers cannot be empty.", nameof(dto.Answers));
+            throw new ArgumentException("Answers cannot be empty.", nameof(dto.AnswerRequestDTO.QuestionResultDTOs));
         }
 
-        var testHasStudent = new TestResult() { TestId = dto.TestId, UserId = int.Parse(dto.UserId) };
+        var testHasStudent = _mapper.Map<UserTestResult>(dto);
         var added = await _testResultRepository.AddAsync(testHasStudent);
         await _testResultRepository.SaveAsync();
+
+        var answerRequests = _mapper.Map<List<QuestionResult>>(dto.AnswerRequestDTO.QuestionResultDTOs);
         
-        foreach (var entity in answ)
+        foreach (var entity in answerRequests)
         {
-            entity.TestResultId = added.Id;
+            entity.UserTestResultId = added.Id;
         }
-        await _answerRequestRepository.AddRangeAsync(answ);
-        await _answerRequestRepository.SaveAsync();
+        await _questionResultRepository.AddRangeAsync(answerRequests);
+        await _questionResultRepository.SaveAsync();
     }
     
     public async Task<List<TestResultDTO>> GetTestResultsByStudentAsync(int studentId, int pageNumber, int pageSize, CancellationToken token)
@@ -66,5 +71,37 @@ public class TestService: ITestService
         var eduMaterialsDTOs = _mapper.Map<List<TestResultDTO>>(eduMaterials);
         
         return eduMaterialsDTOs; 
+    }
+
+    public async Task<int> AddTestAsync(AddTetsDTO addProductDto)
+    {
+        if (addProductDto is null)
+        {
+            throw new WrongRequestDataException(nameof(addProductDto));
+        }
+
+        var test = _mapper.Map<Test>(addProductDto);
+        var added = await _psychologicalTestRepository.AddAsync(test);
+        await _psychologicalTestRepository.SaveAsync();
+        var questionList = _mapper.Map<List<Question>>(addProductDto.Questions);
+
+        for(var i = 0; i < questionList.Count; i++)
+        {
+            var el = questionList[i];
+            el.TestId = added.Id;
+            var addedQuestion = await _questionRepository.AddAsync(el);
+            await _questionRepository.SaveAsync();
+            var answerList = _mapper.Map<List<Answer>>(addProductDto.Questions[i].Answers);
+            
+            foreach (var answer in answerList)
+            {
+                answer.QuestionId = addedQuestion.Id;
+            }
+
+            await _answerRepository.AddRangeAsync(answerList);
+            await _answerRepository.SaveAsync();
+        }
+
+        return added.Id;
     }
 }

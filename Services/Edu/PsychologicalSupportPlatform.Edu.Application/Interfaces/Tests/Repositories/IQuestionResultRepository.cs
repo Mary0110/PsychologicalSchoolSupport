@@ -1,6 +1,6 @@
 using PsychologicalSupportPlatform.Common.Repository;
-using PsychologicalSupportPlatform.Edu.Domain.Entities.Tests;
+using PsychologicalSupportPlatform.Edu.Domain.Entities;
 
 namespace PsychologicalSupportPlatform.Edu.Application.Interfaces.Tests.Repositories;
 
-public interface IAnswerRequestRepository: ISQLRepository<AnswerRequest> { }
+public interface IQuestionResultRepository: ISQLRepository<QuestionResult> { }

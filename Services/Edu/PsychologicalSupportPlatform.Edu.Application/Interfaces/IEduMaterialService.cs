@@ -5,7 +5,7 @@ namespace PsychologicalSupportPlatform.Edu.Application.Interfaces;
 
 public interface IEduMaterialService
 {
-    Task<int> UploadEduMaterialAsync(IFormFile file, AddEduMaterialDTO dto);
+    Task<int> UploadEduMaterialAsync(AddEduMaterialDTO dto);
     
     Task<MemoryStream> DownloadEduMaterialAsync(int id, CancellationToken token);
     

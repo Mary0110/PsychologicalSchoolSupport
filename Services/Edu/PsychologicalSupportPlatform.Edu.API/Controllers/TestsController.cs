@@ -18,12 +18,12 @@ namespace PsychologicalSupportPlatform.Edu.API.Controllers
             _psychologicalTestService = psychologicalTestService;
         }
         
-        [HttpPost("evaluation/{testId}")]
+        [HttpPost("evaluation")]
         [Authorize]
-        public async Task<IActionResult> PassTest([FromRoute] int testId, [FromBody] List<AnswerRequestDTO> answers)
+        public async Task<IActionResult> PassTest([FromBody] AnswerRequestDTO answers)
         {
             var userId = User.GetLoggedInUserId();
-            var passDTO = new PassTestDTO(){TestId = testId, UserId = userId, Answers = answers};
+            var passDTO = new UserAnswerRequestDTO(){UserId = userId, AnswerRequestDTO = answers};
             await _psychologicalTestService.PassTestAsync(passDTO);
 
             return Ok();
@@ -31,11 +31,20 @@ namespace PsychologicalSupportPlatform.Edu.API.Controllers
         
         [HttpGet("{userId}")]
         [Authorize(Roles = Roles.Psychologist)]
-        public async Task<IActionResult> GetResults([FromRoute] int userId, [FromBody] int pageNumber, [FromBody] int pageSize, CancellationToken token)
+        public async Task<IActionResult> GetResults([FromRoute] int userId, [FromQuery]  int pageNumber, [FromQuery] int pageSize, CancellationToken token)
         {
             var results = await _psychologicalTestService.GetTestResultsByStudentAsync(userId, pageNumber, pageSize, token);
 
             return Ok(results);
+        }
+        
+        [HttpPost]
+        [Authorize(Roles = Roles.Admin + "," + Roles.Manager)]
+        public async Task<IActionResult> AddTestAsync(AddTetsDTO addProductDto)
+        {
+            var response = await _psychologicalTestService.AddTestAsync(addProductDto);
+
+            return Ok(response);
         }
     }
 }

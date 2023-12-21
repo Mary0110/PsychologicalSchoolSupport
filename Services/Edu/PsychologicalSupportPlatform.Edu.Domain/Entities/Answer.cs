@@ -1,4 +1,4 @@
-namespace PsychologicalSupportPlatform.Edu.Domain.Entities.Tests;
+namespace PsychologicalSupportPlatform.Edu.Domain.Entities;
 
 public class Answer
 {
@@ -11,6 +11,4 @@ public class Answer
     public int QuestionId { get; set; }
 
     public Question Question { get; set; }
-
-    public List<AnswerRequest> AnswerRequests { get; set; }
 }

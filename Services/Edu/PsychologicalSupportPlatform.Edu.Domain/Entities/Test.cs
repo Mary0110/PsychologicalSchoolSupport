@@ -1,4 +1,4 @@
-namespace PsychologicalSupportPlatform.Edu.Domain.Entities.Tests;
+namespace PsychologicalSupportPlatform.Edu.Domain.Entities;
 
 public class Test
 {
@@ -8,5 +8,5 @@ public class Test
 
     public List<Question> Questions { get; set; }
     
-    public List<TestResult> StudentHasTest { get; set; }
+    public List<UserTestResult> StudentHasTest { get; set; }
 }

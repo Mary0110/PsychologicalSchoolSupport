@@ -1,9 +1,7 @@
 namespace PsychologicalSupportPlatform.Edu.Application.DTOs.Tests;
 
-public class AnswerDTO
+public class AddAnswerDTO
 {
-    public int Id { get; set; }
-
     public string AnswerText { get; set; }
     
     public bool IsCorrect { get; set; }

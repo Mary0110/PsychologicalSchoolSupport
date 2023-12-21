@@ -1,6 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 using PsychologicalSupportPlatform.Edu.Domain.Entities;
-using PsychologicalSupportPlatform.Edu.Domain.Entities.Tests;
 
 namespace PsychologicalSupportPlatform.Edu.Infrastructure.Data;
 
@@ -16,9 +15,9 @@ public class DataContext: DbContext
 
     public DbSet<Answer> Answers { get; set; }
 
-    public DbSet<AnswerRequest> AnswerRequests { get; set; }
+    public DbSet<QuestionResult> QuestionResults { get; set; }
     
-    public DbSet<TestResult> TestResults { get; set; }
+    public DbSet<UserTestResult> UserTestResults { get; set; }
 
     public DataContext(DbContextOptions<DataContext> options) : base(options) { }
 }
