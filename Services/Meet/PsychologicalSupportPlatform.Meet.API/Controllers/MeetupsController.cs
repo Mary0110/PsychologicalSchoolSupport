@@ -62,7 +62,7 @@ namespace PsychologicalSupportPlatform.Meet.API.Controllers
 
         [HttpPut("{id}")]
         [Authorize(Roles = Roles.Admin + "," + Roles.Psychologist)]
-        public async Task<IActionResult> UpdateMeetup([FromRoute] int id, AddMeetupDTO meetup)
+        public async Task<IActionResult> UpdateMeetup([FromRoute] int id, [FromBody] AddMeetupDTO meetup)
         {
             var command = new UpdateMeetupCommand(id, meetup);
             var response = await _mediator.Send(command);
@@ -100,7 +100,7 @@ namespace PsychologicalSupportPlatform.Meet.API.Controllers
             return Ok(response);
         }
         
-        [HttpGet("students/{studentId}/meetups")]
+        [HttpGet("students/{studentId}")]
         [Authorize(Roles = Roles.Admin + "," + Roles.Psychologist + "," + Roles.Manager)]
         public async Task<IActionResult> GetMeetupByStudentId([FromRoute] int studentId, [FromQuery] int pageNumber, [FromQuery] int pageSize)
         {
@@ -110,7 +110,7 @@ namespace PsychologicalSupportPlatform.Meet.API.Controllers
             return Ok(response);
         }
 
-        [HttpPut("student/meetup-approval/{meetupId}")]
+        [HttpPut("{meetupId}student/meetup-approval")]
         [Authorize(Roles = Roles.Student)]
         public async Task<IActionResult> ApproveMeetupByStudent(int meetupId)
         {

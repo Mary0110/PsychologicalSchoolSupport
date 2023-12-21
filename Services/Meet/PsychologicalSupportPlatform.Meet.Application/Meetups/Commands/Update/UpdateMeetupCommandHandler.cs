@@ -18,11 +18,11 @@ public class UpdateMeetupCommandHandler: IRequestHandler<UpdateMeetupCommand, in
 
     public async Task<int> Handle(UpdateMeetupCommand request, CancellationToken cancellationToken)
     {
-        var oldMeetup = await _meetupRepository.GetAsync(m => request.id == m.Id);
+        var oldMeetup = await _meetupRepository.GetAsync(m => request.Id == m.Id);
 
         if (oldMeetup is null)
         {
-            throw new EntityNotFoundException(paramname: nameof(request.id));
+            throw new EntityNotFoundException(paramname: nameof(request.Id));
         }
 
         if (oldMeetup.ScheduleCellId != request.MeetupDTO.ScheduleCellId)

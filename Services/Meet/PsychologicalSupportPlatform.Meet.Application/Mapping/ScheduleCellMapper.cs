@@ -10,10 +10,6 @@ public class ScheduleCellMapper : IRegister
 { 
         public void Register(TypeAdapterConfig config)
         {
-                config.NewConfig<ScheduleCell, CreateScheduleCellCommand>()
-                        .TwoWays()
-                        .Map(dest => dest.ScheduleCellDto, src => src);
-
                 config.NewConfig<ScheduleCell, ScheduleCellDTO>()
                         .Map(dest => dest.Hours, src => src.Time.Hour)
                         .Map(dest => dest.Minutes, src => src.Time.Minute);
@@ -26,11 +22,11 @@ public class ScheduleCellMapper : IRegister
 
                 config.NewConfig<ScheduleCellDTO, UpdateScheduleCellCommand>()
                         .TwoWays()
-                        .Map(dest => dest.scheduleCellDTO, src => src);
+                        .Map(dest => dest.ScheduleCellDto, src => src);
 
                 config.NewConfig<ScheduleCellDTO, UpdateScheduleCellCommand>()
                         .TwoWays()
-                        .Map(dest => dest.scheduleCellDTO, src => src);
+                        .Map(dest => dest.ScheduleCellDto, src => src);
 
                 config.NewConfig<CreateScheduleCellDTO, AddScheduleCellDTO>()
                         .Map(dest => dest.Time, src => new TimeOnly(src.Hours, src.Minutes))
@@ -38,12 +34,12 @@ public class ScheduleCellMapper : IRegister
                         .Map(dest => dest.Active, src => src.Active)
                         .Map(dest => dest.Day, src => src.Day);
                 
-                config.NewConfig<AddScheduleCellDTO, CreateScheduleCellCommand>()
-                        .TwoWays()
-                        .Map(dest => dest.ScheduleCellDto, src => src);
-
                 config.NewConfig<AddScheduleCellDTO, UpdateScheduleCellCommand>()
                         .TwoWays()
-                        .Map(dest => dest.scheduleCellDTO, src => src);
+                        .Map(dest => dest.ScheduleCellDto, src => src);
+                
+                config.NewConfig<CreateScheduleCellDTO, CreateScheduleCellCommand>()
+                        .TwoWays()
+                        .Map(dest => dest.ScheduleCellDto, src => src);
         }
 }

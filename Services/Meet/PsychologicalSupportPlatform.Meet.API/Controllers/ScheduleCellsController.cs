@@ -28,8 +28,7 @@ namespace PsychologicalSupportPlatform.Meet.API.Controllers
         [Authorize(Roles = Roles.Admin + "," + Roles.Psychologist)]
         public async Task<IActionResult> CreateScheduleCell(CreateScheduleCellDTO scheduleCell)
         {
-            var createCmdScheduleCell = _mapper.Map<AddScheduleCellDTO>(scheduleCell);
-            var command = _mapper.Map<CreateScheduleCellCommand>(createCmdScheduleCell);
+            var command = _mapper.Map<CreateScheduleCellCommand>(scheduleCell);
             var response = await _mediator.Send(command);
 
             return Ok(response);

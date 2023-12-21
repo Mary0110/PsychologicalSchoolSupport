@@ -15,19 +15,19 @@ public class UpdateScheduleCellCommandHandler: IRequestHandler<UpdateScheduleCel
 
     public async Task<int> Handle(UpdateScheduleCellCommand request, CancellationToken cancellationToken)
     {
-        if (request.scheduleCellDTO is null)
+        if (request.ScheduleCellDto is null)
         {
             throw new WrongRequestDataException();
         }
         
-        var oldScheduleCell = await _scheduleCellRepository.GetAsync(cell => cell.Id == request.id);
+        var oldScheduleCell = await _scheduleCellRepository.GetAsync(cell => cell.Id == request.Id);
 
         if (oldScheduleCell is null)
         {
-            throw new EntityNotFoundException(paramname: nameof(request.id));
+            throw new EntityNotFoundException(paramname: nameof(request.Id));
         }
 
-        var cellToUpdate = request.scheduleCellDTO.Adapt(oldScheduleCell);
+        var cellToUpdate = request.ScheduleCellDto.Adapt(oldScheduleCell);
         
         await _scheduleCellRepository.UpdateAsync(cellToUpdate);
         await _scheduleCellRepository.SaveAsync();
