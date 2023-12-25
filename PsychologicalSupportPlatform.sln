@@ -1,6 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{AC53B87B-E538-4BFA-A78C-A24DC163550A}"
+	ProjectSection(SolutionItems) = preProject
+		Services\docker-compose.yml = Services\docker-compose.yml
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Authorization", "Authorization", "{714FA356-50A0-405B-991B-4BE2E0F893EA}"
 EndProject

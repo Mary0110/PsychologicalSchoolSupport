@@ -39,7 +39,7 @@ namespace PsychologicalSupportPlatform.Edu.API.Controllers
         }
         
         [HttpPost]
-        [Authorize(Roles = Roles.Admin + "," + Roles.Manager)]
+        [Authorize(Roles = Roles.Admin + "," + Roles.Psychologist)]
         public async Task<IActionResult> AddTestAsync(AddTetsDTO addProductDto)
         {
             var response = await _psychologicalTestService.AddTestAsync(addProductDto);

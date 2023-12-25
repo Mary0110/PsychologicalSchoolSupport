@@ -13,7 +13,7 @@ namespace PsychologicalSupportPlatform.Edu.Application.Services;
 
 public class TestService: ITestService
 {
-    private readonly ITestResultRepository _testResultRepository;
+    private readonly IUserTestResultRepository _userTestResultRepository;
     private readonly ITestRepository _psychologicalTestRepository;
     private readonly IQuestionResultRepository _questionResultRepository;
     private readonly IQuestionRepository _questionRepository;
@@ -22,11 +22,12 @@ public class TestService: ITestService
     private readonly IUserGrpcClient _userGrpcClient;
     
 
-    public TestService(IUserGrpcClient userGrpcClient, ITestResultRepository testResultRepository,IMapper mapper, ITestRepository psychologicalTestRepository, IQuestionRepository questionRepository, IAnswerRepository answerRepository)
+    public TestService(IUserGrpcClient userGrpcClient, IUserTestResultRepository userTestResultRepository,IMapper mapper, ITestRepository psychologicalTestRepository, IQuestionRepository questionRepository, IAnswerRepository answerRepository, IQuestionResultRepository questionResultRepository)
     {
+        _questionResultRepository = questionResultRepository;
         _answerRepository = answerRepository;
         _questionRepository = questionRepository;
-        _testResultRepository = testResultRepository;
+        _userTestResultRepository = userTestResultRepository;
         _psychologicalTestRepository = psychologicalTestRepository;
         _mapper = mapper;
         _userGrpcClient = userGrpcClient;
@@ -40,8 +41,8 @@ public class TestService: ITestService
         }
 
         var testHasStudent = _mapper.Map<UserTestResult>(dto);
-        var added = await _testResultRepository.AddAsync(testHasStudent);
-        await _testResultRepository.SaveAsync();
+        var added = await _userTestResultRepository.AddAsync(testHasStudent);
+        await _userTestResultRepository.SaveAsync();
 
         var answerRequests = _mapper.Map<List<QuestionResult>>(dto.AnswerRequestDTO.QuestionResultDTOs);
         
@@ -67,7 +68,7 @@ public class TestService: ITestService
             throw new WrongRoleForActionRequested(userReply.Role);
         }
         
-        var eduMaterials = await _testResultRepository.GetAllAsync(r => r.UserId == studentId, pageNumber, pageSize);
+        var eduMaterials = await _userTestResultRepository.GetAllAsync(r => r.UserId == studentId, pageNumber, pageSize);
         var eduMaterialsDTOs = _mapper.Map<List<TestResultDTO>>(eduMaterials);
         
         return eduMaterialsDTOs; 

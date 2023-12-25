@@ -5,7 +5,7 @@ namespace PsychologicalSupportPlatform.Edu.Application.Interfaces;
 
 public interface IEduMaterialService
 {
-    Task<int> UploadEduMaterialAsync(AddEduMaterialDTO dto);
+    Task<int> UploadEduMaterialAsync(AddEduMaterialDTO dto, CancellationToken token);
     
     Task<MemoryStream> DownloadEduMaterialAsync(int id, CancellationToken token);
     
@@ -15,5 +15,5 @@ public interface IEduMaterialService
 
     Task AddEduMaterialToStudentAsync(AddEduMaterialToStudentDTO dto, CancellationToken token);
     
-    Task<IEnumerable<EduMaterialDTO>> SearchAsync(string text, CancellationToken cancellationToken);
+    Task<IEnumerable<EduMaterialDTO>> SearchAsync(string text, int pageNumber, int pageSize, CancellationToken cancellationToken);
 }

@@ -1,8 +1,13 @@
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using MapsterMapper;
 using PsychologicalSupportPlatform.Edu.API.Extensions;
+using PsychologicalSupportPlatform.Edu.Application.DTOs.Tests;
 using PsychologicalSupportPlatform.Report.API.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters();
+builder.Services.AddValidatorsFromAssemblyContaining<AddTetsDTO>();
 builder.Services.InjectRepositories();
 builder.Services.AddControllers();
 builder.Services.AddGrpc();
@@ -27,6 +32,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+await app.InitializeElasticIndex(builder.Configuration);
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();

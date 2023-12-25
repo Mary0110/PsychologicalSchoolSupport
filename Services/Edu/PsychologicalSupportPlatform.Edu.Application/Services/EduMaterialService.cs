@@ -1,5 +1,4 @@
 using MapsterMapper;
-using Microsoft.AspNetCore.Http;
 using Nest;
 using PsychologicalSupportPlatform.Common;
 using PsychologicalSupportPlatform.Common.Errors;
@@ -33,13 +32,21 @@ public class EduMaterialService: IEduMaterialService
         _elasticClient = elasticClient;
     }
 
-    public async Task<int> UploadEduMaterialAsync(AddEduMaterialDTO dto)
+    public async Task<int> UploadEduMaterialAsync(AddEduMaterialDTO dto, CancellationToken token)
     {
         var eduMaterial = _mapper.Map<EduMaterial>(dto);
 
         var added = await _eduMaterialRepository.AddAsync(eduMaterial);
         await _eduMaterialRepository.SaveAsync();
 
+        var elkDto = _mapper.Map<EduMaterialDTO>(added);
+        var resp = await _elasticClient.IndexAsync(elkDto, descriptor => descriptor.Id(elkDto.Id), token);
+       
+        if (!resp.IsValid)
+        {
+            throw new DocNotCreatedException();
+        }
+        
         await _minioRepository.UploadReportAsync(dto.file.OpenReadStream(), eduMaterial.Name);
 
         return added.Id;    
@@ -106,26 +113,31 @@ public class EduMaterialService: IEduMaterialService
         await _studentHasEduMaterialRepository.SaveAsync();
     }
 
-    public async Task<IEnumerable<EduMaterialDTO>> SearchAsync(string text, CancellationToken cancellationToken)
+    public async Task<IEnumerable<EduMaterialDTO>> SearchAsync(string text, int pageNumber, int pageSize, CancellationToken cancellationToken)
     {
+        const int boost = 15;
+        
         var searchResponse = await _elasticClient.SearchAsync<EduMaterialDTO>(s => s
-            .Query(q => q
-                .QueryString(qs => qs
-                    .Fields(f => f
-                        .Field(ff => ff.Name)
-                        .Field(ff => ff.Theme)
-                    )
-                    .Query($"*{text}*")
-                )
-            )
+                .From((pageNumber - 1) * pageSize)
+                .Size(pageSize)
+                .Query(q => q
+                    .MultiMatch(m=>m
+                        .Query(text)
+                        .Fields(descriptor => descriptor
+                            .Field(dto => dto.Name, boost: boost)
+                            .Field(dto => dto.Theme))
+                        .Type(TextQueryType.BestFields))
+                ), cancellationToken
         );
+        
         if (searchResponse.IsValid)
         {
             return searchResponse.Documents;
         }
         else
         {
-            throw new Exception($"Failed to perform search: {searchResponse.DebugInformation}");
+            var exc = searchResponse.OriginalException;
+            throw exc;
         }    
     }
 }

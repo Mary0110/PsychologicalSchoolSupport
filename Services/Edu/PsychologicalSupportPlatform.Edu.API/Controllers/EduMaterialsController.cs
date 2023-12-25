@@ -17,13 +17,14 @@ namespace PsychologicalSupportPlatform.Edu.API.Controllers
             _reportService = reportService;
         }
         
-        // [HttpGet("search")]
-        // public async Task<IActionResult> SearchAsync(
-        //     [FromQuery] string text,
-        //     CancellationToken cancellationToken = default)
-        // {
-        //     return Ok(await _reportService.SearchAsync(text, cancellationToken));
-        // }
+        [HttpGet("search")]
+        public async Task<IActionResult> SearchAsync(
+            [FromQuery] string text, 
+            [FromQuery] int pageNumber, [FromQuery] int pageSize,
+            CancellationToken cancellationToken = default)
+        {
+            return Ok(await _reportService.SearchAsync(text, pageNumber, pageSize, cancellationToken));
+        }
         
         [HttpGet("{id}")]
         [Authorize]
@@ -40,9 +41,9 @@ namespace PsychologicalSupportPlatform.Edu.API.Controllers
 
         [HttpPost]
         [Authorize(Roles = Roles.Psychologist)]
-        public async Task<IActionResult> UploadEduMaterial([FromForm] AddEduMaterialDTO dto)
+        public async Task<IActionResult> UploadEduMaterial([FromForm] AddEduMaterialDTO dto, CancellationToken token)
         {
-            var addedId = await _reportService.UploadEduMaterialAsync(dto);
+            var addedId = await _reportService.UploadEduMaterialAsync(dto, token);
 
             return Ok(addedId);
         }

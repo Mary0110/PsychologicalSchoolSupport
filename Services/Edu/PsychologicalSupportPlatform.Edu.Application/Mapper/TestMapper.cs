@@ -15,8 +15,7 @@ public class TestMapper : IRegister
 
         config.NewConfig<AddAnswerDTO, Answer>()
             .TwoWays()
-            .Map(dest => dest.AnswerText, src => src.AnswerText)
-            .Map(dest => dest.IsCorrect, src => src.IsCorrect);
+            .Map(dest => dest.AnswerText, src => src.AnswerText);
 
         config.NewConfig<AddQuestionDTO, Question>()
             .Map(dest => dest.Text, src => src.Text);

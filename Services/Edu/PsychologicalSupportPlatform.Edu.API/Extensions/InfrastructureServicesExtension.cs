@@ -3,6 +3,7 @@ using PsychologicalSupportPlatform.Common.Interfaces;
 using PsychologicalSupportPlatform.Common.Protos;
 using PsychologicalSupportPlatform.Common.Services;
 using PsychologicalSupportPlatform.Edu.Application.Interfaces;
+using PsychologicalSupportPlatform.Edu.Application.Interfaces.Tests.Services;
 using PsychologicalSupportPlatform.Edu.Application.Services;
 
 namespace PsychologicalSupportPlatform.Edu.API.Extensions;
@@ -11,6 +12,7 @@ public static class InfrastructureServicesExtension
 {
     public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
     {
+        services.AddTransient<ITestService, TestService>();
         services.AddTransient<IEduMaterialService, EduMaterialService>();
         services.AddTransient<IUserGrpcClient, UserGrpcClient>();
         var section = configuration.GetSection("GrpcConfig");
