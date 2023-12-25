@@ -1,3 +1,5 @@
-namespace PsychologicalSupportPlatform.Meet.Application.DTOs;
+namespace PsychologicalSupportPlatform.Meet.Application.DTOs.Meetup;
 
-public record AddMeetupDTO(DateOnly Date, int ScheduleCellId, int StudentId);
+public record AddMeetupDTO(DateOnly Date, int ScheduleCellId, int StudentId)
+{
+}

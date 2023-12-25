@@ -1,14 +1,26 @@
-﻿namespace PsychologicalSupportPlatform.Common;
+﻿using System.Net;
+using Microsoft.AspNetCore.Mvc;
+
+namespace PsychologicalSupportPlatform.Common;
 
 public class ResponseInfo
 {
-    public bool Success { get; set; }
+    protected HttpStatusCode Status { get; set; }
     
-    public string Message { get; set; }
-
-    public ResponseInfo(bool success, string message)
+    public ResponseInfo(HttpStatusCode status)
     {
-        Success = success;
-        Message = message;
+        Status = status;
+    }
+    
+    public virtual IActionResult ToActionResult()
+    {
+        return Status switch
+        {
+            HttpStatusCode.OK => new OkResult(),
+            HttpStatusCode.NoContent => new NoContentResult(),
+            HttpStatusCode.NotFound => new NotFoundResult(),
+            HttpStatusCode.Conflict => new ConflictResult(),
+            _ => new BadRequestResult()
+        };
     }
 }

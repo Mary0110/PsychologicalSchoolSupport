@@ -1,5 +1,6 @@
 using MediatR;
 using PsychologicalSupportPlatform.Meet.Application.DTOs;
+using PsychologicalSupportPlatform.Meet.Application.DTOs.ScheduleCell;
 
 namespace PsychologicalSupportPlatform.Meet.Application.ScheduleCells.Queries;
 

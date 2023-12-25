@@ -4,6 +4,7 @@ using PsychologicalSupportPlatform.Common;
 using PsychologicalSupportPlatform.Common.Errors;
 using PsychologicalSupportPlatform.Common.Repository;
 using PsychologicalSupportPlatform.Meet.Application.DTOs;
+using PsychologicalSupportPlatform.Meet.Application.DTOs.Meetup;
 using PsychologicalSupportPlatform.Meet.Domain.Entities;
 using PsychologicalSupportPlatform.Meet.Domain.Interfaces;
 

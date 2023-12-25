@@ -1,13 +1,27 @@
+using System.Net;
+using Microsoft.AspNetCore.Mvc;
+
 namespace PsychologicalSupportPlatform.Common;
 
-public class DataResponseInfo<T> : ResponseInfo
+public class DataResponseInfo<T>: ResponseInfo
 {
-    public T Data { get; set; }
+    private T? Data { get; set; }
 
-    public DataResponseInfo(T data, bool success, string message) : base(success, message)
+    public DataResponseInfo(HttpStatusCode status, T data):base(status)
     {
+        Status = status;
         Data = data;
-        Success = success;
-        Message = message;
+    }
+    
+    public override IActionResult ToActionResult()
+    {
+        return Status switch
+        {
+            HttpStatusCode.OK => new OkObjectResult(Data),
+            HttpStatusCode.NoContent => new NoContentResult(),
+            HttpStatusCode.NotFound => new NotFoundResult(),
+            HttpStatusCode.Conflict => new ConflictResult(),
+            _ => new BadRequestResult()
+        };
     }
 }

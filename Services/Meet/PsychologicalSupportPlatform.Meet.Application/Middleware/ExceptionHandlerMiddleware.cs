@@ -8,18 +8,18 @@ namespace PsychologicalSupportPlatform.Meet.Application.Middleware;
 
 public class ExceptionHandlerMiddleware
 {
-    private readonly RequestDelegate next;
+    private readonly RequestDelegate _next;
 
     public ExceptionHandlerMiddleware(RequestDelegate next)
     {
-        this.next = next;
+        _next = next;
     }
 
     public async Task InvokeAsync (HttpContext context) {
         
         try
         {
-            await next(context);
+            await _next(context);
         }
         catch (EntityNotFoundException ex)
         {
@@ -35,7 +35,7 @@ public class ExceptionHandlerMiddleware
 
     private async Task HandleExceptionAsync(HttpContext context, HttpStatusCode code, Exception ex)
     {
-        var response = new ResponseInfo(success: false, message: ex.Message);
+        var response = new ResponseInfo(code);
         var result = JsonSerializer.Serialize(response);
 
         var httpResponse = context.Response;

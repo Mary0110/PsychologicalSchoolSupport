@@ -49,7 +49,9 @@ public class ChatHub: Hub
     public async Task GetChatHistoryAsync(string otherUserId, int pageNumber, int pageSize, CancellationToken token = default)
     {
         var chatHistory = await _chatService.GetAllChatHistoryAsync(
-            Context.User.GetLoggedInUserId(), otherUserId, pageNumber, pageSize, token
+            new GetChatHistoryDTO(Context.User.GetLoggedInUserId(), otherUserId), 
+            pageNumber, pageSize, 
+            token
             );
         string jsonString = JsonConvert.SerializeObject(chatHistory);
 

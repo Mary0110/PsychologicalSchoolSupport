@@ -1,3 +1,4 @@
+using System.Net;
 using AutoMapper;
 using PsychologicalSupportPlatform.Authorization.Application.Interfaces;
 using PsychologicalSupportPlatform.Authorization.Domain.DTOs;
@@ -8,77 +9,78 @@ namespace PsychologicalSupportPlatform.Authorization.Application.Services;
 
 public class FormService : IFormService
 {
-    private readonly IMapper mapper;
-    private readonly IFormRepository repository;
+    private readonly IMapper _mapper;
+    private readonly IFormRepository _repository;
 
     public FormService(IFormRepository repository, IMapper mapper)
     {
-        this.repository = repository;
-        this.mapper = mapper;
+        _repository = repository;
+        _mapper = mapper;
     }
 
     public async Task<DataResponseInfo<List<AddFormDTO>>> GetAllFormsAsync(int pageNumber, int pageSize)
     {
-        var forms = await repository.GetAllFormsAsync(pageNumber, pageSize);
-        var formDTOs =  mapper.Map<List<Form>, List<AddFormDTO>>(forms);
+        var forms = await _repository.GetAllFormsAsync(pageNumber, pageSize);
+        var formDTOs =  _mapper.Map<List<Form>, List<AddFormDTO>>(forms);
 
-        return new DataResponseInfo<List<AddFormDTO>>(data: formDTOs, success: true,
-            message: "all forms");
+        return new DataResponseInfo<List<AddFormDTO>>(data: formDTOs, status: HttpStatusCode.OK);
     }
 
     public async Task<DataResponseInfo<List<AddFormDTO>>> GetFormsByParallelAsync(int num, int pageNumber, int pageSize)
     {
-        var forms = await repository.GetFormsByParallelAsync(num, pageNumber, pageSize);
+        var forms = await _repository.GetFormsByParallelAsync(num, pageNumber, pageSize);
 
-        if (forms is null) return new DataResponseInfo<List<AddFormDTO>>(data: null, success: false, 
-            message: $"parallel {num} not found");
+        if (forms is null) 
+        {
+            return new DataResponseInfo<List<AddFormDTO>>(data: null, status: HttpStatusCode.NotFound);
+        }
         
-        var formDTOs =  mapper.Map<List<Form>, List<AddFormDTO>>(forms);
+        var formDTOs =  _mapper.Map<List<Form>, List<AddFormDTO>>(forms);
 
-        return new DataResponseInfo<List<AddFormDTO>>(data: formDTOs, success: true, message: $"forms of parallel {num}");    
+        return new DataResponseInfo<List<AddFormDTO>>(data: formDTOs, status: HttpStatusCode.OK);    
     }
 
-    public async Task<ResponseInfo> DeleteFormAsync(AddFormDTO formDTO)
+    public async Task<ResponseInfo> DeleteFormAsync(int Num, char Letter)
     {
-        var form = mapper.Map<Form>(formDTO);
-        
-        if (form is null) return new ResponseInfo(success: false, message: $"form {formDTO.Parallel} {formDTO.Letter} not found");
+        var form = await _repository.GetFormAsync(Num, Letter);
 
-        await repository.DeleteFormAsync(form);
+        if (form is null)
+        {
+            return new ResponseInfo(status: HttpStatusCode.NotFound);
+        }
 
-        return new ResponseInfo(success: true, message: $"form {form.Parallel} {form.Letter} deleted");    
+        await _repository.DeleteFormAsync(form);
+
+        return new ResponseInfo(status: HttpStatusCode.NoContent);    
     }
 
     public async Task<ResponseInfo> UpdateFormAsync(AddFormDTO formDTO)
     {
-        if (formDTO == null) return new ResponseInfo(success: false, message: "wrong request data");
-        
-        var newForm = mapper.Map<Form>(formDTO);
-        var form = await repository.GetFormAsync(formDTO.Parallel, formDTO.Letter);
-        
-        if (form is null) return new ResponseInfo(success: false, message: $"form {newForm.Parallel} '{formDTO.Letter}' not found");
+        var newForm = _mapper.Map<Form>(formDTO);
+        var form = await _repository.GetFormAsync(formDTO.Parallel, formDTO.Letter);
 
-        await repository.EditFormAsync(newForm);
+        if (form is null)
+        {
+            return new ResponseInfo(status: HttpStatusCode.NotFound);
+        }
 
-        return new ResponseInfo(success: true, message: $"form {newForm.Parallel} '{formDTO.Letter}' updated");        
+        await _repository.EditFormAsync(newForm);
+
+        return new ResponseInfo(status: HttpStatusCode.OK);        
     }
 
-    public async Task<ResponseInfo> AddFormAsync(AddFormDTO formDTO)
+    public async Task<ResponseInfo> AddFormAsync(int num, char letter)
     {
-        if (formDTO is null) return new ResponseInfo(success: false, message: "wrong request data");
-        
-        var form = await repository.GetFormAsync(formDTO.Parallel, formDTO.Letter);
+        var form = await _repository.GetFormAsync(num, letter);
 
         if (form is not null)
         {
-            return new ResponseInfo(success: false, message: "this form already exists");
+            return new ResponseInfo(status: HttpStatusCode.NotFound);
         }
 
-        var newForm = mapper.Map<Form>(formDTO);
-        await repository.AddFormAsync(newForm);
-
-        form = await repository.GetFormAsync(newForm.Parallel, newForm.Letter);
-
-        return new ResponseInfo(success: true, message: $"form {form.Parallel} '{form.Letter}' registered");    
+        var newForm = new Form{Parallel = num, Letter = letter};
+        await _repository.AddFormAsync(newForm);
+        
+        return new ResponseInfo(status: HttpStatusCode.OK);    
     }
 }

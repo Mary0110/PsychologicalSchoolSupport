@@ -2,6 +2,7 @@ using MapsterMapper;
 using MediatR;
 using PsychologicalSupportPlatform.Common.Errors;
 using PsychologicalSupportPlatform.Meet.Application.DTOs;
+using PsychologicalSupportPlatform.Meet.Application.DTOs.ScheduleCell;
 using PsychologicalSupportPlatform.Meet.Domain.Interfaces;
 
 namespace PsychologicalSupportPlatform.Meet.Application.ScheduleCells.Queries;

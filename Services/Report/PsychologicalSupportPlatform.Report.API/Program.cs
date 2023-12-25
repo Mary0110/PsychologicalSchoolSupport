@@ -1,10 +1,13 @@
-using Hangfire;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using MapsterMapper;
 using PsychologicalSupportPlatform.Report.API.Extensions;
-using PsychologicalSupportPlatform.Report.Application.Interfaces;
+using PsychologicalSupportPlatform.Report.Application.DTOs;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.InjectRepositories();
+builder.Services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters();
+builder.Services.AddValidatorsFromAssemblyContaining<AddMonthlyReportDTO>();
 builder.Services.AddControllers();
 builder.Services.AddGrpc();
 builder.Services.AddInfrastructureServices(builder.Configuration);
@@ -23,9 +26,7 @@ builder.Services.ConfigureMinio(builder.Configuration);
 
 var app = builder.Build();
 
-app.UseHangfireDashboard();
-
-RecurringJob.AddOrUpdate<IMonthlyReportService>("monthly-report-job", monthlyReportService => monthlyReportService.AddMonthlyReportAsync(), Cron.Minutely);
+app.StartRecurringJob();
 
 if (app.Environment.IsDevelopment())
 {

@@ -12,17 +12,16 @@ using RabbitMQ.Client.Events;
 namespace PsychologicalSupportPlatform.Report.Application.Services;
 
  public class RabbitMQBackgroundConsumerService : BackgroundService
-{
-    public IServiceProvider Services { get; }
-    private readonly IConnection _connection;
-    private readonly IModel _channel;
+ {
+     private readonly IServiceProvider _services;
+     private readonly IModel _channel;
 
     public RabbitMQBackgroundConsumerService(IServiceProvider services, IOptions<RabbitMQConfig> rabbitMQConfig)
     {
-        Services = services;
+        _services = services;
         var factory = new ConnectionFactory(){ HostName = rabbitMQConfig.Value.HostName }; 
-        _connection = factory.CreateConnection();
-        _channel = _connection.CreateModel();
+        var connection = factory.CreateConnection();
+        _channel = connection.CreateModel();
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -40,7 +39,7 @@ namespace PsychologicalSupportPlatform.Report.Application.Services;
 
             consumer.Received += async (sender, e) =>
             {
-                using (var scope = Services.CreateScope())
+                using (var scope = _services.CreateScope())
                 {
                     var body = e.Body.ToArray();
                     var messageJson = Encoding.UTF8.GetString(body);

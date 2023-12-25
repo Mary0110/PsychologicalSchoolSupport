@@ -1,7 +1,7 @@
-using System.Configuration;
 using Hangfire;
 using PsychologicalSupportPlatform.Report.Application.Interfaces;
 using PsychologicalSupportPlatform.Report.Application.Services;
+using Hangfire;
 
 namespace PsychologicalSupportPlatform.Report.API.Extensions;
 
@@ -20,5 +20,13 @@ public static class HangfireExtension
         services.AddHangfireServer();
         
         return services;
+    }
+    
+    public static IApplicationBuilder StartRecurringJob(this IApplicationBuilder app)
+    {
+        app.UseHangfireDashboard();
+        RecurringJob.AddOrUpdate<IMonthlyReportService>("monthly-report-job", monthlyReportService => monthlyReportService.AddMonthlyReportAsync(), Cron.Monthly);
+        
+        return app;
     }
 }
