@@ -1,6 +1,7 @@
 using AutoMapper;
 using System.Security.Claims;
 using System.IdentityModel.Tokens.Jwt;
+using System.Net;
 using PsychologicalSupportPlatform.Authorization.Application.Interfaces;
 using PsychologicalSupportPlatform.Authorization.Domain.DTOs;
 using PsychologicalSupportPlatform.Authorization.Domain.Entities;
@@ -13,12 +14,12 @@ namespace PsychologicalSupportPlatform.Authorization.Application.Services;
 
 public class AccountsService : IAccountsService
 {
-    private readonly IUserRepository userRepository;
-    private readonly IStudentRepository studentRepository;
-    private readonly IOptions<AuthOptions> authOptions;
-    private readonly IMapper mapper;
-    private readonly IFormRepository formRepository;
-    private readonly IEncryptionService encryption;
+    private readonly IUserRepository _userRepository;
+    private readonly IStudentRepository _studentRepository;
+    private readonly IOptions<AuthOptions> _authOptions;
+    private readonly IMapper _mapper;
+    private readonly IFormRepository _formRepository;
+    private readonly IEncryptionService _encryption;
 
     public AccountsService(IUserRepository userRepository,
                         IStudentRepository studentRepository,
@@ -27,30 +28,30 @@ public class AccountsService : IAccountsService
                         IFormRepository formRepository,
                         IEncryptionService encryption)
     {
-        this.userRepository = userRepository;
-        this.studentRepository = studentRepository;
-        this.authOptions = authOptions;
-        this.mapper = mapper;
-        this.formRepository = formRepository;
-        this.encryption = encryption;
+        _userRepository = userRepository;
+        _studentRepository = studentRepository;
+        _authOptions = authOptions;
+        _mapper = mapper;
+        _formRepository = formRepository;
+        _encryption = encryption;
     }
 
-    public async Task<DataResponseInfo<string>> GetTokenAsync(LoginData data)
+    public async Task<DataResponseInfo<string?>> GetTokenAsync(LoginData data)
     {
-        data.Password = encryption.HashPassword(data.Password);
-        var user = await userRepository.AuthenticateUserAsync(data.Email, data.Password);
+        data.Password = _encryption.HashPassword(data.Password);
+        var user = await _userRepository.AuthenticateUserAsync(data.Email, data.Password);
 
         if (user is null)
         {
-            user = await studentRepository.AuthenticateStudentAsync(data.Email, data.Password);
+            user = await _studentRepository.AuthenticateStudentAsync(data.Email, data.Password);
 
             if (user is null)
             {
-                return new DataResponseInfo<string>(data: null, success: false, message: "user is not found");
+                return new DataResponseInfo<string?>(data: null, status: HttpStatusCode.NotFound);
             }
         }
 
-        var authParams = authOptions.Value;
+        var authParams = _authOptions.Value;
 
         var claims = new List<Claim> {
             new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
@@ -67,245 +68,210 @@ public class AccountsService : IAccountsService
                 authParams.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256)
         );
 
-        return new DataResponseInfo<string>(data: new JwtSecurityTokenHandler().WriteToken(jwt), success: true, 
-            message: "token");
+        return new DataResponseInfo<string?>(data: new JwtSecurityTokenHandler().WriteToken(jwt), status:HttpStatusCode.OK);
     }
 
     public async Task<DataResponseInfo<List<User>>> GetAllUsersAsync(int pageNumber, int pageSize)
     {
-        return new DataResponseInfo<List<User>>(data: await userRepository.GetAllUsersAsync(pageNumber, pageSize), success: true,
-            message: "all users");
+        return new DataResponseInfo<List<User>>(data: await _userRepository.GetAllUsersAsync(pageNumber, pageSize), 
+            status:HttpStatusCode.OK);
     }
 
-    public async Task<DataResponseInfo<User>> GetUserByIdAsync(int id)
+    public async Task<DataResponseInfo<User?>> GetUserByIdAsync(int id)
     {
-        var user = await userRepository.GetUserByIdAsync(id);
+        var user = await _userRepository.GetUserByIdAsync(id);
 
         if (user is null) 
         {
-            return new DataResponseInfo<User>(data: null, success: false, message: $"user with id {id} not found");
+            return new DataResponseInfo<User?>(data: null, status:HttpStatusCode.NotFound);
         }
 
-        return new DataResponseInfo<User>(data: user, success: true, message: $"user with id {user.Id}");
+        return new DataResponseInfo<User?>(data: user, status: HttpStatusCode.OK);
     }
 
-    public async Task<DataResponseInfo<AddStudentDTO>> GetStudentByIdAsync(int id)
+    public async Task<DataResponseInfo<AddStudentDTO?>> GetStudentByIdAsync(int id)
     {
-        var user = await studentRepository.GetStudentByIdAsync(id);
+        var user = await _studentRepository.GetStudentByIdAsync(id);
 
         if (user is null) 
         {
-            return new DataResponseInfo<AddStudentDTO>(data: null, success: false, 
-            message: $"user with id {id} not found");
+            return new DataResponseInfo<AddStudentDTO?>(data: null, status:HttpStatusCode.NotFound);
         }
         
-        var studDTO = mapper.Map<AddStudentDTO>(user);
+        var studDTO = _mapper.Map<AddStudentDTO>(user);
 
-        return new DataResponseInfo<AddStudentDTO>(data: studDTO, success: true, message: $"student with id {user.Id}");
+        return new DataResponseInfo<AddStudentDTO?>(data: studDTO, status: HttpStatusCode.OK);
     }
 
     public async Task<DataResponseInfo<List<AddStudentDTO>>> GetAllStudentsAsync(int pageNumber, int pageSize)
     {
-        var students = await studentRepository.GetAllStudentsAsync(pageNumber, pageSize);
-        var studDTOs =  mapper.Map<List<Student>, List<AddStudentDTO>>(students);
+        var students = await _studentRepository.GetAllStudentsAsync(pageNumber, pageSize);
+        var studDTOs =  _mapper.Map<List<Student>, List<AddStudentDTO>>(students);
 
-        return new DataResponseInfo<List<AddStudentDTO>>(data: studDTOs, success: true,
-            message: "all students");
+        return new DataResponseInfo<List<AddStudentDTO>>(data: studDTOs, status: HttpStatusCode.OK);
     }
 
     public async Task<ResponseInfo> RegisterStudentAsync(AddStudentDTO studentDTO)
     {
-        studentDTO.Password = encryption.HashPassword(studentDTO.Password);
+        studentDTO.Password = _encryption.HashPassword(studentDTO.Password);
 
-        if (studentDTO is null)
-        {
-            return new ResponseInfo(success: false, message: "wrong request data");
-        }
-
-        var student = await studentRepository.GetStudentByEmailAsync(studentDTO.Email);
+        var student = await _studentRepository.GetStudentByEmailAsync(studentDTO.Email);
 
         if (student is not null)
         {
-            return new ResponseInfo(success: false, message: "this email is already in use");
+            return new ResponseInfo(status:HttpStatusCode.NotFound);
         }
         
-        var user = await userRepository.GetUserByEmailAsync(studentDTO.Email);
+        var user = await _userRepository.GetUserByEmailAsync(studentDTO.Email);
 
         if (user is not null)
         {
-            return new ResponseInfo(success: false, message: "this email is already in use by user");
+            return new ResponseInfo(status:HttpStatusCode.NotFound);
         }
 
-        var form = await formRepository.GetFormAsync(studentDTO.Parallel, studentDTO.Letter);
+        var form = await _formRepository.GetFormAsync(studentDTO.Parallel, studentDTO.Letter);
 
         if (form is null)
         {
-            return new ResponseInfo(success: false, message: "no such form");
+            return new ResponseInfo(status:HttpStatusCode.NotFound);
         }
 
-        var newUser = mapper.Map<Student>(studentDTO);
+        var newUser = _mapper.Map<Student>(studentDTO);
         newUser.Role = Roles.Student;
         
-        await studentRepository.RegisterStudentAsync(newUser);
-        student = await studentRepository.GetStudentByEmailAsync(newUser.Email);
+        await _studentRepository.RegisterStudentAsync(newUser);
 
-        return new ResponseInfo(success: true, message: $"user with id {student.Id} registered");    
+        return new ResponseInfo(status: HttpStatusCode.OK);    
     }
 
     public async Task<ResponseInfo> RegisterUserAsync(AddUserDTO userDto)
     {
-        userDto.Password = encryption.HashPassword(userDto.Password);
+        userDto.Password = _encryption.HashPassword(userDto.Password);
 
-        if (userDto is null)
-        {
-            return new ResponseInfo(success: false, message: "wrong request data");
-        }
-
-        var user = await userRepository.GetUserByEmailAsync(userDto.Email);
+        var user = await _userRepository.GetUserByEmailAsync(userDto.Email);
 
         if (user is not null)
         {
-            return new ResponseInfo(success: false, message: "this email is already in use");
+            return new ResponseInfo(status: HttpStatusCode.Conflict);
         }
         
-        var student = await studentRepository.GetStudentByEmailAsync(userDto.Email);
+        var student = await _studentRepository.GetStudentByEmailAsync(userDto.Email);
 
         if (student is not null)
         {
-            return new ResponseInfo(success: false, message: "this email is already in use by student");
+            return new ResponseInfo(status: HttpStatusCode.Conflict);
         }
         
-        var newUser = mapper.Map<User>(userDto);
-        await userRepository.RegisterUserAsync(newUser);
-        user = await userRepository.GetUserByEmailAsync(newUser.Email);
+        var newUser = _mapper.Map<User>(userDto);
+        await _userRepository.RegisterUserAsync(newUser);
 
-        return new ResponseInfo(success: true, message: $"user with id {user.Id} registered");
+        return new ResponseInfo(status: HttpStatusCode.OK);
     }
 
     public async Task<ResponseInfo> DeleteUserAsync(int id)
     {
-        var user = await userRepository.GetUserByIdAsync(id);
+        var user = await _userRepository.GetUserByIdAsync(id);
 
         if (user is null)
         {
-            return new ResponseInfo(success: false, message: $"user with id {id} not found");
+            return new ResponseInfo(status: HttpStatusCode.NotFound);
         }
 
-        await userRepository.DeleteUserAsync(id);
+        await _userRepository.DeleteUserAsync(id);
 
-        return new ResponseInfo(success: true, message: $"user with id {id} deleted");
+        return new ResponseInfo(status: HttpStatusCode.NoContent);
     }
 
     public async Task<ResponseInfo> DeleteStudentAsync(int id)
     {
-        var user = await studentRepository.GetStudentByIdAsync(id);
+        var user = await _studentRepository.GetStudentByIdAsync(id);
 
         if (user is null)
         {
-            return new ResponseInfo(success: false, message: $"student with id {id} not found");
+            return new ResponseInfo(status: HttpStatusCode.NotFound);
         }
 
-        await studentRepository.DeleteStudentAsync(id);
+        await _studentRepository.DeleteStudentAsync(id);
 
-        return new ResponseInfo(success: true, message: $"student with id {id} deleted");    
+        return new ResponseInfo(status: HttpStatusCode.NoContent);    
     }
 
     public async Task<ResponseInfo> UpdateUserAsync(int id, UpdateUserDTO userDto)
     {
-        if (userDto == null)
-        {
-            return new ResponseInfo(success: false, message: "wrong request data");
-        }
-
-        userDto.Password = encryption.HashPassword(userDto.Password);
-        var user = await userRepository.GetUserByEmailAsync(userDto.Email);
-        var student = await studentRepository.GetStudentByEmailAsync(userDto.Email);
+        userDto.Password = _encryption.HashPassword(userDto.Password);
+        var user = await _userRepository.GetUserByEmailAsync(userDto.Email);
+        var student = await _studentRepository.GetStudentByEmailAsync(userDto.Email);
 
         if (user is not null && user.Id != id || student is not null && student.Id != id)
         {
-            return new ResponseInfo(success: false, message: "user with email already registered");
+            return new ResponseInfo(status: HttpStatusCode.Conflict);
         }
         
-        var newUser = mapper.Map<User>(userDto);
+        var newUser = _mapper.Map<User>(userDto);
         newUser.Id = id;
-        user = await userRepository.GetUserByIdAsync(id);
+        user = await _userRepository.GetUserByIdAsync(id);
 
         if (user is null)
         {
-            return new ResponseInfo(success: false, message: "user with id {newUser.Id} not found");
+            return new ResponseInfo(status: HttpStatusCode.NotFound);
         }
 
-        await userRepository.EditUserAsync(newUser);
+        newUser.Role = user.Role;
 
-        return new ResponseInfo(success: true, message: $"user with id {newUser.Id} updated");
+        await _userRepository.EditUserAsync(newUser);
+
+        return new ResponseInfo(status: HttpStatusCode.OK);
     }
 
     public async Task<ResponseInfo> UpdateStudentAsync(int id, UpdateStudentDTO studentDTO)
     {
-        studentDTO.Password = encryption.HashPassword(studentDTO.Password);
+        studentDTO.Password = _encryption.HashPassword(studentDTO.Password);
 
-        if (studentDTO == null)
-        {
-            return new ResponseInfo(success: false, message: "wrong request data");
-        }
-        
-        var user = await userRepository.GetUserByEmailAsync(studentDTO.Email);
-        var student = await studentRepository.GetStudentByEmailAsync(studentDTO.Email);
+        var user = await _userRepository.GetUserByEmailAsync(studentDTO.Email);
+        var student = await _studentRepository.GetStudentByEmailAsync(studentDTO.Email);
 
         if (user is not null  && user.Id != id || student is not null  && student.Id != id)
         {
-            return new ResponseInfo(success: false, message: "user with email already registered");
+            return new ResponseInfo(status:HttpStatusCode.Conflict);
         }
         
-        var newUser = mapper.Map<Student>(studentDTO);
+        var newUser = _mapper.Map<Student>(studentDTO);
         newUser.Id = id;
-        user = await studentRepository.GetStudentByIdAsync(id);
+        user = await _studentRepository.GetStudentByIdAsync(id);
 
         if (user is null)
         {
-            return new ResponseInfo(success: false, message: $"user with id {newUser.Id} not found");
+            return new ResponseInfo(status:HttpStatusCode.NotFound);
         }
+        
+        newUser.Role = user.Role;
+        await _studentRepository.EditStudentAsync(newUser);
 
-        await studentRepository.EditStudentAsync(newUser);
-
-        return new ResponseInfo(success: true, message: $"user with id {newUser.Id} updated");    
+        return new ResponseInfo(status: HttpStatusCode.OK);    
     }
 
     public async Task<DataResponseInfo<List<AddStudentDTO>>> GetStudentsByFormAsync(AddFormDTO formDTO, int pageNumber, int pageSize)
     {
-        var form = await formRepository.GetFormAsync(formDTO.Parallel, formDTO.Letter);
+        var form = await _formRepository.GetFormAsync(formDTO.Parallel, formDTO.Letter);
         
         if (form is null) 
         {
-            return new DataResponseInfo<List<AddStudentDTO>>(data: null, success: false, 
-            message: $"form {formDTO.Parallel} '{formDTO.Letter}' not found");
+            return new DataResponseInfo<List<AddStudentDTO>>(data: null, status:HttpStatusCode.NotFound);
         }
         
-        var users = await studentRepository.GetStudentsByFormAsync(form, pageNumber, pageSize);
+        var users = await _studentRepository.GetStudentsByFormAsync(form, pageNumber, pageSize);
 
-        if (users is null) 
-        {
-            return new DataResponseInfo<List<AddStudentDTO>>(data: null, success: false, 
-            message: $"users in {formDTO.Parallel} '{formDTO.Letter}' not found");
-        }
-        
-        var studDTOs = mapper.Map<List<Student>, List<AddStudentDTO>>(users);
+        var studDTOs = _mapper.Map<List<Student>, List<AddStudentDTO>>(users);
 
-        return new DataResponseInfo<List<AddStudentDTO>>(data: studDTOs, success: true, message: $"students from {formDTO.Parallel} '{formDTO.Letter}'");
+        return new DataResponseInfo<List<AddStudentDTO>>(data: studDTOs, status: HttpStatusCode.OK);
     }
     
     public async Task<DataResponseInfo<List<AddStudentDTO>>> GetStudentsByParallelAsync(int num, int pageNumber, int pageSize)
     {
-        var users = await studentRepository.GetStudentsByParallelAsync(num, pageNumber, pageSize);
+        var users = await _studentRepository.GetStudentsByParallelAsync(num, pageNumber, pageSize);
 
-        if (users is null) 
-        {
-            return new DataResponseInfo<List<AddStudentDTO>>(data: null, success: false, 
-            message: $"users in {num} parallel not found");
-        }
-        
-        var studDTOs = mapper.Map<List<Student>, List<AddStudentDTO>>(users);
+        var studDTOs = _mapper.Map<List<Student>, List<AddStudentDTO>>(users);
 
-        return new DataResponseInfo<List<AddStudentDTO>>(data: studDTOs, success: true, message: $"students from {num} parallel");
+        return new DataResponseInfo<List<AddStudentDTO>>(data: studDTOs, status: HttpStatusCode.OK);
     }
 }

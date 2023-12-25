@@ -6,15 +6,15 @@ namespace PsychologicalSupportPlatform.Authorization.Application.Interfaces;
 
 public interface IAccountsService
 {
-    Task<DataResponseInfo<string>> GetTokenAsync(LoginData data);
+    Task<DataResponseInfo<string?>> GetTokenAsync(LoginData data);
 
     Task<DataResponseInfo<List<User>>> GetAllUsersAsync(int pageNumber, int pageSize);
     
     Task<DataResponseInfo<List<AddStudentDTO>>> GetAllStudentsAsync(int pageNumber, int pageSize);
 
-    Task<DataResponseInfo<User>> GetUserByIdAsync(int id);
+    Task<DataResponseInfo<User?>> GetUserByIdAsync(int id);
     
-    Task<DataResponseInfo<AddStudentDTO>> GetStudentByIdAsync(int id);
+    Task<DataResponseInfo<AddStudentDTO?>> GetStudentByIdAsync(int id);
     
     Task<ResponseInfo> RegisterUserAsync(AddUserDTO user);
     

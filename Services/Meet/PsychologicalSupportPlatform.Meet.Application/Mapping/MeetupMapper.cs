@@ -12,10 +12,14 @@ public class Mapper : IRegister
 {
     public void Register(TypeAdapterConfig config)
     {
-        config.NewConfig<Meetup, OrderMeetupCommand>()
+        config.NewConfig<AddMeetupDTO, OrderMeetupCommand>()
             .TwoWays()
             .Map(dest => dest.MeetupDto, src => src);
         
+        config.NewConfig<Meetup, OrderMeetupCommand>()
+            .TwoWays()
+            .Map(dest => dest.MeetupDto, src => src);
+
         config.NewConfig<Meetup, OrderMeetupByPsychologistCommand>()
             .TwoWays()
             .Map(dest => dest.MeetupDto, src => src);

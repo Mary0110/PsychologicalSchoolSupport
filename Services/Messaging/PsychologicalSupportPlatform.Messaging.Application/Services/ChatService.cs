@@ -1,6 +1,5 @@
 using MapsterMapper;
 using PsychologicalSupportPlatform.Common;
-using PsychologicalSupportPlatform.Common.Errors;
 using PsychologicalSupportPlatform.Common.Interfaces;
 using PsychologicalSupportPlatform.Messaging.Application.DTOs;
 using PsychologicalSupportPlatform.Messaging.Application.Errors;
@@ -24,21 +23,6 @@ public class ChatService : IChatService
 
     public async Task AddMessageAsync(AddMessageDTO messageDTO, CancellationToken token)
     {
-        if (messageDTO is null)
-        {
-            throw new WrongRequestDataException(nameof(messageDTO));
-        }
-        
-        if (messageDTO.ConsumerId is null)
-        {
-            throw new WrongRequestDataException(nameof(messageDTO.ConsumerId));
-        }
-        
-        if (messageDTO.SenderId is null)
-        {
-            throw new WrongRequestDataException(nameof(messageDTO.SenderId));
-        }
-        
         var sender = await _userGrpcClient.CheckUserAsync(int.Parse(messageDTO.SenderId), token);
         var senderRole = sender.Role;
         var consumer = await _userGrpcClient.CheckUserAsync(int.Parse(messageDTO.ConsumerId), token);
@@ -57,10 +41,10 @@ public class ChatService : IChatService
         await _repository.AddAsync(message, token);
     }
 
-    public async Task<List<AddMessageDTO>> GetAllChatHistoryAsync(string curUserId, string otherUserId, int pageNumber, int pageSize, CancellationToken token)
+    public async Task<List<AddMessageDTO>> GetAllChatHistoryAsync(GetChatHistoryDTO dto, int pageNumber, int pageSize, CancellationToken token)
     {
-        var user = await _userGrpcClient.CheckUserAsync(int.Parse(otherUserId), token);
-        var messages = await _repository.GetChatHistoryAsync(curUserId, otherUserId, pageNumber, pageSize, token);
+        var user = await _userGrpcClient.CheckUserAsync(int.Parse(dto.OtherUserId), token);
+        var messages = await _repository.GetChatHistoryAsync(dto.SenderId, dto.OtherUserId, pageNumber, pageSize, token);
         var messageDTOs = _mapper.Map<List<AddMessageDTO>>(messages);
         
         return messageDTOs;    

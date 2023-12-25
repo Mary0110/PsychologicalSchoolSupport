@@ -110,7 +110,7 @@ namespace PsychologicalSupportPlatform.Meet.API.Controllers
             return Ok(response);
         }
 
-        [HttpPut("{meetupId}student/meetup-approval")]
+        [HttpPut("{meetupId}/student/meetup-approval")]
         [Authorize(Roles = Roles.Student)]
         public async Task<IActionResult> ApproveMeetupByStudent(int meetupId)
         {

@@ -5,4 +5,4 @@ using PsychologicalSupportPlatform.Meet.Application.DTOs.Meetup;
 
 namespace PsychologicalSupportPlatform.Meet.Application.Meetups.Commands.OrderMeetup;
 
-public record OrderMeetupCommand(AddMeetupDTO MeetupDto, string StudentId) : IRequest<int>;
+public record OrderMeetupCommand(AddMeetupDTO MeetupDto) : IRequest<int>;

@@ -22,12 +22,7 @@ namespace PsychologicalSupportPlatform.Authorization.API.Controllers
         {
             var response = await _accountsService.GetTokenAsync(data);
 
-            if (response.Data is null)
-            {
-                return Unauthorized(response.Message);
-            }
-
-            return Ok(new { access_token = response.Data });
+            return response.ToActionResult();
         }
         
         [HttpPost]
@@ -35,13 +30,8 @@ namespace PsychologicalSupportPlatform.Authorization.API.Controllers
         public async Task<IActionResult> RegisterUserAsync(AddUserDTO user)
         {
             var response = await _accountsService.RegisterUserAsync(user);
-
-            if (!response.Success)
-            {
-                return BadRequest(response.Message);
-            }
-
-            return Ok(response.Message);
+            
+            return response.ToActionResult();
         }
         
         [HttpPost]
@@ -49,13 +39,8 @@ namespace PsychologicalSupportPlatform.Authorization.API.Controllers
         public async Task<IActionResult> RegisterStudentAsync(AddStudentDTO student)
         {
             var response = await _accountsService.RegisterStudentAsync(student);
-
-            if (!response.Success)
-            {
-                return BadRequest(response.Message);
-            }
-
-            return Ok(response.Message);
+            
+            return response.ToActionResult();
         }
 
         [HttpGet("users")]
@@ -66,7 +51,7 @@ namespace PsychologicalSupportPlatform.Authorization.API.Controllers
         {
             var response = await _accountsService.GetAllUsersAsync(pageNumber, pageSize);
             
-            return Ok(response.Data);
+            return response.ToActionResult();
         }
         
         [HttpGet("users/{id}")]
@@ -75,27 +60,16 @@ namespace PsychologicalSupportPlatform.Authorization.API.Controllers
         {
             var response = await _accountsService.GetUserByIdAsync(id);
 
-            if (!response.Success)
-            {
-                return NotFound(response.Message);
-            }
-
-            return Ok(response.Data);
+            return response.ToActionResult();
         }
         
         [HttpPut("users/{id}")]
         [Authorize(Roles = Roles.Admin + "," + Roles.Psychologist + "," + Roles.Manager)]
         public async Task<IActionResult> UpdateUserAsync(int id, UpdateUserDTO user)
         {
-            
             var response = await _accountsService.UpdateUserAsync(id, user);
 
-            if (!response.Success)
-            {
-                return BadRequest(response.Message);
-            }
-
-            return Ok(response.Message);
+            return response.ToActionResult();
         }
         
         [HttpDelete("users/{id}")]
@@ -103,13 +77,8 @@ namespace PsychologicalSupportPlatform.Authorization.API.Controllers
         public async Task<IActionResult> DeleteUserAsync(int id)
         {
             var response = await _accountsService.DeleteUserAsync(id);
-
-            if (!response.Success)
-            {
-                return NotFound(response.Message);
-            }
-
-            return Ok(response.Message);
+            
+            return response.ToActionResult();
         }
         
         [HttpGet("students")]
@@ -120,7 +89,7 @@ namespace PsychologicalSupportPlatform.Authorization.API.Controllers
         {
             var response = await _accountsService.GetAllStudentsAsync(pageNumber, pageSize);
             
-            return Ok(response.Data);
+            return response.ToActionResult();
         }
         
         [HttpGet("students/{id}")]
@@ -128,13 +97,8 @@ namespace PsychologicalSupportPlatform.Authorization.API.Controllers
         public async Task<IActionResult> GetSingleStudentAsync(int id)
         {
             var response = await _accountsService.GetStudentByIdAsync(id);
-
-            if (!response.Success)
-            {
-                return NotFound(response.Message);
-            }
-
-            return Ok(response.Data);
+            
+            return response.ToActionResult();
         }
         
         [HttpGet("forms/{formNum}/{formLetter}/students")]
@@ -146,13 +110,8 @@ namespace PsychologicalSupportPlatform.Authorization.API.Controllers
         {
             var formDto = new AddFormDTO(formNum, formLetter);
             var response = await _accountsService.GetStudentsByFormAsync(formDto, pageNumber, pageSize);
-
-            if (!response.Success)
-            {
-                return NotFound(response.Message);
-            }
-
-            return Ok(response.Data);
+            
+            return response.ToActionResult();
         }
         
         [HttpGet("parallel/{num}/students")]
@@ -161,13 +120,8 @@ namespace PsychologicalSupportPlatform.Authorization.API.Controllers
             [FromQuery] int pageNumber, [FromQuery] int pageSize)
         {
             var response = await _accountsService.GetStudentsByParallelAsync(num, pageNumber, pageSize);
-
-            if (!response.Success)
-            {
-                return NotFound(response.Message);
-            }
-
-            return Ok(response.Data);
+            
+            return response.ToActionResult();
         }
         
         [HttpPut("students/{id}")]
@@ -176,12 +130,7 @@ namespace PsychologicalSupportPlatform.Authorization.API.Controllers
         {
             var response = await _accountsService.UpdateStudentAsync(id, user);
 
-            if (!response.Success)
-            {
-                return BadRequest(response.Message);
-            }
-
-            return Ok(response.Message);
+            return response.ToActionResult();
         }
 
         [HttpDelete("students/{id}")]
@@ -190,12 +139,7 @@ namespace PsychologicalSupportPlatform.Authorization.API.Controllers
         {
             var response = await _accountsService.DeleteStudentAsync(id);
 
-            if (!response.Success)
-            {
-                return NotFound(response.Message);
-            }
-
-            return Ok(response.Message);
+            return response.ToActionResult();
         }
     }
 }

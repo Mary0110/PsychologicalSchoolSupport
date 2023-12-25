@@ -47,11 +47,6 @@ public class OrderMeetupByPsychologistCommandHandler: IRequestHandler<OrderMeetu
 
         var newMeetup = _mapper.Map<Meetup>(request);
 
-        if (newMeetup is null)
-        {
-            throw new WrongRequestDataException();
-        }
-        
         var addedMeetup = await _meetupRepository.AddAsync(newMeetup);
         await _meetupRepository.SaveAsync();
 

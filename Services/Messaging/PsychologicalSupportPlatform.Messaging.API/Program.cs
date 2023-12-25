@@ -1,12 +1,17 @@
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using MapsterMapper;
 using PsychologicalSupportPlatform.Messaging.API.Extensions;
 using PsychologicalSupportPlatform.Messaging.API.Hubs;
+using PsychologicalSupportPlatform.Messaging.Application.DTOs;
 using PsychologicalSupportPlatform.Messaging.Application.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters();
+builder.Services.AddValidatorsFromAssemblyContaining<AddMessageDTO>();
 builder.Services.AddSwaggerGen();
 builder.Services.AddAuthenticate(builder.Configuration);
 builder.Services.AddSingleton(GetConfiguredMapping.GetConfiguredMappingConfig());

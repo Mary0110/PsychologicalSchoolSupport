@@ -47,11 +47,6 @@ public class UpdateMeetupCommandHandler: IRequestHandler<UpdateMeetupCommand, in
         
         var meetup = request.MeetupDTO.Adapt(oldMeetup);
 
-        if (meetup is null)
-        {
-            throw new WrongRequestDataException();
-        }
-
         await _meetupRepository.UpdateAsync(meetup);
         await _meetupRepository.SaveAsync();
 

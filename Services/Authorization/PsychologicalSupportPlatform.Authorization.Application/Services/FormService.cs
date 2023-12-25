@@ -1,3 +1,4 @@
+using System.Net;
 using AutoMapper;
 using PsychologicalSupportPlatform.Authorization.Application.Interfaces;
 using PsychologicalSupportPlatform.Authorization.Domain.DTOs;
@@ -22,8 +23,7 @@ public class FormService : IFormService
         var forms = await _repository.GetAllFormsAsync(pageNumber, pageSize);
         var formDTOs =  _mapper.Map<List<Form>, List<AddFormDTO>>(forms);
 
-        return new DataResponseInfo<List<AddFormDTO>>(data: formDTOs, success: true,
-            message: "all forms");
+        return new DataResponseInfo<List<AddFormDTO>>(data: formDTOs, status: HttpStatusCode.OK);
     }
 
     public async Task<DataResponseInfo<List<AddFormDTO>>> GetFormsByParallelAsync(int num, int pageNumber, int pageSize)
@@ -32,13 +32,12 @@ public class FormService : IFormService
 
         if (forms is null) 
         {
-            return new DataResponseInfo<List<AddFormDTO>>(data: null, success: false, 
-            message: $"parallel {num} not found");
+            return new DataResponseInfo<List<AddFormDTO>>(data: null, status: HttpStatusCode.NotFound);
         }
         
         var formDTOs =  _mapper.Map<List<Form>, List<AddFormDTO>>(forms);
 
-        return new DataResponseInfo<List<AddFormDTO>>(data: formDTOs, success: true, message: $"forms of parallel {num}");    
+        return new DataResponseInfo<List<AddFormDTO>>(data: formDTOs, status: HttpStatusCode.OK);    
     }
 
     public async Task<ResponseInfo> DeleteFormAsync(int Num, char Letter)
@@ -47,32 +46,27 @@ public class FormService : IFormService
 
         if (form is null)
         {
-            return new ResponseInfo(success: false, message: $"form {Num} {Letter} not found");
+            return new ResponseInfo(status: HttpStatusCode.NotFound);
         }
 
         await _repository.DeleteFormAsync(form);
 
-        return new ResponseInfo(success: true, message: $"form {form.Parallel} {form.Letter} deleted");    
+        return new ResponseInfo(status: HttpStatusCode.NoContent);    
     }
 
     public async Task<ResponseInfo> UpdateFormAsync(AddFormDTO formDTO)
     {
-        if (formDTO == null)
-        {
-            return new ResponseInfo(success: false, message: "wrong request data");
-        }
-        
         var newForm = _mapper.Map<Form>(formDTO);
         var form = await _repository.GetFormAsync(formDTO.Parallel, formDTO.Letter);
 
         if (form is null)
         {
-            return new ResponseInfo(success: false, message: $"form {newForm.Parallel} '{formDTO.Letter}' not found");
+            return new ResponseInfo(status: HttpStatusCode.NotFound);
         }
 
         await _repository.EditFormAsync(newForm);
 
-        return new ResponseInfo(success: true, message: $"form {newForm.Parallel} '{formDTO.Letter}' updated");        
+        return new ResponseInfo(status: HttpStatusCode.OK);        
     }
 
     public async Task<ResponseInfo> AddFormAsync(int num, char letter)
@@ -81,14 +75,12 @@ public class FormService : IFormService
 
         if (form is not null)
         {
-            return new ResponseInfo(success: false, message: "this form already exists");
+            return new ResponseInfo(status: HttpStatusCode.NotFound);
         }
 
         var newForm = new Form{Parallel = num, Letter = letter};
         await _repository.AddFormAsync(newForm);
-
-        form = await _repository.GetFormAsync(newForm.Parallel, newForm.Letter);
-
-        return new ResponseInfo(success: true, message: $"form {form.Parallel} '{form.Letter}' registered");    
+        
+        return new ResponseInfo(status: HttpStatusCode.OK);    
     }
 }

@@ -10,57 +10,47 @@ namespace PsychologicalSupportPlatform.Authorization.API.Controllers
     [ApiController]
     public class FormsController : ControllerBase
     {
-        private readonly IFormService formService;
+        private readonly IFormService _formService;
 
         public FormsController(IFormService formService)
         {
-            this.formService = formService;
+            _formService = formService;
         }
         
         [HttpGet]
         [Authorize]
         public async Task<IActionResult> GetAllFormsAsync([FromQuery] int pageNumber, [FromQuery] int pageSize)
         {
-            var response = await formService.GetAllFormsAsync(pageNumber, pageSize);
+            var response = await _formService.GetAllFormsAsync(pageNumber, pageSize);
             
-            return Ok(response.Data);
+            return response.ToActionResult();
         }
 
         [HttpPost("{num}/{letter}")]
         [Authorize(Roles = Roles.Admin + "," + Roles.Manager)]
         public async Task<IActionResult> AddFormAsync([FromRoute] int num, [FromRoute] char letter)
         {
-            var response = await formService.AddFormAsync(num, letter);
+            var response = await _formService.AddFormAsync(num, letter);
 
-            return Ok(response.Message);
+            return response.ToActionResult();
         }
 
         [HttpDelete("{num}/{letter}")]
         [Authorize(Roles = Roles.Admin + "," + Roles.Manager)]
-        public async Task<IActionResult> RemoveFormAsync(int formNum, char formLetter)
+        public async Task<IActionResult> RemoveFormAsync([FromRoute] int num, [FromRoute] char letter)
         {
-            var response = await formService.DeleteFormAsync(formNum, formLetter);
-
-            if (!response.Success)
-            {
-                return NotFound(response.Message);
-            }
-
-            return Ok(response.Message);
+            var response = await _formService.DeleteFormAsync(num, letter);
+            
+            return response.ToActionResult();
         }
-        
+
         [HttpGet("parallel/{num}/forms")]
         [Authorize]
         public async Task<IActionResult> GetFormsByParallelAsync([FromRoute] int num, [FromQuery] int pageNumber, [FromQuery] int pageSize)
-        {
-            var response = await formService.GetFormsByParallelAsync(num, pageNumber, pageSize);
-
-            if (!response.Success)
-            {
-                return NotFound(response.Message);
-            }
-
-            return Ok(response.Data);
+        { 
+            var response = await _formService.GetFormsByParallelAsync(num, pageNumber, pageSize);
+        
+            return response.ToActionResult();
         }
     }
 }
