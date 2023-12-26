@@ -28,11 +28,11 @@ public class TestMapper : IRegister
         config.NewConfig<AddTetsDTO, Test>()
             .TwoWays()
             .Map(dest => dest.Name, src => src.Name);
-        
+
         config.NewConfig<UserAnswerRequestDTO, UserTestResult>()
             .Map(dest => dest.UserId, src => src.UserId)
             .Map(dest => dest.DatePassed, src => DateTime.Now);
-
+        
         config.NewConfig<QuestionResultDTO, QuestionResult>()
             .Map(dest => dest.SelectedAnswerId, src => src.AnswerId);
     }

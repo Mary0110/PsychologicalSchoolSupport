@@ -11,8 +11,8 @@ public class ScheduleCellValidator: AbstractValidator<ScheduleCellDTO>
         RuleFor(dto => dto.Active).NotEmpty();
         RuleFor(dto => dto.Day).NotEmpty();
         RuleFor(dto => dto.Hours).NotEmpty()
-            .LessThanOrEqualTo(TimeOnly.MaxValue.Hour)
-            .GreaterThanOrEqualTo(TimeOnly.MinValue.Hour);
+            .LessThanOrEqualTo(20)
+            .GreaterThanOrEqualTo(8);
         RuleFor(dto => dto.Hours).NotEmpty()
             .LessThanOrEqualTo(TimeOnly.MaxValue.Minute)
             .GreaterThanOrEqualTo(TimeOnly.MinValue.Minute);

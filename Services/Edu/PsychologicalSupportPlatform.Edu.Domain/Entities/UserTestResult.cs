@@ -7,6 +7,6 @@ public class UserTestResult
     public int UserId { get; set; }
     
     public DateTime? DatePassed { get; set; } = DateTime.Now;
-    
+
     public List<QuestionResult> QuestionResults { get; set; }
 }

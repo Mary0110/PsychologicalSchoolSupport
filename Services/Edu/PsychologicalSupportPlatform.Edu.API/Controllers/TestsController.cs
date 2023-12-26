@@ -20,11 +20,11 @@ namespace PsychologicalSupportPlatform.Edu.API.Controllers
         
         [HttpPost("evaluation")]
         [Authorize]
-        public async Task<IActionResult> PassTest([FromBody] AnswerRequestDTO answers)
+        public async Task<IActionResult> PassTest([FromBody] AnswerRequestDTO answers, CancellationToken token)
         {
             var userId = User.GetLoggedInUserId();
             var passDTO = new UserAnswerRequestDTO(){UserId = userId, AnswerRequestDTO = answers};
-            await _psychologicalTestService.PassTestAsync(passDTO);
+            await _psychologicalTestService.PassTestAsync(passDTO, token);
 
             return Ok();
         }
