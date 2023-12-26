@@ -1,5 +1,4 @@
 using PsychologicalSupportPlatform.Messaging.Application.DTOs;
-using PsychologicalSupportPlatform.Messaging.Domain.Entities;
 
 namespace PsychologicalSupportPlatform.Messaging.Application.Services;
 

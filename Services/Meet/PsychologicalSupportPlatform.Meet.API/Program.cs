@@ -4,7 +4,6 @@ using FluentValidation.AspNetCore;
 using MapsterMapper;
 using PsychologicalSupportPlatform.Meet.API.Extensions;
 using PsychologicalSupportPlatform.Meet.Application;
-using PsychologicalSupportPlatform.Meet.Application.DTOs;
 using PsychologicalSupportPlatform.Meet.Application.DTOs.ScheduleCell;
 using PsychologicalSupportPlatform.Meet.Application.Middleware;
 

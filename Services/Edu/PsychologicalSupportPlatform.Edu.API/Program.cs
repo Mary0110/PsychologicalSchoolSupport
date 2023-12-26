@@ -3,7 +3,6 @@ using FluentValidation.AspNetCore;
 using MapsterMapper;
 using PsychologicalSupportPlatform.Edu.API.Extensions;
 using PsychologicalSupportPlatform.Edu.Application.DTOs.Tests;
-using PsychologicalSupportPlatform.Report.API.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters();

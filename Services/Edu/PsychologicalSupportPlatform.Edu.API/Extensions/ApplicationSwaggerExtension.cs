@@ -1,6 +1,6 @@
 using Microsoft.OpenApi.Models;
 
-namespace PsychologicalSupportPlatform.Report.API.Extensions;
+namespace PsychologicalSupportPlatform.Edu.API.Extensions;
 
 public static class ApplicationSwaggerExtension
 {

@@ -1,0 +1,24 @@
+﻿FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
+WORKDIR /app
+EXPOSE 80
+EXPOSE 443
+
+FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
+WORKDIR /src
+COPY ["./Messaging/PsychologicalSupportPlatform.Messaging.API/PsychologicalSupportPlatform.Messaging.API.csproj", "Messaging/PsychologicalSupportPlatform.Messaging.API/"]
+COPY ["./Messaging/PsychologicalSupportPlatform.Messaging.Infrastructure/PsychologicalSupportPlatform.Messaging.Infrastructure.csproj", "Messaging/PsychologicalSupportPlatform.Messaging.Infrastructure/"]
+COPY ["./Messaging/PsychologicalSupportPlatform.Messaging.Application/PsychologicalSupportPlatform.Messaging.Application.csproj", "Messaging/PsychologicalSupportPlatform.Messaging.Application/"]
+COPY ["./PsychologicalSupportPlatform.Common/PsychologicalSupportPlatform.Common.csproj", "PsychologicalSupportPlatform.Common/"]
+COPY ["./Messaging/PsychologicalSupportPlatform.Messaging.Domain/PsychologicalSupportPlatform.Messaging.Domain.csproj", "Messaging/PsychologicalSupportPlatform.Messaging.Domain/"]
+RUN dotnet restore "Messaging/PsychologicalSupportPlatform.Messaging.API/PsychologicalSupportPlatform.Messaging.API.csproj"
+COPY . .
+WORKDIR "/src"
+RUN dotnet build "Messaging/PsychologicalSupportPlatform.Messaging.API/PsychologicalSupportPlatform.Messaging.API.csproj" -c Release -o /app/build
+
+FROM build AS publish
+RUN dotnet publish "Messaging/PsychologicalSupportPlatform.Messaging.API/PsychologicalSupportPlatform.Messaging.API.csproj" -c Release -o /app/publish
+
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app/publish .
+ENTRYPOINT ["dotnet", "PsychologicalSupportPlatform.Messaging.API.dll"]

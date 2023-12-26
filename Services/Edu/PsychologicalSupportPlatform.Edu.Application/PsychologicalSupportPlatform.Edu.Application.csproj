@@ -13,8 +13,10 @@
 
     <ItemGroup>
       <PackageReference Include="Elasticsearch.Net" Version="7.13.2" />
+      <PackageReference Include="FluentValidation" Version="11.8.0" />
       <PackageReference Include="Grpc.AspNetCore.Server.ClientFactory" Version="2.59.0" />
       <PackageReference Include="Mapster" Version="7.4.0" />
+      <PackageReference Include="NEST" Version="7.13.2" />
     </ItemGroup>
 
     <ItemGroup>
