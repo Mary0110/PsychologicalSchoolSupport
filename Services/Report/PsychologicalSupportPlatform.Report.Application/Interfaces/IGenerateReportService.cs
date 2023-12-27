@@ -1,5 +1,4 @@
 using PsychologicalSupportPlatform.Common;
-using PsychologicalSupportPlatform.Report.Application.DTOs;
 
 namespace PsychologicalSupportPlatform.Report.Application.Interfaces;
 

@@ -1,5 +1,4 @@
 using MediatR;
-using PsychologicalSupportPlatform.Common.Errors;
 using PsychologicalSupportPlatform.Meet.Domain.Interfaces;
 
 namespace PsychologicalSupportPlatform.Meet.Application.Meetups.Commands.Delete;

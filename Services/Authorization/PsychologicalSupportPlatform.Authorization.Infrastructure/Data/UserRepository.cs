@@ -7,37 +7,37 @@ namespace PsychologicalSupportPlatform.Authorization.Infrastructure.Data;
 
 public class UserRepository :IUserRepository
 {
-    private readonly DataContext context;
+    private readonly DataContext _context;
 
     public UserRepository(DataContext context)
     {
-        this.context = context;
+        _context = context;
     }
 
     public async Task<User?> AuthenticateUserAsync(string email, string password)
     {
-        return await context.Users.AsNoTracking().FirstOrDefaultAsync(p => p.Email == email && p.Password == password);
+        return await _context.Users.AsNoTracking().FirstOrDefaultAsync(p => p.Email == email && p.Password == password);
     }
 
     public async Task<List<User>> GetAllUsersAsync(int pageNumber, int pageSize)
     {
-        return context.Users.AsNoTracking().ToPagedCollection(pageNumber, pageSize).ToList();
+        return _context.Users.AsNoTracking().ToPagedCollection(pageNumber, pageSize).ToList();
     }
 
     public async Task<User?> GetUserByIdAsync(int id)
     {
-        return await context.Users.AsNoTracking().FirstOrDefaultAsync(p => p.Id == id);
+        return await _context.Users.AsNoTracking().FirstOrDefaultAsync(p => p.Id == id);
     }
 
     public async Task<User?> GetUserByEmailAsync(string email)
     {
-        return await context.Users.AsNoTracking().FirstOrDefaultAsync(u => u.Email == email);
+        return await _context.Users.AsNoTracking().FirstOrDefaultAsync(u => u.Email == email);
     }
 
     public async Task RegisterUserAsync(User user)
     {
-        context.Users.Add(user);
-        await context.SaveChangesAsync();
+        _context.Users.Add(user);
+        await _context.SaveChangesAsync();
     }
 
     public async Task DeleteUserAsync(int id)
@@ -46,8 +46,8 @@ public class UserRepository :IUserRepository
 
         if (user is not null)
         {
-            context.Users.Remove(user);
-            await context.SaveChangesAsync();
+            _context.Users.Remove(user);
+            await _context.SaveChangesAsync();
         }
     }
 
@@ -57,8 +57,8 @@ public class UserRepository :IUserRepository
 
         if (prevUser is not null)
         {
-            context.Users.Update(user);
-            await context.SaveChangesAsync();
+            _context.Users.Update(user);
+            await _context.SaveChangesAsync();
         }
     }
 }

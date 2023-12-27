@@ -1,4 +1,3 @@
-using Microsoft.EntityFrameworkCore;
 using PsychologicalSupportPlatform.Authorization.Infrastructure.Data;
 
 namespace PsychologicalSupportPlatform.Authorization.API.Extensions;

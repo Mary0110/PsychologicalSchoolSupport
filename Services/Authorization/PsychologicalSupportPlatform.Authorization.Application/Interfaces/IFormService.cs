@@ -1,5 +1,4 @@
 using PsychologicalSupportPlatform.Authorization.Domain.DTOs;
-using PsychologicalSupportPlatform.Authorization.Domain.Entities;
 using PsychologicalSupportPlatform.Common;
 
 namespace PsychologicalSupportPlatform.Authorization.Application.Interfaces;

@@ -8,6 +8,7 @@ namespace PsychologicalSupportPlatform.Meet.Application.ScheduleCells.Commands.U
 public class UpdateScheduleCellCommandHandler: IRequestHandler<UpdateScheduleCellCommand, int>
 {
     private readonly IScheduleCellRepository _scheduleCellRepository;
+    
     public UpdateScheduleCellCommandHandler(IScheduleCellRepository scheduleCellRepository)
     {
         _scheduleCellRepository = scheduleCellRepository;
@@ -15,11 +16,6 @@ public class UpdateScheduleCellCommandHandler: IRequestHandler<UpdateScheduleCel
 
     public async Task<int> Handle(UpdateScheduleCellCommand request, CancellationToken cancellationToken)
     {
-        if (request.ScheduleCellDto is null)
-        {
-            throw new WrongRequestDataException();
-        }
-        
         var oldScheduleCell = await _scheduleCellRepository.GetAsync(cell => cell.Id == request.Id);
 
         if (oldScheduleCell is null)
@@ -27,7 +23,7 @@ public class UpdateScheduleCellCommandHandler: IRequestHandler<UpdateScheduleCel
             throw new EntityNotFoundException(paramname: nameof(request.Id));
         }
 
-        var cellToUpdate = request.ScheduleCellDto.Adapt(oldScheduleCell);
+        var cellToUpdate = request.Adapt(oldScheduleCell);
         
         await _scheduleCellRepository.UpdateAsync(cellToUpdate);
         await _scheduleCellRepository.SaveAsync();

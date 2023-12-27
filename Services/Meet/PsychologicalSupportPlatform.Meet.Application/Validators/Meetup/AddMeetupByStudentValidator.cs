@@ -10,6 +10,7 @@ public class AddMeetupByStudentValidator: AbstractValidator<AddMeetupByStudentDT
         RuleFor(dto => dto.Date).NotEmpty()
             .Must(MeetupValidatorHelper.IsFutureDate).WithMessage("only future dates are allowed")
             .Must(MeetupValidatorHelper.IsNotSunday).WithMessage("Sunday is not working day");
-        RuleFor(dto => dto.ScheduleCellId).NotEmpty().GreaterThanOrEqualTo(0);
+        
+        RuleFor(dto => dto.ScheduleCellId).NotEmpty().GreaterThan(0);
     }
 }

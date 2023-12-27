@@ -1,9 +1,9 @@
 namespace PsychologicalSupportPlatform.Common;
 
 public record ReportMeetupDTO(
-    string creatorName,
-    string creatorSurname,
-    string? creatorPatronymic,
+    string CreatorName,
+    string CreatorSurname,
+    string? CreatorPatronymic,
     DateOnly Date,
     string StudentName,
     string StudentSurname,
