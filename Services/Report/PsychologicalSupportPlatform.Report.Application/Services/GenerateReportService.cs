@@ -23,8 +23,8 @@ public class GenerateReportService:IGenerateReportService
             document.InsertParagraph($"Comments: {reportMeetupDtos.Comments}");
             document.InsertParagraph($"Conclusion: {reportMeetupDtos.Conclusion}");
             
-            document.InsertParagraph($"Report Created by: {reportMeetupDtos.creatorName} " +
-                                     $"{reportMeetupDtos.creatorSurname} {reportMeetupDtos.creatorPatronymic}")
+            document.InsertParagraph($"Report Created by: {reportMeetupDtos.CreatorName} " +
+                                     $"{reportMeetupDtos.CreatorSurname} {reportMeetupDtos.CreatorPatronymic}")
                 .Bold()
                 .Alignment = Alignment.right;
             document.InsertParagraph($"{DateTime.Today:dd.MM.yyyy}")

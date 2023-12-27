@@ -8,24 +8,24 @@ namespace PsychologicalSupportPlatform.Meet.Application.ScheduleCells.Commands.D
 
 public class DeleteScheduleCellCommandHandler: IRequestHandler<DeleteScheduleCellCommand, int>
 {
-    private readonly IScheduleCellRepository scheduleCellRepository;
+    private readonly IScheduleCellRepository _scheduleCellRepository;
     
     public DeleteScheduleCellCommandHandler(IScheduleCellRepository scheduleCellRepository)
     {
-        this.scheduleCellRepository = scheduleCellRepository;
+        _scheduleCellRepository = scheduleCellRepository;
     }
     
     public async Task<int> Handle(DeleteScheduleCellCommand request, CancellationToken cancellationToken)
     {
-        var scheduleCell = await scheduleCellRepository.GetAsync(cell => cell.Id == request.Id);
+        var scheduleCell = await _scheduleCellRepository.GetAsync(cell => cell.Id == request.Id);
 
         if (scheduleCell is null)
         {
             throw new EntityNotFoundException(paramname: nameof(request.Id));
         }
 
-        await scheduleCellRepository.DeleteAsync(scheduleCell);
-        await scheduleCellRepository.SaveAsync();
+        await _scheduleCellRepository.DeleteAsync(scheduleCell);
+        await _scheduleCellRepository.SaveAsync();
         
         return scheduleCell.Id;
     }

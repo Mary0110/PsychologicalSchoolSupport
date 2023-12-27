@@ -7,26 +7,26 @@ namespace PsychologicalSupportPlatform.Authorization.Infrastructure.Data;
 
 public class FormRepository : IFormRepository
 {
-    private readonly DataContext context;
+    private readonly DataContext _context;
 
     public FormRepository(DataContext context)
     {
-        this.context = context;
+        _context = context;
     }
     
     public async Task<List<Form>> GetAllFormsAsync(int pageNumber, int pageSize)
     {
-        return context.Forms.AsNoTracking().ToPagedCollection(pageNumber, pageSize).ToList();
+        return _context.Forms.AsNoTracking().ToPagedCollection(pageNumber, pageSize).ToList();
     }
 
     public async Task<Form?> GetFormAsync(int parallel, char letter)
     {
-        return await context.Forms.AsNoTracking().FirstOrDefaultAsync(p => p.Parallel == parallel && p.Letter == letter);
+        return await _context.Forms.AsNoTracking().FirstOrDefaultAsync(p => p.Parallel == parallel && p.Letter == letter);
     }
 
     public async Task<List<Form>> GetFormsByParallelAsync(int num, int pageNumber, int pageSize)
     {
-        return context.Forms.AsNoTracking().Where((p => p.Parallel == num))
+        return _context.Forms.AsNoTracking().Where((p => p.Parallel == num))
             .ToPagedCollection(pageNumber, pageSize).ToList();
     }
 
@@ -34,8 +34,8 @@ public class FormRepository : IFormRepository
     {
         if (form is not null)
         {
-            context.Forms.Remove(form);
-            await context.SaveChangesAsync();
+            _context.Forms.Remove(form);
+            await _context.SaveChangesAsync();
         }    
     }
 
@@ -43,14 +43,14 @@ public class FormRepository : IFormRepository
     {
         if (form is not null)
         {
-            context.Forms.Update(form);
-            await context.SaveChangesAsync();
+            _context.Forms.Update(form);
+            await _context.SaveChangesAsync();
         }    
     }
 
     public async Task AddFormAsync(Form form)
     {
-        context.Forms.Add(form);
-        await context.SaveChangesAsync();
+        _context.Forms.Add(form);
+        await _context.SaveChangesAsync();
     }
 }

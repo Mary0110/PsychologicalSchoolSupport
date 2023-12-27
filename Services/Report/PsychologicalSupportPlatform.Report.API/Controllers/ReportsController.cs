@@ -25,14 +25,14 @@ namespace PsychologicalSupportPlatform.Report.API.Controllers
         public async Task<IActionResult> GenerateReportAsync(GenerateReportInfoDTO infoDto, CancellationToken token)
         {
             var userId = User.GetLoggedInUserId();
-            var dto = new GenerateReportDTO(infoDto.meetId, infoDto.comments, infoDto.conclusion, 
+            var dto = new GenerateReportDTO(infoDto.MeetId, infoDto.Comments, infoDto.Conclusion, 
                 int.Parse(userId));
             var memoryStream = await _reportService.GenerateReportAsync(dto, token);
         
             return File(
                 memoryStream, 
                 "application/vnd.openxmlformats-officedocument.wordprocessingml.document", 
-                $"report{infoDto.meetId}.docx"
+                $"report{infoDto.MeetId}.docx"
                 );
         }
 

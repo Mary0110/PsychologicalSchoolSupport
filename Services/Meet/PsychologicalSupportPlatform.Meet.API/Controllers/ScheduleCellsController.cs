@@ -1,4 +1,3 @@
-using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -16,19 +15,17 @@ namespace PsychologicalSupportPlatform.Meet.API.Controllers
     public class ScheduleCellsController : ControllerBase
     {
         private readonly IMediator _mediator;
-        private readonly IMapper _mapper;
 
-        public ScheduleCellsController(IMediator mediator, IMapper mapper)
+        public ScheduleCellsController(IMediator mediator)
         {
             _mediator = mediator;
-            _mapper = mapper;
         }
         
         [HttpPost]
         [Authorize(Roles = Roles.Admin + "," + Roles.Psychologist)]
         public async Task<IActionResult> CreateScheduleCell(CreateScheduleCellDTO scheduleCell)
         {
-            var command = _mapper.Map<CreateScheduleCellCommand>(scheduleCell);
+            var command = new CreateScheduleCellCommand(scheduleCell);
             var response = await _mediator.Send(command);
 
             return Ok(response);
@@ -46,7 +43,7 @@ namespace PsychologicalSupportPlatform.Meet.API.Controllers
 
         [HttpPut("{id}")]
         [Authorize(Roles = Roles.Admin + "," + Roles.Psychologist)]
-        public async Task<IActionResult> UpdateScheduleCell([FromRoute] int id, AddScheduleCellDTO scheduleCellDTO)
+        public async Task<IActionResult> UpdateScheduleCell([FromRoute] int id, CreateScheduleCellDTO scheduleCellDTO)
         {
             var command = new UpdateScheduleCellCommand(id, scheduleCellDTO);
             var response = await _mediator.Send(command);

@@ -14,4 +14,8 @@
       <ProjectReference Include="..\..\PsychologicalSupportPlatform.Common\PsychologicalSupportPlatform.Common.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Compile Remove="Validators\StudentValidators\eqc.cs" />
+    </ItemGroup>
+
 </Project>

@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PsychologicalSupportPlatform.Authorization.Domain.Entities;
 
 namespace PsychologicalSupportPlatform.Authorization.Infrastructure.Data;

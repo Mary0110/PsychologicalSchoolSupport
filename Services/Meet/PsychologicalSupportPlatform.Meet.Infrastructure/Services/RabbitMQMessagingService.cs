@@ -8,14 +8,13 @@ namespace PsychologicalSupportPlatform.Meet.Infrastructure.Services;
 
 public class RabbitMQMessagingService : IRabbitMQMessagingService
 {
-    private readonly IConnection _connection;
     private readonly IModel _channel;
 
     public RabbitMQMessagingService(IOptions<RabbitMQConfig> rabbitMQConfig)
     {
         var factory = new ConnectionFactory() { HostName = rabbitMQConfig.Value.HostName };
-        _connection = factory.CreateConnection();
-        _channel = _connection.CreateModel();
+        var connection = factory.CreateConnection();
+        _channel = connection.CreateModel();
     }
 
     public void PublishMessage(string queue, string message)
