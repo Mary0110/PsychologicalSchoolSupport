@@ -1,5 +1,3 @@
-using System.ComponentModel;
-
 namespace PsychologicalSupportPlatform.Authorization.Domain.Entities;
 
 public class Form

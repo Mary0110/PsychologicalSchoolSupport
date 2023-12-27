@@ -6,16 +6,16 @@ namespace PsychologicalSupportPlatform.Authorization.API.GrpcServices;
 
 public class UserCheckerService : UserChecker.UserCheckerBase
 {
-    private readonly IUserRepository repository;
+    private readonly IUserRepository _repository;
 
     public UserCheckerService(IUserRepository repository)
     {
-        this.repository = repository;
+        _repository = repository;
     }
 
     public override async Task<UserReply> CheckUser(UserRequest request, ServerCallContext context)
     {
-        var record = await repository.GetUserByIdAsync(request.UserId);
+        var record = await _repository.GetUserByIdAsync(request.UserId);
         bool exists = record != null;
         
         return await Task.FromResult(new UserReply
@@ -27,7 +27,7 @@ public class UserCheckerService : UserChecker.UserCheckerBase
     
     public override async Task<UserNameReply> GetUserName(UserNameRequest request, ServerCallContext context)
     {
-        var record = await repository.GetUserByIdAsync(request.UserId);
+        var record = await _repository.GetUserByIdAsync(request.UserId);
         
         return await Task.FromResult(new UserNameReply
         {

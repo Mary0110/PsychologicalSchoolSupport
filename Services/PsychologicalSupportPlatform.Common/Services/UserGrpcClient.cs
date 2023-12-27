@@ -6,16 +6,16 @@ namespace PsychologicalSupportPlatform.Common.Services;
 
 public class UserGrpcClient : IUserGrpcClient
 {
-    private readonly UserChecker.UserCheckerClient userCheckerClient;
+    private readonly UserChecker.UserCheckerClient _userCheckerClient;
 
     public UserGrpcClient(UserChecker.UserCheckerClient userCheckerClient)
     {
-        this.userCheckerClient = userCheckerClient;
+        _userCheckerClient = userCheckerClient;
     }
 
     public async Task<UserReply> CheckUserAsync(int userId, CancellationToken token)
     {
-        var reply = await userCheckerClient.CheckUserAsync(new UserRequest { UserId = userId }, 
+        var reply = await _userCheckerClient.CheckUserAsync(new UserRequest { UserId = userId }, 
             cancellationToken: token);
         
         if (!reply.Exists)
@@ -28,7 +28,7 @@ public class UserGrpcClient : IUserGrpcClient
 
     public async Task<UserNameReply> CheckUserNameAsync(int userId, CancellationToken token)
     {
-        var reply = await userCheckerClient.GetUserNameAsync(new UserNameRequest { UserId = userId }, 
+        var reply = await _userCheckerClient.GetUserNameAsync(new UserNameRequest { UserId = userId }, 
             cancellationToken: token);
         
         if (reply is null)

@@ -1,7 +1,6 @@
 using Hangfire;
 using PsychologicalSupportPlatform.Report.Application.Interfaces;
 using PsychologicalSupportPlatform.Report.Application.Services;
-using Hangfire;
 
 namespace PsychologicalSupportPlatform.Report.API.Extensions;
 

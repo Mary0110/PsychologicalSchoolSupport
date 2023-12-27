@@ -30,19 +30,14 @@ public class FormService : IFormService
     {
         var forms = await _repository.GetFormsByParallelAsync(num, pageNumber, pageSize);
 
-        if (forms is null) 
-        {
-            return new DataResponseInfo<List<AddFormDTO>>(data: null, status: HttpStatusCode.NotFound);
-        }
-        
         var formDTOs =  _mapper.Map<List<Form>, List<AddFormDTO>>(forms);
 
         return new DataResponseInfo<List<AddFormDTO>>(data: formDTOs, status: HttpStatusCode.OK);    
     }
 
-    public async Task<ResponseInfo> DeleteFormAsync(int Num, char Letter)
+    public async Task<ResponseInfo> DeleteFormAsync(int num, char letter)
     {
-        var form = await _repository.GetFormAsync(Num, Letter);
+        var form = await _repository.GetFormAsync(num, letter);
 
         if (form is null)
         {

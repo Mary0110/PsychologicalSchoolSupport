@@ -8,6 +8,7 @@ public class GetChatHistoryValidator: AbstractValidator<GetChatHistoryDTO>
     public GetChatHistoryValidator()
     {
         RuleFor(dto => dto.OtherUserId).NotEmpty().Must(ValidatorHelper.IsValidId);
+        
         RuleFor(dto => dto.SenderId).NotEmpty().Must(ValidatorHelper.IsValidId);
     }
 }
