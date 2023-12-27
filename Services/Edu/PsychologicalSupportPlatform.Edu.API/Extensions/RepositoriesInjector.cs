@@ -1,6 +1,5 @@
 using PsychologicalSupportPlatform.Edu.Application.Interfaces;
 using PsychologicalSupportPlatform.Edu.Application.Interfaces.Tests.Repositories;
-using PsychologicalSupportPlatform.Edu.Domain.Entities;
 using PsychologicalSupportPlatform.Edu.Infrastructure.Data.Repositories;
 using PsychologicalSupportPlatform.Edu.Infrastructure.Data.Repositories.Tests;
 

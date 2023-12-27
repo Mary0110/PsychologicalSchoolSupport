@@ -11,7 +11,7 @@ public interface IEduMaterialService
     
     Task<List<EduMaterialDTO>> GetEduMaterialsByStudentAsync(int studentId, int pageNumber, int pageSize, CancellationToken token);
 
-    Task<List<EduMaterialDTO>> GetAllEduMaterialsAsync(int pageNumber, int pageSize);
+    Task<List<EduMaterialDTO>> GetAllEduMaterialsAsync(int pageNumber, int pageSize, CancellationToken token);
 
     Task AddEduMaterialToStudentAsync(AddEduMaterialToStudentDTO dto, CancellationToken token);
     

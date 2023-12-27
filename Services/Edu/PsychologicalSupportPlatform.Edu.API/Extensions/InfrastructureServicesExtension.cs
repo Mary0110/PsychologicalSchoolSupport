@@ -15,6 +15,8 @@ public static class InfrastructureServicesExtension
         services.AddTransient<ITestService, TestService>();
         services.AddTransient<IEduMaterialService, EduMaterialService>();
         services.AddTransient<IUserGrpcClient, UserGrpcClient>();
+        services.AddTransient<ICacheService, CacheService>();
+        
         var section = configuration.GetSection("GrpcConfig");
         services.Configure<GrpcConfig>(section);
         var grpcConfig = section.Get<GrpcConfig>();
