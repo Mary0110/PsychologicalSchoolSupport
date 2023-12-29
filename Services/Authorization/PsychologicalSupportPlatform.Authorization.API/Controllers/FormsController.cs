@@ -44,7 +44,7 @@ namespace PsychologicalSupportPlatform.Authorization.API.Controllers
             return response.ToActionResult();
         }
 
-        [HttpGet("parallel/{num}/forms")]
+        [HttpGet("parallel/{num}")]
         [Authorize]
         public async Task<IActionResult> GetFormsByParallelAsync([FromRoute] int num, [FromQuery] int pageNumber, [FromQuery] int pageSize)
         { 

@@ -1,0 +1,523 @@
+{
+  "GlobalConfiguration": {
+    "BaseUrl": "https://localhost:7128"
+  },
+  "Routes": [
+    // Authorization Microservice - Accounts
+    // Login
+    {
+      "UpstreamPathTemplate": "/api/accounts/login",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5131
+        }
+      ],
+      "DownstreamPathTemplate": "/api/accounts/login",
+      "SwaggerKey": "authorization",
+      "DangerousAcceptAnyServerCertificateValidator": true
+    },
+    // Get all
+    {
+      "UpstreamPathTemplate": "/api/accounts/users",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5131
+        }
+      ],
+      "DownstreamPathTemplate": "/api/accounts/users",
+      "SwaggerKey": "authorization",
+      "DangerousAcceptAnyServerCertificateValidator": true
+    },
+    {
+      "UpstreamPathTemplate": "/api/accounts/students",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5131
+        }
+      ],
+      "DownstreamPathTemplate": "/api/accounts/students",
+      "SwaggerKey": "authorization",
+      "DangerousAcceptAnyServerCertificateValidator": true
+    },
+    // Register
+    {
+      "UpstreamPathTemplate": "/api/accounts/student/register",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5131
+        }
+      ],
+      "DownstreamPathTemplate": "/api/accounts/student/register",
+      "SwaggerKey": "authorization",
+      "DangerousAcceptAnyServerCertificateValidator": true
+    },
+    {
+      "UpstreamPathTemplate": "/api/accounts/user/register",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5131
+        }
+      ],
+      "DownstreamPathTemplate": "/api/accounts/user/register",
+      "SwaggerKey": "authorization",
+      "DangerousAcceptAnyServerCertificateValidator": true
+    },
+    // By id
+    {
+      "UpstreamPathTemplate": "/api/accounts/users/{id}",
+      "UpstreamHttpMethod": [ "Get", "Put", "Delete"],
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5131
+        }
+      ],
+      "DownstreamPathTemplate": "/api/accounts/users/{id}",
+      "SwaggerKey": "authorization",
+      "DangerousAcceptAnyServerCertificateValidator": true
+    },
+    {
+      "UpstreamPathTemplate": "/api/accounts/students/{id}",
+      "UpstreamHttpMethod": [ "Put", "Delete", "Get"],
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5131
+        }
+      ],
+      "DownstreamPathTemplate": "/api/accounts/students/{id}",
+      "SwaggerKey": "authorization",
+      "DangerousAcceptAnyServerCertificateValidator": true
+    },
+    // By form
+    {
+      "UpstreamPathTemplate": "/api/accounts/forms/{formNum}/{formLetter}/students",
+      "UpstreamHttpMethod": [ "Post", "Get" ],
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5131
+        }
+      ],
+      "DownstreamPathTemplate": "/api/accounts/forms/{formNum}/{formLetter}/students",
+      "SwaggerKey": "authorization",
+      "DangerousAcceptAnyServerCertificateValidator": true
+    },
+    // By parallel
+    {
+      "UpstreamPathTemplate": "/api/accounts/parallel/{num}/students",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5131
+        }
+      ],
+      "DownstreamPathTemplate": "/api/accounts/parallel/{num}/students",
+      "SwaggerKey": "authorization",
+      "DangerousAcceptAnyServerCertificateValidator": true
+    },
+    // Authorization Microservice - Forms
+    {
+      "UpstreamPathTemplate": "/api/forms",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5131
+        }
+      ],
+      "DownstreamPathTemplate": "/api/forms",
+      "SwaggerKey": "authorization",
+      "DangerousAcceptAnyServerCertificateValidator": true
+    },
+    {
+      "UpstreamPathTemplate": "/api/forms/{num}/{letter}",
+      "UpstreamHttpMethod": [ "Post", "Delete" ],
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5131
+        }
+      ],
+      "DownstreamPathTemplate": "/api/forms/{num}/{letter}",
+      "SwaggerKey": "authorization",
+      "DangerousAcceptAnyServerCertificateValidator": true
+    },
+    {
+      "UpstreamPathTemplate": "/api/forms/parallel/{num}",
+      "UpstreamHttpMethod": [ "Post", "Delete" ],
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5131
+        }
+      ],
+      "DownstreamPathTemplate": "/api/forms/parallel/{num}",
+      "SwaggerKey": "authorization",
+      "DangerousAcceptAnyServerCertificateValidator": true
+    },
+    // Edu Microservice - EduMaterials
+    {
+      "UpstreamPathTemplate": "/api/edumaterials/search",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7256
+        }
+      ],
+      "DownstreamPathTemplate": "/api/edumaterials/search",
+      "SwaggerKey": "edu",
+      "DangerousAcceptAnyServerCertificateValidator": true
+    },
+    {
+      "UpstreamPathTemplate": "/api/edumaterials/{id}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7256
+        }
+      ],
+      "DownstreamPathTemplate": "/api/edumaterials/{id}",
+      "SwaggerKey": "edu",
+      "DangerousAcceptAnyServerCertificateValidator": true
+    },
+    {
+      "UpstreamPathTemplate": "/api/edumaterials",
+      "UpstreamHttpMethod": [ "Post" , "Get" ],
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7256
+        }
+      ],
+      "DownstreamPathTemplate": "/api/edumaterials",
+      "SwaggerKey": "edu",
+      "DangerousAcceptAnyServerCertificateValidator": true
+    },
+    {
+      "UpstreamPathTemplate": "/api/edumaterials/students/{studentId}/edu-materials/{id}",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7256
+        }
+      ],
+      "DownstreamPathTemplate": "/api/edumaterials/students/{studentId}/edu-materials/{id}",
+      "SwaggerKey": "edu",
+      "DangerousAcceptAnyServerCertificateValidator": true
+    },
+    {
+      "UpstreamPathTemplate": "/api/edumaterials/students/{studentId}/edu-materials",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7256
+        }
+      ],
+      "DownstreamPathTemplate": "/api/edumaterials/students/{studentId}/edu-materials",
+      "SwaggerKey": "edu",
+      "DangerousAcceptAnyServerCertificateValidator": true
+    },
+    // Edu Microservice - Tests
+    {
+      "UpstreamPathTemplate": "/api/tests",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7256
+        }
+      ],
+      "DownstreamPathTemplate": "/api/tests",
+      "SwaggerKey": "edu",
+      "DangerousAcceptAnyServerCertificateValidator": true
+    },
+    {
+      "UpstreamPathTemplate": "/api/tests/{id}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7256
+        }
+      ],
+      "DownstreamPathTemplate": "/api/tests/{id}",
+      "SwaggerKey": "edu",
+      "DangerousAcceptAnyServerCertificateValidator": true
+    },
+    {
+      "UpstreamPathTemplate": "/api/tests/evaluation",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7256
+        }
+      ],
+      "DownstreamPathTemplate": "/api/tests/evaluation",
+      "SwaggerKey": "edu",
+      "DangerousAcceptAnyServerCertificateValidator": true
+    },
+    // Meet Microservice - Meetups
+    // Ordering
+    {
+      "UpstreamPathTemplate": "/api/meetups/psychologist/meetup-ordering",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7074
+        }
+      ],
+      "DownstreamPathTemplate": "/api/mentors/psychologist/meetup-ordering",
+      "SwaggerKey": "meet",
+      "DangerousAcceptAnyServerCertificateValidator": true
+    },
+    {
+      "UpstreamPathTemplate": "/api/meetups/student/meetup-ordering",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7074
+        }
+      ],
+      "DownstreamPathTemplate": "/api/meetups/student/meetup-ordering",
+      "SwaggerKey": "meet",
+      "DangerousAcceptAnyServerCertificateValidator": true
+    },
+    // Meetups CRUD
+    {
+      "UpstreamPathTemplate": "/api/meetups/{id}",
+      "UpstreamHttpMethod": [ "Put", "Delete", "Get" ],
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7074
+        }
+      ],
+      "DownstreamPathTemplate": "/api/meetups/{id}",
+      "SwaggerKey": "meet",
+      "DangerousAcceptAnyServerCertificateValidator": true
+    },
+    {
+      "UpstreamPathTemplate": "/api/meetups",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7074
+        }
+      ],
+      "DownstreamPathTemplate": "/api/meetups",
+      "SwaggerKey": "meet",
+      "DangerousAcceptAnyServerCertificateValidator": true
+    },
+    {
+      "UpstreamPathTemplate": "/api/meetups/dates/{date}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7074
+        }
+      ],
+      "DownstreamPathTemplate": "/api/meetups/dates/{date}",
+      "SwaggerKey": "meet",
+      "DangerousAcceptAnyServerCertificateValidator": true
+    },
+    {
+      "UpstreamPathTemplate": "/api/meetups/students/{studentId}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7074
+        }
+      ],
+      "DownstreamPathTemplate": "/api/meetups/students/{studentId}",
+      "SwaggerKey": "meet",
+      "DangerousAcceptAnyServerCertificateValidator": true
+    },
+    // Student's approval
+    {
+      "UpstreamPathTemplate": "/api/meetups/{meetupId}/student/meetup-approval",
+      "UpstreamHttpMethod": [ "Put" ],
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7074
+        }
+      ],
+      "DownstreamPathTemplate": "/api/meetups/{meetupId}/student/meetup-approval",
+      "SwaggerKey": "meet",
+      "DangerousAcceptAnyServerCertificateValidator": true
+    },
+    // Meet Microservice - SchedulleCell
+    {
+      "UpstreamPathTemplate": "/api/schedulecells",
+      "UpstreamHttpMethod": [ "Get", "Post" ],
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7074
+        }
+      ],
+      "DownstreamPathTemplate": "/api/schedulecells",
+      "SwaggerKey": "meet",
+      "DangerousAcceptAnyServerCertificateValidator": true
+    },
+    {
+      "UpstreamPathTemplate": "/api/schedulecells/{id}",
+      "UpstreamHttpMethod": [ "Get","Put", "Delete" ],
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7074
+        }
+      ],
+      "DownstreamPathTemplate": "/api/schedulecells/{id}",
+      "SwaggerKey": "meet",
+      "DangerousAcceptAnyServerCertificateValidator": true
+    },
+    {
+      "UpstreamPathTemplate": "/api/schedulecells/days/{day}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7074
+        }
+      ],
+      "DownstreamPathTemplate": "/api/schedulecells/days/{day}",
+      "SwaggerKey": "meet",
+      "DangerousAcceptAnyServerCertificateValidator": true
+    },
+    {
+      "UpstreamPathTemplate": "/api/schedulecells/status/{active}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7074
+        }
+      ],
+      "DownstreamPathTemplate": "/api/schedulecells/status/{active}",
+      "SwaggerKey": "meet",
+      "DangerousAcceptAnyServerCertificateValidator": true
+    },
+    // Report Microservice - Reports
+    {
+      "UpstreamPathTemplate": "/api/reports",
+      "UpstreamHttpMethod": [ "Get", "Post" ],
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7181
+        }
+      ],
+      "DownstreamPathTemplate": "/api/reports",
+      "SwaggerKey": "report",
+      "DangerousAcceptAnyServerCertificateValidator": true
+    }
+  ],
+  "SwaggerEndPoints": [
+    {
+      "Key": "authorization",
+      "Config": [
+        {
+          "Name": "Identity API",
+          "Version": "v1",
+          "Url": "http://localhost:5131/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "Key": "edu",
+      "Config": [
+        {
+          "Name": "Education API",
+          "Version": "v1",
+          "Url": "https://localhost:7256/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "Key": "meet",
+      "Config": [
+        {
+          "Name": "Meeting API",
+          "Version": "v1",
+          "Url": "https://localhost:7074/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "Key": "messaging",
+      "Config": [
+        {
+          "Name": "Chat API",
+          "Version": "v1",
+          "Url": "https://localhost:7233/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "Key": "report",
+      "Config": [
+        {
+          "Name": "Report API",
+          "Version": "v1",
+          "Url": "https://localhost:7181/swagger/v1/swagger.json"
+        }
+      ]
+    }
+  ]
+}
