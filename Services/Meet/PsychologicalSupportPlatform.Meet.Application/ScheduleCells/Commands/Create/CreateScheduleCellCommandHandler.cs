@@ -1,6 +1,5 @@
 using MapsterMapper;
 using MediatR;
-using PsychologicalSupportPlatform.Common;
 using PsychologicalSupportPlatform.Common.Errors;
 using PsychologicalSupportPlatform.Meet.Domain.Interfaces;
 using PsychologicalSupportPlatform.Meet.Domain.Entities;
@@ -9,27 +8,29 @@ namespace PsychologicalSupportPlatform.Meet.Application.ScheduleCells.Commands.C
 
 public class CreateScheduleCellCommandHandler: IRequestHandler<CreateScheduleCellCommand, int>
 {
-    private readonly IScheduleCellRepository scheduleCellRepository;
-    private readonly IMapper mapper;
+    private readonly IScheduleCellRepository _scheduleCellRepository;
+    private readonly IMapper _mapper;
     
     public CreateScheduleCellCommandHandler(IScheduleCellRepository scheduleCellRepository, IMapper mapper)
     {
-        this.scheduleCellRepository = scheduleCellRepository;
-        this.mapper = mapper;
+        _scheduleCellRepository = scheduleCellRepository;
+        _mapper = mapper;
     }
 
     public async Task<int> Handle(CreateScheduleCellCommand request, CancellationToken cancellationToken)
     {
-        var newScheduleCell = mapper.Map<ScheduleCell>(request);
-        
-        if (newScheduleCell is null) throw new WrongRequestDataException();
+        var newScheduleCell = _mapper.Map<ScheduleCell>(request);
 
-        var oldScheduleCell = await scheduleCellRepository.GetScheduleCellsByDayAndTimeAsync(newScheduleCell.Day, newScheduleCell.Time);
-        
-        if (oldScheduleCell.Count != 0) throw new AlreadyExistsException();
+        var oldScheduleCells = await _scheduleCellRepository.GetScheduleCellsByDayAndTimeAsync(
+            newScheduleCell.Day, newScheduleCell.Time, newScheduleCell.PsychologistId);
+
+        if (oldScheduleCells.Count != 0)
+        {
+            throw new AlreadyExistsException();
+        }
        
-        var addedCell = await scheduleCellRepository.AddAsync(newScheduleCell);
-        await scheduleCellRepository.SaveAsync();
+        var addedCell = await _scheduleCellRepository.AddAsync(newScheduleCell);
+        await _scheduleCellRepository.SaveAsync();
 
         return addedCell.Id;
     }

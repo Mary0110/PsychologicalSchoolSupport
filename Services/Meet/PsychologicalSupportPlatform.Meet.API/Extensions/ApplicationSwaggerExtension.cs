@@ -1,6 +1,6 @@
 using Microsoft.OpenApi.Models;
 
-namespace PsychologicalSupportPlatform.Authorization.API.Extensions;
+namespace PsychologicalSupportPlatform.Meet.API.Extensions;
 
 public static class ApplicationSwaggerExtension
 {

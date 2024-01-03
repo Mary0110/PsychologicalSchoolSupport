@@ -8,7 +8,7 @@ public static class ServiceInjector
     public static IServiceCollection InjectServices(this IServiceCollection services)
     {
         services.AddTransient<IEncryptionService, EncryptionService>();
-        services.AddTransient<ILoginService, LoginService>();
+        services.AddTransient<IAccountsService, AccountsService>();
         services.AddTransient<IFormService, FormService>();
 
         return services;

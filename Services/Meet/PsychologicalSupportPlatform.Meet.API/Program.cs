@@ -2,13 +2,10 @@ using System.Reflection;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using MapsterMapper;
-using PsychologicalSupportPlatform.Authorization.API.Extensions;
 using PsychologicalSupportPlatform.Meet.API.Extensions;
 using PsychologicalSupportPlatform.Meet.Application;
-using PsychologicalSupportPlatform.Meet.Application.DTOs;
-using PsychologicalSupportPlatform.Meet.Application.Interfaces;
+using PsychologicalSupportPlatform.Meet.Application.DTOs.ScheduleCell;
 using PsychologicalSupportPlatform.Meet.Application.Middleware;
-using PsychologicalSupportPlatform.Meet.Infrastructure.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 

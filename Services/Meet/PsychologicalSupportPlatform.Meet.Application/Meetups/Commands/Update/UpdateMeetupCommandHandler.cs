@@ -1,57 +1,54 @@
-using MapsterMapper;
+using Mapster;
 using MediatR;
 using PsychologicalSupportPlatform.Common.Errors;
-using PsychologicalSupportPlatform.Meet.Domain.Entities;
 using PsychologicalSupportPlatform.Meet.Domain.Interfaces;
 
 namespace PsychologicalSupportPlatform.Meet.Application.Meetups.Commands.Update;
 
 public class UpdateMeetupCommandHandler: IRequestHandler<UpdateMeetupCommand, int>
 {
-    private readonly IMeetupRepository meetupRepository;
-    private readonly IScheduleCellRepository scheduleCellRepository;
-    private readonly IMapper mapper;
+    private readonly IMeetupRepository _meetupRepository;
+    private readonly IScheduleCellRepository _scheduleCellRepository;
     
-    public UpdateMeetupCommandHandler(IMeetupRepository meetupRepository, IMapper mapper,  IScheduleCellRepository scheduleCellRepository)
+    public UpdateMeetupCommandHandler(IMeetupRepository meetupRepository,  IScheduleCellRepository scheduleCellRepository)
     {
-        this.meetupRepository = meetupRepository;
-        this.scheduleCellRepository = scheduleCellRepository;
-        this.mapper = mapper;
+        _meetupRepository = meetupRepository;
+        _scheduleCellRepository = scheduleCellRepository;
     }
 
     public async Task<int> Handle(UpdateMeetupCommand request, CancellationToken cancellationToken)
     {
-        var meetup = mapper.Map<Meetup>(request.MeetupDTO);
-
-        if (meetup is null)
-        {
-            throw new WrongRequestDataException();
-        }
-
-        var oldMeetup = await meetupRepository.GetAsync(m => meetup.Id == m.Id);
+        var oldMeetup = await _meetupRepository.GetAsync(m => request.Id == m.Id);
 
         if (oldMeetup is null)
         {
-            throw new EntityNotFoundException(paramname: nameof(meetup.Id));
+            throw new EntityNotFoundException(paramname: nameof(request.Id));
         }
 
-        if (oldMeetup.ScheduleCellId != meetup.ScheduleCellId)
+        if (oldMeetup.ScheduleCellId != request.MeetupDTO.ScheduleCellId)
         {
-            var newScheduleCell = await scheduleCellRepository.GetByIdAsync(meetup.ScheduleCellId);
+            var newScheduleCell = await _scheduleCellRepository.GetByIdAsync(request.MeetupDTO.ScheduleCellId);
 
             if (newScheduleCell is null)
             {
-                throw new EntityNotFoundException(paramname: nameof(meetup.ScheduleCellId));
+                throw new EntityNotFoundException(paramname: nameof(request.MeetupDTO.ScheduleCellId));
             }
 
             if (!HandlerHelper.IsScheduleCellAvailable(newScheduleCell))
             {
                 throw new AlreadyExistsException();
             }
+            
+            if (request.MeetupDTO.Date.DayOfWeek != newScheduleCell.Day)
+            {
+                throw new WrongDateWeekdayException();
+            }
         }
+        
+        var meetup = request.MeetupDTO.Adapt(oldMeetup);
 
-        await meetupRepository.UpdateAsync(meetup);
-        await meetupRepository.SaveAsync();
+        await _meetupRepository.UpdateAsync(meetup);
+        await _meetupRepository.SaveAsync();
 
         return meetup.Id;
     }

@@ -28,12 +28,7 @@ public class ReportService: IReportService
     public async Task<int> AddMeetupReportAsync(MeetupMessageObject form)
     {
         var newMeetupReport = _mapper.Map<MeetupReport>(form);
-    
-        if (newMeetupReport is null)
-        {
-            throw new WrongRequestDataException();
-        }
-        
+
         var meetupReport = await _repository.AddAsync(newMeetupReport);
         await _repository.SaveAsync();
     
@@ -63,7 +58,7 @@ public class ReportService: IReportService
             DateOnly.FromDateTime(DateTime.Now), 
             studentReply.Name, 
             studentReply.Surname, 
-            studentReply.Patronymic,  
+            studentReply.Patronymic,
             dto.Comments, 
             dto.Conclusion
             );

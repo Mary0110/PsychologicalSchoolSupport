@@ -13,6 +13,8 @@ public static class InfrastructureServicesExtension
     {
         services.AddTransient<IGenerateReportService, GenerateReportService>();
         services.AddTransient<IReportService, ReportService>();
+        services.AddTransient<IGenerateMonthlyReportService, GenerateMonthlyReportService>();
+
         services.AddTransient<IUserGrpcClient, UserGrpcClient>();
         var section = configuration.GetSection("GrpcConfig");
         services.Configure<GrpcConfig>(section);

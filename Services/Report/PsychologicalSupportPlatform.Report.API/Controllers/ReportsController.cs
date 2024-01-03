@@ -10,12 +10,14 @@ namespace PsychologicalSupportPlatform.Report.API.Controllers
     [Route("api/[controller]")]
     [ApiController]
     public class ReportsController : ControllerBase
-    {
-        private readonly IReportService _service;
+    { 
+        private readonly IReportService _reportService;
+        private readonly IMonthlyReportService _monthlyReportService;
 
-        public ReportsController(IReportService formService)
+        public ReportsController(IReportService reportService, IMonthlyReportService monthlyReportService)
         {
-            _service = formService;
+            _reportService = reportService;
+            _monthlyReportService = monthlyReportService;
         }
         
         [HttpPost]
@@ -23,11 +25,28 @@ namespace PsychologicalSupportPlatform.Report.API.Controllers
         public async Task<IActionResult> GenerateReportAsync(GenerateReportInfoDTO infoDto, CancellationToken token)
         {
             var userId = User.GetLoggedInUserId();
-            var dto = new GenerateReportDTO(infoDto.meetId, infoDto.comments, infoDto.conclusion, 
+            var dto = new GenerateReportDTO(infoDto.MeetId, infoDto.Comments, infoDto.Conclusion, 
                 int.Parse(userId));
-            var memoryStream = await _service.GenerateReportAsync(dto, token);
+            var memoryStream = await _reportService.GenerateReportAsync(dto, token);
         
-            return File(memoryStream, "application/vnd.openxmlformats-officedocument.wordprocessingml.document", $"report{infoDto.meetId}.docx");
+            return File(
+                memoryStream, 
+                "application/vnd.openxmlformats-officedocument.wordprocessingml.document", 
+                $"report{infoDto.MeetId}.docx"
+                );
+        }
+
+        [HttpGet]
+        [Authorize(Roles = Roles.Manager + "," + Roles.Psychologist)]
+        public async Task<IActionResult> GetMonthlyReportAsync([FromQuery] GetMonthlyReportDTO num, CancellationToken token)
+        {
+            var memoryStream = await _monthlyReportService.GetMonthlyReportAsync(num, token);
+
+            return File(
+                memoryStream, 
+                "application/vnd.openxmlformats-officedocument.wordprocessingml.document", 
+                $"report{num.Month}.docx"
+            );
         }
     }
 }

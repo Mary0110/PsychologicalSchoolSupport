@@ -1,7 +1,6 @@
 using MediatR;
-using PsychologicalSupportPlatform.Common;
-using PsychologicalSupportPlatform.Meet.Application.DTOs;
+using PsychologicalSupportPlatform.Meet.Application.DTOs.ScheduleCell;
 
 namespace PsychologicalSupportPlatform.Meet.Application.ScheduleCells.Commands.Update;
 
-public record UpdateScheduleCellCommand(ScheduleCellDTO scheduleCellDTO): IRequest<int>;
+public record UpdateScheduleCellCommand(int Id, CreateScheduleCellDTO ScheduleCellDto): IRequest<int>;

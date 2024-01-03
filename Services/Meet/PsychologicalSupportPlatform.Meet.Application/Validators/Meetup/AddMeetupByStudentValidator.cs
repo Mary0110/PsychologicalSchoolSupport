@@ -8,18 +8,9 @@ public class AddMeetupByStudentValidator: AbstractValidator<AddMeetupByStudentDT
     public AddMeetupByStudentValidator()
     {
         RuleFor(dto => dto.Date).NotEmpty()
-            .Must(IsFutureDate).WithMessage("only future dates are allowed")
-            .Must(IsNotSunday).WithMessage("Sunday is not working day");
-        RuleFor(dto => dto.ScheduleCellId).NotEmpty().GreaterThanOrEqualTo(0);
-    }
-
-    private static bool IsNotSunday(DateOnly date)
-    {
-        return !(date.DayOfWeek is DayOfWeek.Sunday);
-    }
-    
-    private static bool IsFutureDate(DateOnly date)
-    {
-        return date >= DateOnly.FromDateTime(DateTime.Now);
+            .Must(MeetupValidatorHelper.IsFutureDate).WithMessage("only future dates are allowed")
+            .Must(MeetupValidatorHelper.IsNotSunday).WithMessage("Sunday is not working day");
+        
+        RuleFor(dto => dto.ScheduleCellId).NotEmpty().GreaterThan(0);
     }
 }

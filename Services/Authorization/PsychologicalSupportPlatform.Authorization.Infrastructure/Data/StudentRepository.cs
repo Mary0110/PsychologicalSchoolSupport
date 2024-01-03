@@ -7,27 +7,27 @@ namespace PsychologicalSupportPlatform.Authorization.Infrastructure.Data;
 
 public class StudentRepository : IStudentRepository
 {
-    private readonly DataContext context;
+    private readonly DataContext _context;
 
     public StudentRepository(DataContext context)
     {
-        this.context = context;
+        _context = context;
     }
     
     public async Task<List<Student>> GetAllStudentsAsync(int pageNumber, int pageSize)
     {
-        return context.Students.AsNoTracking().ToPagedCollection(pageNumber, pageSize).ToList();
+        return _context.Students.AsNoTracking().ToPagedCollection(pageNumber, pageSize).ToList();
     }
 
     public async Task<List<Student>> GetStudentsByFormAsync(Form form, int pageNumber, int pageSize)
     {
-        return context.Students.AsNoTracking().Where(p => p.Parallel == form.Parallel && p.Letter == form.Letter)
+        return _context.Students.AsNoTracking().Where(p => p.Parallel == form.Parallel && p.Letter == form.Letter)
             .ToPagedCollection(pageNumber, pageSize).ToList();
     }
 
     public async Task<List<Student>> GetStudentsByParallelAsync(int num, int pageNumber, int pageSize)
     {
-        return context.Students.Where(p => p.Parallel == num).AsNoTracking() 
+        return _context.Students.Where(p => p.Parallel == num).AsNoTracking() 
             .ToPagedCollection(pageNumber, pageSize).ToList();
     }
 
@@ -37,30 +37,30 @@ public class StudentRepository : IStudentRepository
 
         if (prevUser is not null)
         {
-            context.Students.Update(student);
-            await context.SaveChangesAsync();
+            _context.Students.Update(student);
+            await _context.SaveChangesAsync();
         }
     }    
 
     public async Task<Student?> GetStudentByIdAsync(int id)
     {
-        return await context.Students.AsNoTracking().FirstOrDefaultAsync(p => p.Id == id);
+        return await _context.Students.AsNoTracking().FirstOrDefaultAsync(p => p.Id == id);
     }
 
     public async Task<Student?> GetStudentByEmailAsync(string email)
     {
-        return await context.Students.AsNoTracking().FirstOrDefaultAsync(u => u.Email == email);
+        return await _context.Students.AsNoTracking().FirstOrDefaultAsync(u => u.Email == email);
     }
 
     public async Task<Student?> AuthenticateStudentAsync(string email, string password)
     {
-        return await context.Students.AsNoTracking().FirstOrDefaultAsync(p => p.Email == email && p.Password == password);
+        return await _context.Students.AsNoTracking().FirstOrDefaultAsync(p => p.Email == email && p.Password == password);
     }
 
     public async Task RegisterStudentAsync(Student student)
     {
-        context.Students.Add(student);
-        await context.SaveChangesAsync();
+        _context.Students.Add(student);
+        await _context.SaveChangesAsync();
     }
 
     public async Task DeleteStudentAsync(int id)
@@ -69,8 +69,8 @@ public class StudentRepository : IStudentRepository
 
         if (user is not null)
         {
-            context.Students.Remove(user);
-            await context.SaveChangesAsync();
+            _context.Students.Remove(user);
+            await _context.SaveChangesAsync();
         }
     }
 }

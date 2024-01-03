@@ -1,32 +1,32 @@
 using MapsterMapper;
 using MediatR;
 using PsychologicalSupportPlatform.Common.Errors;
-using PsychologicalSupportPlatform.Meet.Application.DTOs;
+using PsychologicalSupportPlatform.Meet.Application.DTOs.ScheduleCell;
 using PsychologicalSupportPlatform.Meet.Domain.Interfaces;
 
 namespace PsychologicalSupportPlatform.Meet.Application.ScheduleCells.Queries;
 
 public class GetScheduleCellByIdHandler : IRequestHandler<GetScheduleCellByIdQuery, ScheduleCellDTO>
 {
-    private readonly IScheduleCellRepository scheduleCellRepository;
-    private readonly IMapper mapper;
+    private readonly IScheduleCellRepository _scheduleCellRepository;
+    private readonly IMapper _mapper;
 
     public GetScheduleCellByIdHandler(IScheduleCellRepository scheduleCellRepository, IMapper mapper)
     {
-        this.scheduleCellRepository = scheduleCellRepository;
-        this.mapper = mapper;
+        _scheduleCellRepository = scheduleCellRepository;
+        _mapper = mapper;
     }
     
     public async Task<ScheduleCellDTO> Handle(GetScheduleCellByIdQuery request, CancellationToken cancellationToken)
     {
-        var scheduleCell = await scheduleCellRepository.GetByIdAsync(request.Id);
+        var scheduleCell = await _scheduleCellRepository.GetByIdAsync(request.Id);
 
         if (scheduleCell is null)
         {
             throw new EntityNotFoundException(nameof(request.Id));
         }
 
-        var scheduleCellModel = mapper.Map<ScheduleCellDTO>(scheduleCell);
+        var scheduleCellModel = _mapper.Map<ScheduleCellDTO>(scheduleCell);
 
         return scheduleCellModel;
     }

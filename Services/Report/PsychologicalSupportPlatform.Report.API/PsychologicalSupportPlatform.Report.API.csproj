@@ -7,15 +7,22 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
+        <PackageReference Include="Hangfire.AspNetCore" Version="1.8.6" />
+        <PackageReference Include="Hangfire.Core" Version="1.8.6" />
+        <PackageReference Include="Hangfire.RecurringJobExtensions" Version="1.1.6" />
+        <PackageReference Include="Hangfire.SqlServer" Version="1.8.6" />
         <PackageReference Include="Mapster.DependencyInjection" Version="1.0.1" />
         <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.13" />
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.5" />
+        <PackageReference Include="Microsoft.Data.SqlClient" Version="5.1.2" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.14">
           <PrivateAssets>all</PrivateAssets>
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
         <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.13" />
         <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="7.0.11" />
+        <PackageReference Include="Minio" Version="6.0.1" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
     </ItemGroup>
 
@@ -26,7 +33,7 @@
     <ItemGroup>
       <ProjectReference Include="..\..\PsychologicalSupportPlatform.Common\PsychologicalSupportPlatform.Common.csproj" />
       <ProjectReference Include="..\PsychologicalSupportPlatform.Report.Application\PsychologicalSupportPlatform.Report.Application.csproj" />
-      <ProjectReference Include="..\PsychologicalSupportPlatform.Report.Infrastracture\PsychologicalSupportPlatform.Report.Infrastracture.csproj" />
+      <ProjectReference Include="..\PsychologicalSupportPlatform.Report.Infrastructure\PsychologicalSupportPlatform.Report.Infrastructure.csproj" />
     </ItemGroup>
 
 </Project>

@@ -108,4 +108,13 @@ public abstract class SQLRepository<TDbContext, TEntity> : ISQLRepository<TEntit
 
         return pagedQuery.ToList();
     }
+    
+    public async Task<List<TEntity>> GetAllBySpecificationAsync(
+        Specification<TEntity> specification
+    )
+    {
+        var query = SpecificationQueryBuilder.GetQuery(_table.AsQueryable(), specification);
+
+        return query.ToList();
+    }
 }

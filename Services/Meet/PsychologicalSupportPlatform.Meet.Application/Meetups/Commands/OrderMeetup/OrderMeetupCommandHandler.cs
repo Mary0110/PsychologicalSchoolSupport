@@ -1,6 +1,5 @@
 using MapsterMapper;
 using MediatR;
-using PsychologicalSupportPlatform.Common;
 using PsychologicalSupportPlatform.Common.Errors;
 using PsychologicalSupportPlatform.Meet.Domain.Entities;
 using PsychologicalSupportPlatform.Meet.Domain.Interfaces;
@@ -9,20 +8,20 @@ namespace PsychologicalSupportPlatform.Meet.Application.Meetups.Commands.OrderMe
 
 public class OrderMeetupCommandHandler: IRequestHandler<OrderMeetupCommand, int>
 {
-    private readonly IMeetupRepository meetupRepository;
-    private readonly IScheduleCellRepository scheduleCellRepository;
-    private readonly IMapper mapper;
+    private readonly IMeetupRepository _meetupRepository;
+    private readonly IScheduleCellRepository _scheduleCellRepository;
+    private readonly IMapper _mapper;
     
     public OrderMeetupCommandHandler(IMeetupRepository meetupRepository, IScheduleCellRepository scheduleCellRepository, IMapper mapper)
     {
-        this.meetupRepository = meetupRepository;
-        this.scheduleCellRepository = scheduleCellRepository;
-        this.mapper = mapper;
+        _meetupRepository = meetupRepository;
+        _scheduleCellRepository = scheduleCellRepository;
+        _mapper = mapper;
     }
 
     public async Task<int> Handle(OrderMeetupCommand request, CancellationToken cancellationToken)
     {
-        var chosenScheduleCell = await scheduleCellRepository.GetByIdAsync(request.MeetupDto.ScheduleCellId);
+        var chosenScheduleCell = await _scheduleCellRepository.GetByIdAsync(request.MeetupDto.ScheduleCellId);
 
         if (chosenScheduleCell is null)
         {
@@ -39,15 +38,10 @@ public class OrderMeetupCommandHandler: IRequestHandler<OrderMeetupCommand, int>
             throw new AlreadyExistsException();
         }
 
-        var newMeetup = mapper.Map<Meetup>(request);
+        var newMeetup = _mapper.Map<Meetup>(request);
 
-        if (newMeetup is null)
-        {
-            throw new WrongRequestDataException();
-        }
-        
-        var addedMeetup = await meetupRepository.AddAsync(newMeetup);
-        await meetupRepository.SaveAsync();
+        var addedMeetup = await _meetupRepository.AddAsync(newMeetup);
+        await _meetupRepository.SaveAsync();
 
         return addedMeetup.Id;
     }

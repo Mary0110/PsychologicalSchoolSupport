@@ -1,5 +1,3 @@
-using PsychologicalSupportPlatform.Authorization.Domain.Entities;
-
 namespace PsychologicalSupportPlatform.Authorization.Domain.DTOs;
 
 public class AddStudentDTO
