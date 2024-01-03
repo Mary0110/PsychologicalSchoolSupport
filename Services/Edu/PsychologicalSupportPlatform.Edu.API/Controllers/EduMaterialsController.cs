@@ -19,11 +19,10 @@ namespace PsychologicalSupportPlatform.Edu.API.Controllers
         
         [HttpGet("search")]
         public async Task<IActionResult> SearchAsync(
-            [FromQuery] string text, 
-            [FromQuery] int pageNumber, [FromQuery] int pageSize,
+            [FromQuery] SearchEduMaterialDTO dto,
             CancellationToken cancellationToken = default)
         {
-            return Ok(await _reportService.SearchAsync(text, pageNumber, pageSize, cancellationToken));
+            return Ok(await _reportService.SearchAsync(dto, cancellationToken));
         }
         
         [HttpGet("{id}")]
@@ -50,7 +49,8 @@ namespace PsychologicalSupportPlatform.Edu.API.Controllers
         
         [HttpPost("students/{studentId}/edu-materials/{id}")]
         [Authorize(Roles = Roles.Psychologist)]
-        public async Task<IActionResult> AddMaterialToStudent([FromRoute] int studentId, [FromRoute] int id, CancellationToken token)
+        public async Task<IActionResult> AddMaterialToStudent([FromRoute] int studentId, [FromRoute] int id, 
+            CancellationToken token)
         {
             var dto = new AddEduMaterialToStudentDTO(studentId, id);
             await _reportService.AddEduMaterialToStudentAsync(dto, token);
@@ -60,9 +60,11 @@ namespace PsychologicalSupportPlatform.Edu.API.Controllers
         
         [HttpGet("students/{studentId}/edu-materials")]
         [Authorize(Roles = Roles.Psychologist +","+Roles.Student)]
-        public async Task<IActionResult> GetMaterialsByStudent(int studentId, [FromQuery] int pageNumber, [FromQuery] int pageSize, CancellationToken token)
+        public async Task<IActionResult> GetMaterialsByStudent([FromRoute] int studentId, [FromQuery] int pageNumber, 
+            [FromQuery] int pageSize, CancellationToken token)
         {
-            var materials = await _reportService.GetEduMaterialsByStudentAsync(studentId, pageNumber, pageSize, token);
+            var materials = await _reportService.GetEduMaterialsByStudentAsync(
+                new GetEduMaterialByStudentDTO(studentId, pageNumber, pageSize), token);
 
             return Ok(materials);
         }

@@ -1,4 +1,6 @@
+using PsychologicalSupportPlatform.Common;
 using PsychologicalSupportPlatform.Common.Repository;
+using PsychologicalSupportPlatform.Edu.Application.DTOs;
 using PsychologicalSupportPlatform.Edu.Application.Interfaces;
 using PsychologicalSupportPlatform.Edu.Domain.Entities;
 
@@ -10,11 +12,12 @@ public class StudentHasEduMaterialRepository: SQLRepository<DataContext, Student
     {
     }
     
-    public async Task<List<EduMaterial>> GetEduMaterialsByStudentAsync(int studentId, int pageNumber, int pageSize)
+    public async Task<List<EduMaterial>> GetEduMaterialsByStudentAsync(GetEduMaterialByStudentDTO dto)
     {
         var result = DbContext.StudentHasEduMaterials
-            .Where(shm => shm.StudentId == studentId)
+            .Where(shm => shm.StudentId == dto.StudentId)
             .Select(shm => shm.EduMaterial)
+            .ToPagedCollection(dto.PageNumber, dto.PageSize)
             .ToList();
 
         return result;    

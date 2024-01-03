@@ -45,12 +45,8 @@ public class TestService: ITestService
         await _userTestResultRepository.SaveAsync();
 
         var answerRequests = _mapper.Map<List<QuestionResult>>(dto.AnswerRequestDTO.QuestionResultDTOs);
-        
-        foreach (var entity in answerRequests)
-        {
-            entity.UserTestResultId = added.Id;
-        }
-        
+        answerRequests.ForEach(result => result.UserTestResultId = added.Id);
+
         await _questionResultRepository.AddRangeAsync(answerRequests);
         await _questionResultRepository.SaveAsync();
     }
@@ -90,11 +86,7 @@ public class TestService: ITestService
             var addedQuestion = await _questionRepository.AddAsync(el);
             await _questionRepository.SaveAsync();
             var answerList = _mapper.Map<List<Answer>>(addProductDto.Questions[i].Answers);
-            
-            foreach (var answer in answerList)
-            {
-                answer.QuestionId = addedQuestion.Id;
-            }
+            answerList.ForEach(answer => answer.QuestionId = addedQuestion.Id);
 
             await _answerRepository.AddRangeAsync(answerList);
             await _answerRepository.SaveAsync();

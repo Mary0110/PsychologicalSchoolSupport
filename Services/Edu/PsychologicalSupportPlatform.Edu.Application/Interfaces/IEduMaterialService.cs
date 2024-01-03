@@ -9,11 +9,11 @@ public interface IEduMaterialService
     
     Task<MemoryStream> DownloadEduMaterialAsync(int id, CancellationToken token);
     
-    Task<List<EduMaterialDTO>> GetEduMaterialsByStudentAsync(int studentId, int pageNumber, int pageSize, CancellationToken token);
+    Task<List<EduMaterialDTO>> GetEduMaterialsByStudentAsync(GetEduMaterialByStudentDTO dto, CancellationToken token);
 
     Task<List<EduMaterialDTO>> GetAllEduMaterialsAsync(int pageNumber, int pageSize);
 
     Task AddEduMaterialToStudentAsync(AddEduMaterialToStudentDTO dto, CancellationToken token);
     
-    Task<IEnumerable<EduMaterialDTO>> SearchAsync(string text, int pageNumber, int pageSize, CancellationToken cancellationToken);
+    Task<IEnumerable<EduMaterialDTO>> SearchAsync(SearchEduMaterialDTO dto, CancellationToken cancellationToken);
 }
