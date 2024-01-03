@@ -49,8 +49,9 @@ public class EduMaterialService: IEduMaterialService
         await _eduMaterialRepository.SaveAsync();
 
         var elkDto = _mapper.Map<EduMaterialDTO>(added);
-        var resp = await _elasticClient.IndexAsync(elkDto, descriptor => descriptor.Id(elkDto.Id), token);
-
+        var resp = await _elasticClient.IndexAsync(elkDto, descriptor => 
+            descriptor.Id(elkDto.Id), token);
+       
         if (!resp.IsValid)
         {
             throw new DocNotCreatedException();
@@ -88,9 +89,10 @@ public class EduMaterialService: IEduMaterialService
         return memoryStream;
     }
 
-    public async Task<List<EduMaterialDTO>> GetEduMaterialsByStudentAsync(int studentId, int pageNumber, int pageSize, CancellationToken token)
+    public async Task<List<EduMaterialDTO>> GetEduMaterialsByStudentAsync(GetEduMaterialByStudentDTO dto, 
+        CancellationToken token)
     {
-        var cacheKey = JsonConvert.SerializeObject(new {student = studentId, num =  pageNumber, size = pageSize});
+        var cacheKey = JsonConvert.SerializeObject(new {student = dto.StudentId, num =  dto.PageNumber, size = dto.PageSize});
         var cacheResult = await _cache.GetAsync<List<EduMaterialDTO>>(cacheKey, token);
 
         if (cacheResult is not null)
@@ -98,11 +100,11 @@ public class EduMaterialService: IEduMaterialService
             return cacheResult;
         }
         
-        var userReply = await _userGrpcClient.CheckUserAsync(studentId, token);
+        var userReply = await _userGrpcClient.CheckUserAsync(dto.StudentId, token);
 
         if (!userReply.Exists)
         {
-            throw new EntityNotFoundException(nameof(studentId));
+            throw new EntityNotFoundException(nameof(dto.StudentId));
         }
 
         if (userReply.Role != Roles.Student)
@@ -110,8 +112,8 @@ public class EduMaterialService: IEduMaterialService
             throw new WrongRoleForActionRequested(userReply.Role);
         }
         
-        var eduMaterials = await _studentHasEduMaterialRepository
-            .GetEduMaterialsByStudentAsync(studentId, pageNumber, pageSize);
+        var eduMaterials = await _studentHasEduMaterialRepository.GetEduMaterialsByStudentAsync(
+            dto);
         var eduMaterialsDTOs = _mapper.Map<List<EduMaterialDTO>>(eduMaterials);
         await _cache.SetAsync(cacheKey, eduMaterialsDTOs, token);
         
@@ -166,7 +168,7 @@ public class EduMaterialService: IEduMaterialService
         await _studentHasEduMaterialRepository.SaveAsync();
     }
 
-    public async Task<IEnumerable<EduMaterialDTO>> SearchAsync(string text, int pageNumber, int pageSize, CancellationToken cancellationToken)
+    public async Task<IEnumerable<EduMaterialDTO>> SearchAsync(SearchEduMaterialDTO dto, CancellationToken cancellationToken)
     {
         var cacheKey = JsonConvert.SerializeObject(new {text, pageNumber, pageSize});
         var cacheResponse = await _cache.GetAsync<IEnumerable<EduMaterialDTO>>(cacheKey, cancellationToken);
@@ -177,14 +179,14 @@ public class EduMaterialService: IEduMaterialService
         }
         
         var searchResponse = await _elasticClient.SearchAsync<EduMaterialDTO>(s => s
-                .From((pageNumber - 1) * pageSize)
-                .Size(pageSize)
+                .From((dto.PageNumber - 1) * dto.PageSize)
+                .Size(dto.PageSize)
                 .Query(q => q
-                    .MultiMatch(m => m
-                        .Query(text)
+                    .MultiMatch(m=>m
+                        .Query(dto.Text)
                         .Fields(descriptor => descriptor
-                            .Field(dto => dto.Name, boost: 15)
-                            .Field(dto => dto.Theme))
+                            .Field(material => material.Name, boost: 15)
+                            .Field(material => material.Theme))
                         .Type(TextQueryType.BestFields))
                 ), cancellationToken
         );
