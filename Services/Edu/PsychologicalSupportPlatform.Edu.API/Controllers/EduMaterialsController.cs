@@ -71,9 +71,10 @@ namespace PsychologicalSupportPlatform.Edu.API.Controllers
         
         [HttpGet]
         [Authorize(Roles = Roles.Psychologist)]
-        public async Task<IActionResult> GetMaterials([FromQuery] int pageNumber, [FromQuery] int pageSize)
+        public async Task<IActionResult> GetMaterials([FromQuery] int pageNumber, [FromQuery] int pageSize,
+            CancellationToken token)
         {
-            var materials = await _reportService.GetAllEduMaterialsAsync(pageNumber, pageSize);
+            var materials = await _reportService.GetAllEduMaterialsAsync(pageNumber, pageSize, token);
 
             return Ok(materials);
         }

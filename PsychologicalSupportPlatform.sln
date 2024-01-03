@@ -8,6 +8,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{AC
 		Services\.dockerignore = Services\.dockerignore
 		Dockerfile_report = Dockerfile_report
 		Dockerfile_messaging = Dockerfile_messaging
+		Services\Dockerfile_messaging = Services\Dockerfile_messaging
+		Services\Dockerfile_report = Services\Dockerfile_report
+		Services\Dockerfileedu = Services\Dockerfileedu
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Authorization", "Authorization", "{714FA356-50A0-405B-991B-4BE2E0F893EA}"

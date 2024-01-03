@@ -14,7 +14,7 @@ services:
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
       - discovery.type=single-node 
     networks:
-      - elasticnetwork
+      - platform
       
   kibana:
     container_name: kibana 
@@ -26,10 +26,21 @@ services:
     environment:
       - ELASTICSEARCH_URL=http://localhost:9200
     networks:
-      - elasticnetwork
+      - platform
+    
+  redis:
+    image: redis:latest
+    ports:
+      - 6379:6379
+    restart: unless-stopped
+    volumes:
+      - redis-data:/data/redis
+    networks:
+      - platform
         
 networks:
-  elasticnetwork:
-    name: elasticnetwork
+  platform:
+    name: platform
 volumes:
   elasticsearch-data:
+  redis-data:  

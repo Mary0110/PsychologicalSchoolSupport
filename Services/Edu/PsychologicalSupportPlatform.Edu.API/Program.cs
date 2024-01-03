@@ -22,6 +22,7 @@ builder.Services.AddDatabaseContext(builder.Configuration);
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
 builder.Services.ConfigureMinio(builder.Configuration);
 builder.Services.AddElasticSearch(builder.Configuration);
+builder.Services.AddRedis(builder.Configuration);
 
 var app = builder.Build();
 
