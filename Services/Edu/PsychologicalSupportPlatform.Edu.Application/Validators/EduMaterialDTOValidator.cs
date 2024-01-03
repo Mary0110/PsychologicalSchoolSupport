@@ -8,7 +8,9 @@ public class EduMaterialDTOValidator: AbstractValidator<EduMaterialDTO>
     public EduMaterialDTOValidator()
     {
         RuleFor(dto => dto.Id).NotEmpty().GreaterThan(0);
+        
         RuleFor(dto => dto.Name).NotEmpty().MaximumLength(50);
+        
         RuleFor(dto => dto.Theme).NotEmpty().MaximumLength(50);
     }
 }

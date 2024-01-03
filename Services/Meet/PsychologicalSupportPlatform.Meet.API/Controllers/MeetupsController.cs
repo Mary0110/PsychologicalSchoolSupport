@@ -92,7 +92,8 @@ namespace PsychologicalSupportPlatform.Meet.API.Controllers
         
         [HttpGet("dates/{date}")]
         [Authorize(Roles = Roles.Admin + "," + Roles.Psychologist + "," + Roles.Manager)]
-        public async Task<IActionResult> GetMeetupByDate([FromRoute] DateOnly date, [FromQuery] int pageNumber, [FromQuery] int pageSize)
+        public async Task<IActionResult> GetMeetupByDate([FromRoute] DateOnly date, [FromQuery] int pageNumber, 
+            [FromQuery] int pageSize)
         {
             var command = new GetMeetupsByDateQuery(date, pageNumber, pageSize);
             var response = await _mediator.Send(command);
@@ -102,7 +103,8 @@ namespace PsychologicalSupportPlatform.Meet.API.Controllers
         
         [HttpGet("students/{studentId}")]
         [Authorize(Roles = Roles.Admin + "," + Roles.Psychologist + "," + Roles.Manager)]
-        public async Task<IActionResult> GetMeetupByStudentId([FromRoute] int studentId, [FromQuery] int pageNumber, [FromQuery] int pageSize)
+        public async Task<IActionResult> GetMeetupByStudentId([FromRoute] int studentId, 
+            [FromQuery] int pageNumber, [FromQuery] int pageSize)
         {
             var command = new GetMeetupsByStudentIdQuery(studentId, pageNumber, pageSize);
             var response = await _mediator.Send(command);

@@ -9,7 +9,8 @@ public static class DbContextAdder
     {
         services.AddDbContext<DataContext>(
             opt => opt.UseSqlServer(conf.GetConnectionString("DefaultConnection"),
-                b => b.MigrationsAssembly(conf.GetSection("MigrationsAssembly").Get<string>())));
+                b => b.MigrationsAssembly(
+                    conf.GetSection("MigrationsAssembly").Get<string>())));
         
         return services;
     }

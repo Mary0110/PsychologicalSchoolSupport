@@ -8,6 +8,7 @@ public class AnswerRequestDTOValidator: AbstractValidator<AnswerRequestDTO>
     public AnswerRequestDTOValidator()
     {
         RuleFor(dto => dto.TestId).NotEmpty().GreaterThan(0);
+        
         RuleFor(dto => dto.QuestionResultDTOs).NotNull();
     }
 }

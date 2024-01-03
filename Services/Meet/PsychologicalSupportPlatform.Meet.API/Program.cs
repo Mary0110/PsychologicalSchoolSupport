@@ -16,7 +16,8 @@ builder.Services.AddControllers();
 builder.Services.AddSwagger();
 builder.Services.AddAuthenticate(builder.Configuration);
 builder.Services.AddInfrastructure();
-builder.Services.AddMediatR(config => config.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly(), AssemblyReference.Assembly));
+builder.Services.AddMediatR(config => config.RegisterServicesFromAssemblies(
+    Assembly.GetExecutingAssembly(), AssemblyReference.Assembly));
 builder.Services.AddSingleton(GetConfiguredMapping.GetConfiguredMappingConfig());
 builder.Services.AddScoped<IMapper, ServiceMapper>();
 builder.Services.AddRabbitMQ(builder.Configuration);

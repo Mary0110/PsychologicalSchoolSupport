@@ -4,7 +4,7 @@ namespace PsychologicalSupportPlatform.Edu.API.Extensions;
 
 public static class IndexInitializerExtension
 {
-    public static async Task<IHost> InitializeElasticIndex(this IHost app, IConfiguration configuration)
+    public static async Task<IHost> InitializeElasticIndex(this IHost app)
     {
         using var scope = app.Services.CreateScope();
         var services = scope.ServiceProvider;

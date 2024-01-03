@@ -8,6 +8,7 @@ public class AddQuestionDTOValidator: AbstractValidator<AddQuestionDTO>
     public AddQuestionDTOValidator()
     {
         RuleFor(dto => dto.Text).NotEmpty().MaximumLength(100);
+        
         RuleFor(dto => dto.Answers).NotEmpty();
     }
 }

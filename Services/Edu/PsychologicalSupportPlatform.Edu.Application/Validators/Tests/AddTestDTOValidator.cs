@@ -8,6 +8,7 @@ public class AddTestDTOValidator: AbstractValidator<AddTetsDTO>
     public AddTestDTOValidator()
     {
         RuleFor(dto => dto.Name).NotEmpty().MaximumLength(50);
+        
         RuleFor(dto => dto.Questions).NotEmpty();
     }
 }

@@ -10,7 +10,8 @@ public class UpdateMeetupCommandHandler: IRequestHandler<UpdateMeetupCommand, in
     private readonly IMeetupRepository _meetupRepository;
     private readonly IScheduleCellRepository _scheduleCellRepository;
     
-    public UpdateMeetupCommandHandler(IMeetupRepository meetupRepository,  IScheduleCellRepository scheduleCellRepository)
+    public UpdateMeetupCommandHandler(IMeetupRepository meetupRepository, 
+        IScheduleCellRepository scheduleCellRepository)
     {
         _meetupRepository = meetupRepository;
         _scheduleCellRepository = scheduleCellRepository;

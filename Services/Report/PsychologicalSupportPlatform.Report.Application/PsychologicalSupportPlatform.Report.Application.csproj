@@ -8,6 +8,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\PsychologicalSupportPlatform.Common\PsychologicalSupportPlatform.Common.csproj" />
+      <ProjectReference Include="..\PsychologicalSupportPlatform.Report.Domain\&#xA;      PsychologicalSupportPlatform.Report.Domain.csproj" />
       <ProjectReference Include="..\PsychologicalSupportPlatform.Report.Domain\PsychologicalSupportPlatform.Report.Domain.csproj" />
     </ItemGroup>
 

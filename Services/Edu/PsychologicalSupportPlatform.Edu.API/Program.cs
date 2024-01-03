@@ -32,7 +32,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-await app.InitializeElasticIndex(builder.Configuration);
+await app.InitializeElasticIndex();
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();

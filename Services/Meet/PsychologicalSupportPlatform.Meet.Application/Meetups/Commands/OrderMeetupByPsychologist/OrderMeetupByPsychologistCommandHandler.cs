@@ -12,7 +12,8 @@ public class OrderMeetupByPsychologistCommandHandler: IRequestHandler<OrderMeetu
     private readonly IScheduleCellRepository _scheduleCellRepository;
     private readonly IMapper _mapper;
     
-    public OrderMeetupByPsychologistCommandHandler(IMeetupRepository meetupRepository, IScheduleCellRepository scheduleCellRepository, IMapper mapper)
+    public OrderMeetupByPsychologistCommandHandler(IMeetupRepository meetupRepository, 
+        IScheduleCellRepository scheduleCellRepository, IMapper mapper)
     {
         _meetupRepository = meetupRepository;
         _scheduleCellRepository = scheduleCellRepository;

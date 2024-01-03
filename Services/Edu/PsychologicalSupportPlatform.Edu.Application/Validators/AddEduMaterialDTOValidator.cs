@@ -8,6 +8,7 @@ public class AddEduMaterialDTOValidator: AbstractValidator<AddEduMaterialDTO>
     public AddEduMaterialDTOValidator()
     {
         RuleFor(dto => dto.Name).NotEmpty();
+        
         RuleFor(dto => dto.Theme).NotEmpty();
     }
 }

@@ -10,7 +10,8 @@ namespace PsychologicalSupportPlatform.Edu.API.Extensions;
 
 public static class InfrastructureServicesExtension
 {
-    public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddInfrastructureServices(this IServiceCollection services,
+        IConfiguration configuration)
     {
         services.AddTransient<ITestService, TestService>();
         services.AddTransient<IEduMaterialService, EduMaterialService>();

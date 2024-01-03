@@ -10,7 +10,8 @@ public static class HandlerHelper
         
         if (!hasOrderedMeetups)
         {
-            var hasOrderedMeetupsToday = scheduleCell.Meetups.Any(m => m.Date == DateOnly.FromDateTime(DateTime.Now));
+            var hasOrderedMeetupsToday = scheduleCell.Meetups.Any(m => 
+                m.Date == DateOnly.FromDateTime(DateTime.Now));
             
             if (hasOrderedMeetupsToday)
             {

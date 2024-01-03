@@ -46,7 +46,8 @@ namespace PsychologicalSupportPlatform.Authorization.API.Controllers
 
         [HttpGet("parallel/{num}")]
         [Authorize]
-        public async Task<IActionResult> GetFormsByParallelAsync([FromRoute] int num, [FromQuery] int pageNumber, [FromQuery] int pageSize)
+        public async Task<IActionResult> GetFormsByParallelAsync([FromRoute] int num, [FromQuery] int pageNumber, 
+            [FromQuery] int pageSize)
         { 
             var response = await _formService.GetFormsByParallelAsync(num, pageNumber, pageSize);
         

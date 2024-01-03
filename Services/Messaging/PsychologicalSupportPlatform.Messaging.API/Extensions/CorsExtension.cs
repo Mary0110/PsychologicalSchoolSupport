@@ -4,6 +4,7 @@ namespace PsychologicalSupportPlatform.Messaging.API.Extensions;
 
 public static class CorsExtension
 {
+    //TODO:replace by allow al origins
     public static IServiceCollection AddCorsPolicy(this IServiceCollection services, IConfiguration configuration)
     {
         var section = configuration.GetSection("SignalRClientConfig");

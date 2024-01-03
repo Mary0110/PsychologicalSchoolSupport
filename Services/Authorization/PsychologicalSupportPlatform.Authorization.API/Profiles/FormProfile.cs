@@ -9,6 +9,7 @@ public class FormProfile: Profile
     public FormProfile()
     {
         CreateMap<AddFormDTO, Form>();
+        
         CreateMap<Form, AddFormDTO>();
     }
 }

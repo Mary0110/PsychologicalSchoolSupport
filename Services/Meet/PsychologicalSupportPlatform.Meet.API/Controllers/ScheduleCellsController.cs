@@ -73,7 +73,8 @@ namespace PsychologicalSupportPlatform.Meet.API.Controllers
         
         [HttpGet("days/{day}")]
         [Authorize]
-        public async Task<IActionResult> GetScheduleCellsByDayOfWeek([FromRoute] DayOfWeek day, [FromQuery] int pageNumber, [FromQuery] int pageSize)
+        public async Task<IActionResult> GetScheduleCellsByDayOfWeek([FromRoute] DayOfWeek day, 
+            [FromQuery] int pageNumber, [FromQuery] int pageSize)
         {
             var command = new GetScheduleCellsByDayOfWeekQuery(day, pageNumber, pageSize);
             var response = await _mediator.Send(command);

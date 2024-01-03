@@ -2,15 +2,13 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{AC53B87B-E538-4BFA-A78C-A24DC163550A}"
 	ProjectSection(SolutionItems) = preProject
-		Services\docker-compose.yml = Services\docker-compose.yml
 		Services\Dockerfile_meet = Services\Dockerfile_meet
 		Services\Dockerfile = Services\Dockerfile
 		Services\.dockerignore = Services\.dockerignore
-		Dockerfile_report = Dockerfile_report
-		Dockerfile_messaging = Dockerfile_messaging
 		Services\Dockerfile_messaging = Services\Dockerfile_messaging
 		Services\Dockerfile_report = Services\Dockerfile_report
 		Services\Dockerfileedu = Services\Dockerfileedu
+		Services\Common.env = Services\Common.env
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Authorization", "Authorization", "{714FA356-50A0-405B-991B-4BE2E0F893EA}"
@@ -65,9 +63,110 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PsychologicalSupportPlatfor
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PsychologicalSupportPlatform.Edu.API", "Services\Edu\PsychologicalSupportPlatform.Edu.API\PsychologicalSupportPlatform.Edu.API.csproj", "{5A3C1C41-9247-4921-8422-C529FADD3E41}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PsychologicalSupportPlatform.Gateway", "Services\PsychologicalSupportPlatform.Gateway\PsychologicalSupportPlatform.Gateway.csproj", "{EB0A9236-A6C3-4197-AFB2-2F68300005BB}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Gateways", "Gateways", "{9FD1FE9E-6352-46F8-8D88-37B74CB30034}"
+	ProjectSection(SolutionItems) = preProject
+		Gateways\PsychologicalSupportPlatform.Gateway\PsychologicalSupportPlatform.Gateway.csproj = Gateways\PsychologicalSupportPlatform.Gateway\PsychologicalSupportPlatform.Gateway.csproj
+		Gateways\PsychologicalSupportPlatform.Gateway\obj\rider.project.restore.info = Gateways\PsychologicalSupportPlatform.Gateway\obj\rider.project.restore.info
+		Gateways\PsychologicalSupportPlatform.Gateway\obj\PsychologicalSupportPlatform.Gateway.csproj.nuget.g.targets = Gateways\PsychologicalSupportPlatform.Gateway\obj\PsychologicalSupportPlatform.Gateway.csproj.nuget.g.targets
+		Gateways\PsychologicalSupportPlatform.Gateway\obj\project.nuget.cache = Gateways\PsychologicalSupportPlatform.Gateway\obj\project.nuget.cache
+		Gateways\PsychologicalSupportPlatform.Gateway\obj\project.packagespec.json = Gateways\PsychologicalSupportPlatform.Gateway\obj\project.packagespec.json
+		Gateways\PsychologicalSupportPlatform.Gateway\obj\PsychologicalSupportPlatform.Gateway.csproj.nuget.g.props = Gateways\PsychologicalSupportPlatform.Gateway\obj\PsychologicalSupportPlatform.Gateway.csproj.nuget.g.props
+		Gateways\PsychologicalSupportPlatform.Gateway\obj\project.assets.json = Gateways\PsychologicalSupportPlatform.Gateway\obj\project.assets.json
+		Gateways\PsychologicalSupportPlatform.Gateway\obj\PsychologicalSupportPlatform.Gateway.csproj.nuget.dgspec.json = Gateways\PsychologicalSupportPlatform.Gateway\obj\PsychologicalSupportPlatform.Gateway.csproj.nuget.dgspec.json
+		Gateways\PsychologicalSupportPlatform.Gateway\obj\Debug\net7.0\PsychologicalSupportPlatform.Gateway.MvcApplicationPartsAssemblyInfo.cs = Gateways\PsychologicalSupportPlatform.Gateway\obj\Debug\net7.0\PsychologicalSupportPlatform.Gateway.MvcApplicationPartsAssemblyInfo.cs
+		Gateways\PsychologicalSupportPlatform.Gateway\obj\Debug\net7.0\.NETCoreApp,Version=v7.0.AssemblyAttributes.cs = Gateways\PsychologicalSupportPlatform.Gateway\obj\Debug\net7.0\.NETCoreApp,Version=v7.0.AssemblyAttributes.cs
+		Gateways\PsychologicalSupportPlatform.Gateway\obj\Debug\net7.0\staticwebassets\msbuild.buildTransitive.PsychologicalSupportPlatform.Gateway.props = Gateways\PsychologicalSupportPlatform.Gateway\obj\Debug\net7.0\staticwebassets\msbuild.buildTransitive.PsychologicalSupportPlatform.Gateway.props
+		Gateways\PsychologicalSupportPlatform.Gateway\obj\Debug\net7.0\staticwebassets\msbuild.build.PsychologicalSupportPlatform.Gateway.props = Gateways\PsychologicalSupportPlatform.Gateway\obj\Debug\net7.0\staticwebassets\msbuild.build.PsychologicalSupportPlatform.Gateway.props
+		Gateways\PsychologicalSupportPlatform.Gateway\obj\Debug\net7.0\staticwebassets\msbuild.buildMultiTargeting.PsychologicalSupportPlatform.Gateway.props = Gateways\PsychologicalSupportPlatform.Gateway\obj\Debug\net7.0\staticwebassets\msbuild.buildMultiTargeting.PsychologicalSupportPlatform.Gateway.props
+		Gateways\PsychologicalSupportPlatform.Gateway\obj\Debug\net7.0\staticwebassets.build.json = Gateways\PsychologicalSupportPlatform.Gateway\obj\Debug\net7.0\staticwebassets.build.json
+		Gateways\PsychologicalSupportPlatform.Gateway\obj\Debug\net7.0\ref\PsychologicalSupportPlatform.Gateway.dll = Gateways\PsychologicalSupportPlatform.Gateway\obj\Debug\net7.0\ref\PsychologicalSupportPlatform.Gateway.dll
+		Gateways\PsychologicalSupportPlatform.Gateway\obj\Debug\net7.0\PsychologicalSupportPlatform.Gateway.csproj.AssemblyReference.cache = Gateways\PsychologicalSupportPlatform.Gateway\obj\Debug\net7.0\PsychologicalSupportPlatform.Gateway.csproj.AssemblyReference.cache
+		Gateways\PsychologicalSupportPlatform.Gateway\obj\Debug\net7.0\refint\PsychologicalSupportPlatform.Gateway.dll = Gateways\PsychologicalSupportPlatform.Gateway\obj\Debug\net7.0\refint\PsychologicalSupportPlatform.Gateway.dll
+		Gateways\PsychologicalSupportPlatform.Gateway\obj\Debug\net7.0\PsychologicalSupportPlatform.Gateway.assets.cache = Gateways\PsychologicalSupportPlatform.Gateway\obj\Debug\net7.0\PsychologicalSupportPlatform.Gateway.assets.cache
+		Gateways\PsychologicalSupportPlatform.Gateway\obj\Debug\net7.0\apphost = Gateways\PsychologicalSupportPlatform.Gateway\obj\Debug\net7.0\apphost
+		Gateways\PsychologicalSupportPlatform.Gateway\obj\Debug\net7.0\PsychologicalSupportPlatform.Gateway.genruntimeconfig.cache = Gateways\PsychologicalSupportPlatform.Gateway\obj\Debug\net7.0\PsychologicalSupportPlatform.Gateway.genruntimeconfig.cache
+		Gateways\PsychologicalSupportPlatform.Gateway\obj\Debug\net7.0\PsychologicalSupportPlatform.Gateway.MvcApplicationPartsAssemblyInfo.cache = Gateways\PsychologicalSupportPlatform.Gateway\obj\Debug\net7.0\PsychologicalSupportPlatform.Gateway.MvcApplicationPartsAssemblyInfo.cache
+		Gateways\PsychologicalSupportPlatform.Gateway\obj\Debug\net7.0\PsychologicalSupportPlatform.Gateway.AssemblyInfoInputs.cache = Gateways\PsychologicalSupportPlatform.Gateway\obj\Debug\net7.0\PsychologicalSupportPlatform.Gateway.AssemblyInfoInputs.cache
+		Gateways\PsychologicalSupportPlatform.Gateway\obj\Debug\net7.0\PsychologicalSupportPlatform.Gateway.GeneratedMSBuildEditorConfig.editorconfig = Gateways\PsychologicalSupportPlatform.Gateway\obj\Debug\net7.0\PsychologicalSupportPlatform.Gateway.GeneratedMSBuildEditorConfig.editorconfig
+		Gateways\PsychologicalSupportPlatform.Gateway\obj\Debug\net7.0\PsychologicalSupportPlatform.Gateway.csproj.CoreCompileInputs.cache = Gateways\PsychologicalSupportPlatform.Gateway\obj\Debug\net7.0\PsychologicalSupportPlatform.Gateway.csproj.CoreCompileInputs.cache
+		Gateways\PsychologicalSupportPlatform.Gateway\obj\Debug\net7.0\PsychologicalSupportPlatform.Gateway.dll = Gateways\PsychologicalSupportPlatform.Gateway\obj\Debug\net7.0\PsychologicalSupportPlatform.Gateway.dll
+		Gateways\PsychologicalSupportPlatform.Gateway\obj\Debug\net7.0\PsychologicalSupportPlatform.Gateway.GlobalUsings.g.cs = Gateways\PsychologicalSupportPlatform.Gateway\obj\Debug\net7.0\PsychologicalSupportPlatform.Gateway.GlobalUsings.g.cs
+		Gateways\PsychologicalSupportPlatform.Gateway\obj\Debug\net7.0\PsychologicalSupportPlatform.Gateway.pdb = Gateways\PsychologicalSupportPlatform.Gateway\obj\Debug\net7.0\PsychologicalSupportPlatform.Gateway.pdb
+		Gateways\PsychologicalSupportPlatform.Gateway\obj\Debug\net7.0\PsychologicalSupportPlatform.Gateway.csproj.CopyComplete = Gateways\PsychologicalSupportPlatform.Gateway\obj\Debug\net7.0\PsychologicalSupportPlatform.Gateway.csproj.CopyComplete
+		Gateways\PsychologicalSupportPlatform.Gateway\obj\Debug\net7.0\PsychologicalSupportPlatform.Gateway.AssemblyInfo.cs = Gateways\PsychologicalSupportPlatform.Gateway\obj\Debug\net7.0\PsychologicalSupportPlatform.Gateway.AssemblyInfo.cs
+		Gateways\PsychologicalSupportPlatform.Gateway\obj\Debug\net7.0\PsychologicalSupportPlatform.Gateway.csproj.FileListAbsolute.txt = Gateways\PsychologicalSupportPlatform.Gateway\obj\Debug\net7.0\PsychologicalSupportPlatform.Gateway.csproj.FileListAbsolute.txt
+		Gateways\PsychologicalSupportPlatform.Gateway\.DS_Store = Gateways\PsychologicalSupportPlatform.Gateway\.DS_Store
+		Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\Microsoft.Win32.SystemEvents.dll = Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\Microsoft.Win32.SystemEvents.dll
+		Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\Microsoft.IdentityModel.Logging.dll = Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\Microsoft.IdentityModel.Logging.dll
+		Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\System.Security.Permissions.dll = Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\System.Security.Permissions.dll
+		Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\PsychologicalSupportPlatform.Gateway = Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\PsychologicalSupportPlatform.Gateway
+		Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\Azure.Core.dll = Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\Azure.Core.dll
+		Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll = Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+		Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\ocelot.json = Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\ocelot.json
+		Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\Azure.Identity.dll = Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\Azure.Identity.dll
+		Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll = Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
+		Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\Microsoft.AspNetCore.JsonPatch.dll = Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\Microsoft.AspNetCore.JsonPatch.dll
+		Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\Microsoft.IdentityModel.Protocols.dll = Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\Microsoft.IdentityModel.Protocols.dll
+		Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\Ocelot.dll = Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\Ocelot.dll
+		Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\System.Windows.Extensions.dll = Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\System.Windows.Extensions.dll
+		Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\runtimes\win-arm\native\Microsoft.Data.SqlClient.SNI.dll = Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\runtimes\win-arm\native\Microsoft.Data.SqlClient.SNI.dll
+		Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\runtimes\win\lib\net6.0\Microsoft.Win32.SystemEvents.dll = Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\runtimes\win\lib\net6.0\Microsoft.Win32.SystemEvents.dll
+		Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll = Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
+		Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\runtimes\win\lib\net6.0\System.Security.Cryptography.ProtectedData.dll = Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\runtimes\win\lib\net6.0\System.Security.Cryptography.ProtectedData.dll
+		Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\runtimes\win\lib\net6.0\System.Runtime.Caching.dll = Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\runtimes\win\lib\net6.0\System.Runtime.Caching.dll
+		Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\runtimes\win\lib\net6.0\Microsoft.Data.SqlClient.dll = Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\runtimes\win\lib\net6.0\Microsoft.Data.SqlClient.dll
+		Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\runtimes\win\lib\net6.0\System.Drawing.Common.dll = Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\runtimes\win\lib\net6.0\System.Drawing.Common.dll
+		Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\runtimes\win-x86\native\Microsoft.Data.SqlClient.SNI.dll = Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\runtimes\win-x86\native\Microsoft.Data.SqlClient.SNI.dll
+		Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\runtimes\win-x64\native\Microsoft.Data.SqlClient.SNI.dll = Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\runtimes\win-x64\native\Microsoft.Data.SqlClient.SNI.dll
+		Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\runtimes\unix\lib\net6.0\Microsoft.Data.SqlClient.dll = Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\runtimes\unix\lib\net6.0\Microsoft.Data.SqlClient.dll
+		Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\runtimes\unix\lib\net6.0\System.Drawing.Common.dll = Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\runtimes\unix\lib\net6.0\System.Drawing.Common.dll
+		Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\runtimes\win-arm64\native\Microsoft.Data.SqlClient.SNI.dll = Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\runtimes\win-arm64\native\Microsoft.Data.SqlClient.SNI.dll
+		Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\Microsoft.OpenApi.dll = Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\Microsoft.OpenApi.dll
+		Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\appsettings.json = Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\appsettings.json
+		Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\Microsoft.SqlServer.Server.dll = Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\Microsoft.SqlServer.Server.dll
+		Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\Newtonsoft.Json.Bson.dll = Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\Newtonsoft.Json.Bson.dll
+		Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\Kros.Utils.dll = Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\Kros.Utils.dll
+		Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\Swashbuckle.AspNetCore.SwaggerUI.dll = Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+		Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\PsychologicalSupportPlatform.Gateway.deps.json = Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\PsychologicalSupportPlatform.Gateway.deps.json
+		Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\Swashbuckle.AspNetCore.SwaggerGen.dll = Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+		Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\Microsoft.IdentityModel.JsonWebTokens.dll = Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\Microsoft.IdentityModel.JsonWebTokens.dll
+		Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\Microsoft.IdentityModel.Abstractions.dll = Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\Microsoft.IdentityModel.Abstractions.dll
+		Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\Microsoft.Identity.Client.dll = Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\Microsoft.Identity.Client.dll
+		Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\System.Memory.Data.dll = Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\System.Memory.Data.dll
+		Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\Newtonsoft.Json.dll = Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\Newtonsoft.Json.dll
+		Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\System.Security.Cryptography.ProtectedData.dll = Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\System.Security.Cryptography.ProtectedData.dll
+		Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\PsychologicalSupportPlatform.Gateway.dll = Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\PsychologicalSupportPlatform.Gateway.dll
+		Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\System.IdentityModel.Tokens.Jwt.dll = Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\System.IdentityModel.Tokens.Jwt.dll
+		Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\System.Runtime.Caching.dll = Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\System.Runtime.Caching.dll
+		Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\IPAddressRange.dll = Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\IPAddressRange.dll
+		Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\Microsoft.IdentityModel.Tokens.dll = Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\Microsoft.IdentityModel.Tokens.dll
+		Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\PsychologicalSupportPlatform.Gateway.runtimeconfig.json = Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\PsychologicalSupportPlatform.Gateway.runtimeconfig.json
+		Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\appsettings.Development.json = Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\appsettings.Development.json
+		Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\System.Configuration.ConfigurationManager.dll = Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\System.Configuration.ConfigurationManager.dll
+		Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\Microsoft.Identity.Client.Extensions.Msal.dll = Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\Microsoft.Identity.Client.Extensions.Msal.dll
+		Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\Microsoft.Data.SqlClient.dll = Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\Microsoft.Data.SqlClient.dll
+		Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\FluentValidation.dll = Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\FluentValidation.dll
+		Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\PsychologicalSupportPlatform.Gateway.pdb = Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\PsychologicalSupportPlatform.Gateway.pdb
+		Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\Microsoft.Extensions.DiagnosticAdapter.dll = Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\Microsoft.Extensions.DiagnosticAdapter.dll
+		Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\MMLib.SwaggerForOcelot.dll = Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\MMLib.SwaggerForOcelot.dll
+		Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\Swashbuckle.AspNetCore.Swagger.dll = Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\Swashbuckle.AspNetCore.Swagger.dll
+		Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\System.Drawing.Common.dll = Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\System.Drawing.Common.dll
+		Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\Microsoft.AspNetCore.MiddlewareAnalysis.dll = Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\Microsoft.AspNetCore.MiddlewareAnalysis.dll
+		Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\Microsoft.Bcl.AsyncInterfaces.dll = Gateways\PsychologicalSupportPlatform.Gateway\bin\Debug\net7.0\Microsoft.Bcl.AsyncInterfaces.dll
+		Gateways\PsychologicalSupportPlatform.Gateway\ocelot.json = Gateways\PsychologicalSupportPlatform.Gateway\ocelot.json
+		Gateways\PsychologicalSupportPlatform.Gateway\Dockerfile = Gateways\PsychologicalSupportPlatform.Gateway\Dockerfile
+		Gateways\PsychologicalSupportPlatform.Gateway\appsettings.json = Gateways\PsychologicalSupportPlatform.Gateway\appsettings.json
+		Gateways\PsychologicalSupportPlatform.Gateway\.dockerignore = Gateways\PsychologicalSupportPlatform.Gateway\.dockerignore
+		Gateways\PsychologicalSupportPlatform.Gateway\Properties\launchSettings.json = Gateways\PsychologicalSupportPlatform.Gateway\Properties\launchSettings.json
+		Gateways\PsychologicalSupportPlatform.Gateway\appsettings.Development.json = Gateways\PsychologicalSupportPlatform.Gateway\appsettings.Development.json
+		Gateways\PsychologicalSupportPlatform.Gateway\ConfigureOcelotExtension.cs = Gateways\PsychologicalSupportPlatform.Gateway\ConfigureOcelotExtension.cs
+		Gateways\PsychologicalSupportPlatform.Gateway\Program.cs = Gateways\PsychologicalSupportPlatform.Gateway\Program.cs
+		Dockerfile = Dockerfile
+		.dockerignore = .dockerignore
+		Gateways\Dockerfile = Gateways\Dockerfile
+	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Gateways", "Gateways", "{BB30088B-6719-4C27-B721-7D71326D945E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PsychologicalSupportPlatform.OcelotGateway", "Gateways\PsychologicalSupportPlatform.OcelotGateway\PsychologicalSupportPlatform.OcelotGateway.csproj", "{B0F9816C-B100-4FC8-A37D-7F8602562C37}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -101,7 +200,7 @@ Global
 		{EACA960C-9A24-4901-89A4-2BD13D9CFFB8} = {CCB0DFB2-1AE2-4AEF-99C7-8E1332ED7E4F}
 		{DAFF04FC-3E9D-430F-8532-2149FB11051F} = {CCB0DFB2-1AE2-4AEF-99C7-8E1332ED7E4F}
 		{5A3C1C41-9247-4921-8422-C529FADD3E41} = {CCB0DFB2-1AE2-4AEF-99C7-8E1332ED7E4F}
-		{EB0A9236-A6C3-4197-AFB2-2F68300005BB} = {BB30088B-6719-4C27-B721-7D71326D945E}
+		{B0F9816C-B100-4FC8-A37D-7F8602562C37} = {9FD1FE9E-6352-46F8-8D88-37B74CB30034}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{B3945619-7B52-4666-BF83-BCB38D96A9B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -188,9 +287,9 @@ Global
 		{5A3C1C41-9247-4921-8422-C529FADD3E41}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5A3C1C41-9247-4921-8422-C529FADD3E41}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5A3C1C41-9247-4921-8422-C529FADD3E41}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EB0A9236-A6C3-4197-AFB2-2F68300005BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EB0A9236-A6C3-4197-AFB2-2F68300005BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EB0A9236-A6C3-4197-AFB2-2F68300005BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EB0A9236-A6C3-4197-AFB2-2F68300005BB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B0F9816C-B100-4FC8-A37D-7F8602562C37}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0F9816C-B100-4FC8-A37D-7F8602562C37}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0F9816C-B100-4FC8-A37D-7F8602562C37}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0F9816C-B100-4FC8-A37D-7F8602562C37}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

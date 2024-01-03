@@ -68,7 +68,8 @@ public class AccountsService : IAccountsService
                 authParams.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256)
         );
 
-        return new DataResponseInfo<string?>(data: new JwtSecurityTokenHandler().WriteToken(jwt), status:HttpStatusCode.OK);
+        return new DataResponseInfo<string?>(data: new JwtSecurityTokenHandler().WriteToken(jwt), 
+            status:HttpStatusCode.OK);
     }
 
     public async Task<DataResponseInfo<List<User>>> GetAllUsersAsync(int pageNumber, int pageSize)
@@ -250,7 +251,8 @@ public class AccountsService : IAccountsService
         return new ResponseInfo(status: HttpStatusCode.OK);    
     }
 
-    public async Task<DataResponseInfo<List<AddStudentDTO>>> GetStudentsByFormAsync(AddFormDTO formDTO, int pageNumber, int pageSize)
+    public async Task<DataResponseInfo<List<AddStudentDTO>>> GetStudentsByFormAsync(AddFormDTO formDTO,
+        int pageNumber, int pageSize)
     {
         var form = await _formRepository.GetFormAsync(formDTO.Parallel, formDTO.Letter);
         
@@ -266,7 +268,8 @@ public class AccountsService : IAccountsService
         return new DataResponseInfo<List<AddStudentDTO>>(data: studDTOs, status: HttpStatusCode.OK);
     }
     
-    public async Task<DataResponseInfo<List<AddStudentDTO>>> GetStudentsByParallelAsync(int num, int pageNumber, int pageSize)
+    public async Task<DataResponseInfo<List<AddStudentDTO>>> GetStudentsByParallelAsync(int num, 
+        int pageNumber, int pageSize)
     {
         var users = await _studentRepository.GetStudentsByParallelAsync(num, pageNumber, pageSize);
 

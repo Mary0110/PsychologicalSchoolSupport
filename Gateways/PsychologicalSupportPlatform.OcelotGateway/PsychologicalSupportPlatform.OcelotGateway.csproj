@@ -4,10 +4,11 @@
         <TargetFramework>net7.0</TargetFramework>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
+        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="MMLib.SwaggerForOcelot" Version="8.1.0" />
+      <PackageReference Include="MMLib.SwaggerForOcelot" Version="7.0.1" />
       <PackageReference Include="Ocelot" Version="22.0.1" />
     </ItemGroup>
 

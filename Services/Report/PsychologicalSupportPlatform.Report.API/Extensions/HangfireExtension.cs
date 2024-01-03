@@ -24,7 +24,8 @@ public static class HangfireExtension
     public static IApplicationBuilder StartRecurringJob(this IApplicationBuilder app)
     {
         app.UseHangfireDashboard();
-        RecurringJob.AddOrUpdate<IMonthlyReportService>("monthly-report-job", monthlyReportService => monthlyReportService.AddMonthlyReportAsync(), Cron.Monthly);
+        RecurringJob.AddOrUpdate<IMonthlyReportService>("monthly-report-job", 
+            monthlyReportService => monthlyReportService.AddMonthlyReportAsync(), Cron.Monthly);
         
         return app;
     }

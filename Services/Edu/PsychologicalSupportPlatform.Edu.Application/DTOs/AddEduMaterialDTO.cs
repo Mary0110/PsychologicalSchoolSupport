@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Http;
-using PsychologicalSupportPlatform.Edu.Domain.Entities;
 
 namespace PsychologicalSupportPlatform.Edu.Application.DTOs;
 

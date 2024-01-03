@@ -20,7 +20,9 @@ public class TestService: ITestService
     private readonly IUserGrpcClient _userGrpcClient;
     
 
-    public TestService(IUserGrpcClient userGrpcClient, IUserTestResultRepository userTestResultRepository,IMapper mapper, ITestRepository psychologicalTestRepository, IQuestionRepository questionRepository, IAnswerRepository answerRepository, IQuestionResultRepository questionResultRepository)
+    public TestService(IUserGrpcClient userGrpcClient, IUserTestResultRepository userTestResultRepository,
+        IMapper mapper, ITestRepository psychologicalTestRepository, IQuestionRepository questionRepository,
+        IAnswerRepository answerRepository, IQuestionResultRepository questionResultRepository)
     {
         _questionResultRepository = questionResultRepository;
         _answerRepository = answerRepository;
@@ -55,7 +57,8 @@ public class TestService: ITestService
         await _questionResultRepository.SaveAsync();
     }
     
-    public async Task<List<TestResultDTO>> GetTestResultsByStudentAsync(int studentId, int pageNumber, int pageSize, CancellationToken token)
+    public async Task<List<TestResultDTO>> GetTestResultsByStudentAsync(int studentId, int pageNumber, int pageSize, 
+        CancellationToken token)
     {
         var userReply = await _userGrpcClient.CheckUserAsync(studentId, token);
 
@@ -69,7 +72,8 @@ public class TestService: ITestService
             throw new WrongRoleForActionRequested(userReply.Role);
         }
         
-        var eduMaterials = await _userTestResultRepository.GetAllAsync(r => r.UserId == studentId, pageNumber, pageSize);
+        var eduMaterials = await _userTestResultRepository.GetAllAsync(
+            r => r.UserId == studentId, pageNumber, pageSize);
         var eduMaterialsDTOs = _mapper.Map<List<TestResultDTO>>(eduMaterials);
         
         return eduMaterialsDTOs; 

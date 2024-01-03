@@ -9,7 +9,8 @@ namespace PsychologicalSupportPlatform.Report.API.Extensions;
 
 public static class InfrastructureServicesExtension
 {
-    public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddInfrastructureServices(this IServiceCollection services,
+        IConfiguration configuration)
     {
         services.AddTransient<IGenerateReportService, GenerateReportService>();
         services.AddTransient<IReportService, ReportService>();

@@ -37,7 +37,8 @@ public class EduMaterialService: IEduMaterialService
 
     public async Task<int> UploadEduMaterialAsync(AddEduMaterialDTO dto, CancellationToken token)
     {
-        var existed = await _eduMaterialRepository.GetAsync(material => material.Name == dto.Name);
+        var existed = await _eduMaterialRepository.GetAsync(
+            material => material.Name == dto.Name);
 
         if (existed is not null)
         {
@@ -49,7 +50,8 @@ public class EduMaterialService: IEduMaterialService
         await _eduMaterialRepository.SaveAsync();
 
         var elkDto = _mapper.Map<EduMaterialDTO>(added);
-        var resp = await _elasticClient.IndexAsync(elkDto, descriptor => descriptor.Id(elkDto.Id), token);
+        var resp = await _elasticClient.IndexAsync(elkDto, 
+            descriptor => descriptor.Id(elkDto.Id), token);
 
         if (!resp.IsValid)
         {
@@ -88,7 +90,8 @@ public class EduMaterialService: IEduMaterialService
         return memoryStream;
     }
 
-    public async Task<List<EduMaterialDTO>> GetEduMaterialsByStudentAsync(int studentId, int pageNumber, int pageSize, CancellationToken token)
+    public async Task<List<EduMaterialDTO>> GetEduMaterialsByStudentAsync(int studentId, int pageNumber, int pageSize,
+        CancellationToken token)
     {
         var cacheKey = JsonConvert.SerializeObject(new {student = studentId, num =  pageNumber, size = pageSize});
         var cacheResult = await _cache.GetAsync<List<EduMaterialDTO>>(cacheKey, token);
@@ -118,7 +121,8 @@ public class EduMaterialService: IEduMaterialService
         return eduMaterialsDTOs; 
     }
 
-    public async Task<List<EduMaterialDTO>> GetAllEduMaterialsAsync(int pageNumber, int pageSize, CancellationToken token)
+    public async Task<List<EduMaterialDTO>> GetAllEduMaterialsAsync(int pageNumber, int pageSize, 
+        CancellationToken token)
     {
         var cacheKey = JsonConvert.SerializeObject(new {number = pageNumber, size = pageSize});
         var cacheResult = await _cache.GetAsync<List<EduMaterialDTO>>(cacheKey, token);
@@ -149,7 +153,8 @@ public class EduMaterialService: IEduMaterialService
             throw new WrongRoleForActionRequested(userReply.Role);
         }
 
-        var cacheResult = await _cache.GetAsync<EduMaterialDTO>(key: dto.Id.ToString(), cancellationToken: token);
+        var cacheResult = await _cache.GetAsync<EduMaterialDTO>(key: dto.Id.ToString(),
+            cancellationToken: token);
 
         if (cacheResult is null)
         {
@@ -166,7 +171,8 @@ public class EduMaterialService: IEduMaterialService
         await _studentHasEduMaterialRepository.SaveAsync();
     }
 
-    public async Task<IEnumerable<EduMaterialDTO>> SearchAsync(string text, int pageNumber, int pageSize, CancellationToken cancellationToken)
+    public async Task<IEnumerable<EduMaterialDTO>> SearchAsync(string text, int pageNumber, int pageSize,
+        CancellationToken cancellationToken)
     {
         var cacheKey = JsonConvert.SerializeObject(new {text, pageNumber, pageSize});
         var cacheResponse = await _cache.GetAsync<IEnumerable<EduMaterialDTO>>(cacheKey, cancellationToken);

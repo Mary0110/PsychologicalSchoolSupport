@@ -1,7 +1,7 @@
 using Microsoft.Extensions.Options;
 using Minio;
 using Minio.DataModel.Args;
-using PsychologicalSupportPlatform.Report.Infrastructure.Config;
+using PsychologicalSupportPlatform.Common.Config;
 
 namespace PsychologicalSupportPlatform.Common.Repository;
 

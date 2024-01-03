@@ -12,7 +12,8 @@ public class OrderMeetupCommandHandler: IRequestHandler<OrderMeetupCommand, int>
     private readonly IScheduleCellRepository _scheduleCellRepository;
     private readonly IMapper _mapper;
     
-    public OrderMeetupCommandHandler(IMeetupRepository meetupRepository, IScheduleCellRepository scheduleCellRepository, IMapper mapper)
+    public OrderMeetupCommandHandler(IMeetupRepository meetupRepository, 
+        IScheduleCellRepository scheduleCellRepository, IMapper mapper)
     {
         _meetupRepository = meetupRepository;
         _scheduleCellRepository = scheduleCellRepository;

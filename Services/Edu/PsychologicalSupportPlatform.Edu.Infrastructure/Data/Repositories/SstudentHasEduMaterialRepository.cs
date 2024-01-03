@@ -1,3 +1,4 @@
+using PsychologicalSupportPlatform.Common;
 using PsychologicalSupportPlatform.Common.Repository;
 using PsychologicalSupportPlatform.Edu.Application.Interfaces;
 using PsychologicalSupportPlatform.Edu.Domain.Entities;
@@ -15,6 +16,7 @@ public class StudentHasEduMaterialRepository: SQLRepository<DataContext, Student
         var result = DbContext.StudentHasEduMaterials
             .Where(shm => shm.StudentId == studentId)
             .Select(shm => shm.EduMaterial)
+            .ToPagedCollection(pageNumber, pageSize)
             .ToList();
 
         return result;    

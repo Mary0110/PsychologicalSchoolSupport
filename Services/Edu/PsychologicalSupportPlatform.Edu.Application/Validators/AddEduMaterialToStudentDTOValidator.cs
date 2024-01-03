@@ -8,6 +8,7 @@ public class AddEduMaterialToStudentDTOValidator: AbstractValidator<AddEduMateri
     public  AddEduMaterialToStudentDTOValidator()
     {
         RuleFor(dto => dto.Id).NotEmpty().GreaterThan(0);
+        
         RuleFor(dto => dto.StudentId).NotEmpty().GreaterThan(0);
     }
 }

@@ -1,4 +1,4 @@
-namespace PsychologicalSupportPlatform.Report.Infrastructure.Config;
+namespace PsychologicalSupportPlatform.Common.Config;
 
 public class MinioReportsConfig
 {

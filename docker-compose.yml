@@ -1,0 +1,232 @@
+version: '1.0'
+
+services:
+  sqlserver:
+    container_name: Sqlserver
+    image: mcr.microsoft.com/mssql/server:latest
+    ports:
+      - "1432:1433"
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=paSSword0110
+    networks:
+      - edu
+      - authorization
+      - meet-report
+    volumes:
+      - sqldata:/var/opt/mssql
+    restart: unless-stopped
+  
+  mongo:
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: mary0110
+      MONGO_INITDB_ROOT_PASSWORD: paSSword0110
+    networks:
+      - messaging
+    volumes:
+      - mongo-data:/data/db
+    
+  rabbitmq:
+    container_name: Rabbitmq
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    hostname: "rabbitmq"
+    volumes:
+      - rabbitmq:/var/lib/rabbitmq/mnesia
+    networks:
+      - meet-report
+    restart: unless-stopped
+    
+  elasticsearch:
+    container_name: elk
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.11.3
+    ports:
+      - 9201:9200 
+    volumes: 
+      - elasticsearch-data:/usr/share/elasticsearch/data
+    environment:
+      - xpack.security.enabled=false
+      - xpack.watcher.enabled=false
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - discovery.type=single-node 
+    networks:
+      - edu
+  
+  minio:
+    image: minio/minio
+    container_name: minio_server
+    restart: always
+    ports:
+      - "9001:9000"
+    environment:
+      - MINIO_ROOT_USER=minioadmin
+      - MINIO_ROOT_PASSWORD=minioadmin
+    volumes:
+      - minio-data:/data
+    networks:
+      - meet-report
+  
+  kibana:
+    container_name: Kibana
+    image: docker.elastic.co/kibana/kibana:8.11.3
+    ports:
+      - 5602:5601 
+    depends_on:
+      - elasticsearch
+    environment:
+      - ELASTICSEARCH_URL=http://elasticsearch:9201
+    networks:
+      - edu
+    
+  redis:
+    image: redis:latest
+    ports:
+      - 6378:6379
+    restart: unless-stopped
+    volumes:
+      - redis-data:/data/redis
+    networks:
+      - edu
+  
+  PsychologicalSupportPlatform.Authorization.API:
+    container_name: Authorization
+    image: ${DOCKER_REGISTRY-}authorization:v0
+    build:
+      context: ./Services
+      dockerfile: Dockerfile
+    depends_on:
+      - sqlserver
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - CONNECTIONSTRINGS__DEFAULTCONNECTION=Server=sqlserver,1432;Trusted_Connection=false;TrustServerCertificate=True;MultiSubnetFailover=True; Database=authDb; User ID='sa'; Password='paSSword0110';Integrated security=False;
+      - ASPNETCORE_URLS=http://PsychologicalSupportPlatform.Authorization.API:5131
+      - ASPNETCORE_Kestrel__Endpoint__Http__Url=http://PsychologicalSupportPlatform.Authorization.API:5131
+      - ASPNETCORE_Kestrel__Endpoint__gRPC__Url=http://PsychologicalSupportPlatform.Authorization.API:5001
+      - ASPNETCORE_Kestrel__Endpoint__Http__Protocols=Http1AndHttp2
+      - ASPNETCORE_Kestrel__Endpoint__gRPC__Protocols=Http2
+    networks:
+      - meet-report
+      - edu
+    ports:
+      - "5131:5131"
+      - "5001:5000"
+    restart: unless-stopped
+    
+  PsychologicalSupportPlatform.Edu.API:
+    container_name: Edu
+    image: ${DOCKER_REGISTRY-}edu:v0
+    build:
+      context: ./Services
+      dockerfile: Dockerfileedu
+    depends_on:
+      - sqlserver
+      - redis
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - CONNECTIONSTRINGS__DEFAULTCONNECTION=Server=sqlserver,1432;Trusted_Connection=false;TrustServerCertificate=True;MultiSubnetFailover=True; Database=eduDb; User ID='sa'; Password='paSSword0110';Integrated security=False;
+      - CONNECTIONSTRINGS__REDIS=redis:6378
+      - ElasticSearchConfig__Url=http://elasticsearch:9201
+      - GrpcConfig__Url=http://PsychologicalSupportPlatform.Authorization.API:5131
+      - Minio__Endpoint=minio:9001
+    networks:
+      - edu
+    ports:
+      - "5285:80"
+    restart: unless-stopped
+        
+  PsychologicalSupportPlatform.Meet.API:
+    container_name: Meet
+    image: ${DOCKER_REGISTRY-}meet:v0
+    build:
+      context: ./Services
+      dockerfile: Dockerfile_meet
+    depends_on:
+      - rabbitmq
+      - sqlserver
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - CONNECTIONSTRINGS__DEFAULTCONNECTION=Server=sqlserver,1432;Trusted_Connection=false;TrustServerCertificate=True;MultiSubnetFailover=True; Database=meetDb; User ID='sa'; Password='paSSword0110';Integrated security=False;
+    networks:
+      - meet-report
+    ports:
+      - "5299:80"
+    restart: unless-stopped
+    
+  PsychologicalSupportPlatform.Messaging.API:
+    container_name: Messaging
+    image: ${DOCKER_REGISTRY-}messaging:v0
+    build:
+      context: ./Services
+      dockerfile: Dockerfile_messaging
+    depends_on:
+      - mongo
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - GrpcConfig__UsersUrl=http://PsychologicalSupportPlatform.Authorization.API:5001
+    networks:
+      - messaging
+    ports:
+      - "5229:80"
+    restart: unless-stopped
+    
+  PsychologicalSupportPlatform.Report.API:
+    container_name: Report
+    image: ${DOCKER_REGISTRY-}report:v0
+    build:
+      context: ./Services
+      dockerfile: Dockerfile_report
+    depends_on:
+      - rabbitmq
+      - minio
+      - sqlserver
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - CONNECTIONSTRINGS__DEFAULTCONNECTION=Server=sqlserver,1432;Trusted_Connection=false;TrustServerCertificate=True;MultiSubnetFailover=True; Database=reportDb; User ID='sa'; Password='paSSword0110';Integrated security=False;
+      - CONNECTIONSTRINGS__HANGFIRECONNECTION=Server=sqlserver,1432;Trusted_Connection=false;TrustServerCertificate=True;MultiSubnetFailover=True; Database=minutelyDb; User ID='sa'; Password='paSSword0110';Integrated security=False;
+      - GrpcConfig__UsersUrl=http://PsychologicalSupportPlatform.Authorization.API:5001
+      - MessageQueueSettings__Host=rabbitmq
+      - Minio__Endpoint=minio:9001
+    networks:
+      - meet-report
+    ports:
+      - "5217:80"
+    restart: unless-stopped    
+    
+  gateway:
+    container_name: OcelotGateway
+    build:
+      context: ./Gateways
+      dockerfile: Dockerfile
+    ports:
+      - '5002:443'
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    networks:
+      - edu
+      - meet-report
+      - messaging
+      - authorization
+    restart: unless-stopped
+
+networks:
+  edu:
+    name: edu
+  authorization:
+    name: authorization
+  meet-report:
+    name: meet-report
+  messaging:
+    name: messaging
+    
+volumes:
+  elasticsearch-data:
+  redis-data:
+  rabbitmq:
+  sqldata:
+  mongo-data:
+  minio-data:
+    
