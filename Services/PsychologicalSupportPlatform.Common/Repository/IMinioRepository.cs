@@ -1,4 +1,4 @@
-namespace PsychologicalSupportPlatform.Report.Application.Interfaces;
+namespace PsychologicalSupportPlatform.Common.Repository;
 
 public interface IMinioRepository
 {

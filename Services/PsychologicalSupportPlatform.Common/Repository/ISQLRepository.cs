@@ -20,6 +20,8 @@ public interface ISQLRepository<TEntity> where TEntity : class
     
     Task<TEntity> AddAsync(TEntity entity);
     
+    Task AddRangeAsync(List<TEntity> entity);
+
     Task UpdateAsync(TEntity entity);
     
     Task DeleteAsync(TEntity entity);

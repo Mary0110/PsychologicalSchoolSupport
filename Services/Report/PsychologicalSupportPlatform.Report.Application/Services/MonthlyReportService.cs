@@ -1,5 +1,6 @@
 using MapsterMapper;
 using PsychologicalSupportPlatform.Common.Errors;
+using PsychologicalSupportPlatform.Common.Repository;
 using PsychologicalSupportPlatform.Report.Application.DTOs;
 using PsychologicalSupportPlatform.Report.Application.Interfaces;
 using PsychologicalSupportPlatform.Report.Domain.Entities;

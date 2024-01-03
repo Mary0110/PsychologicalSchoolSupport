@@ -7,7 +7,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\Meet\PsychologicalSupportPlatform.Meet.Application\PsychologicalSupportPlatform.Meet.Application.csproj" />
       <ProjectReference Include="..\PsychologicalSupportPlatform.Messaging.Application\PsychologicalSupportPlatform.Messaging.Application.csproj" />
     </ItemGroup>
 

@@ -1,7 +1,6 @@
 using Minio;
-using PsychologicalSupportPlatform.Report.Application.Interfaces;
+using PsychologicalSupportPlatform.Common.Repository;
 using PsychologicalSupportPlatform.Report.Infrastructure.Config;
-using PsychologicalSupportPlatform.Report.Infrastructure.Data.Repositories;
 
 namespace PsychologicalSupportPlatform.Report.API.Extensions;
 
