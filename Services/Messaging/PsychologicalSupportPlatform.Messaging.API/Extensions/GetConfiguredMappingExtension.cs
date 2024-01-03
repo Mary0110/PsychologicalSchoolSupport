@@ -8,7 +8,7 @@ namespace PsychologicalSupportPlatform.Messaging.API.Extensions
         public static TypeAdapterConfig GetConfiguredMappingConfig()
         {
             var config = TypeAdapterConfig.GlobalSettings;
-            config.Scan(Assembly.GetExecutingAssembly(), Meet.Application.AssemblyReference.Assembly);
+            config.Scan(Assembly.GetExecutingAssembly(), Messaging.Application.AssemblyReference.Assembly);
             
             return config;
         }
