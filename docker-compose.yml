@@ -1,11 +1,11 @@
-version: '1.0'
+version: '2.6'
 
 services:
   sqlserver:
     container_name: Sqlserver
     image: mcr.microsoft.com/mssql/server:latest
     ports:
-      - "1432:1433"
+      - "11433:1433"
     environment:
       - ACCEPT_EULA=Y
       - SA_PASSWORD=paSSword0110
@@ -14,7 +14,7 @@ services:
       - authorization
       - meet-report
     volumes:
-      - sqldata:/var/opt/mssql
+      - sql-data:/var/opt/mssql
     restart: unless-stopped
   
   mongo:
@@ -35,6 +35,9 @@ services:
       - "5672:5672"
       - "15672:15672"
     hostname: "rabbitmq"
+    environment:
+      - RABBITMQ_DEFAULT_USER=rabbitmquser
+      - RABBITMQ_DEFAULT_PASS=rabbitmqPassword12!
     volumes:
       - rabbitmq:/var/lib/rabbitmq/mnesia
     networks:
@@ -57,16 +60,17 @@ services:
       - edu
   
   minio:
-    image: minio/minio
+    image: docker.io/bitnami/minio:2022
     container_name: minio_server
     restart: always
     ports:
-      - "9001:9000"
+      - "9002:9000"
+      - '9003:9001'
     environment:
       - MINIO_ROOT_USER=minioadmin
       - MINIO_ROOT_PASSWORD=minioadmin
     volumes:
-      - minio-data:/data
+      - 'minio-data:/data'
     networks:
       - meet-report
   
@@ -94,7 +98,7 @@ services:
   
   PsychologicalSupportPlatform.Authorization.API:
     container_name: Authorization
-    image: ${DOCKER_REGISTRY-}authorization:v0
+    image: ${DOCKER_REGISTRY-}authorization:v2.3
     build:
       context: ./Services
       dockerfile: Dockerfile
@@ -102,8 +106,7 @@ services:
       - sqlserver
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - CONNECTIONSTRINGS__DEFAULTCONNECTION=Server=sqlserver,1432;Trusted_Connection=false;TrustServerCertificate=True;MultiSubnetFailover=True; Database=authDb; User ID='sa'; Password='paSSword0110';Integrated security=False;
-      - ASPNETCORE_URLS=http://PsychologicalSupportPlatform.Authorization.API:5131
+      - CONNECTIONSTRINGS__DEFAULTCONNECTION=Server=sqlserver;Trusted_Connection=false;TrustServerCertificate=True;MultiSubnetFailover=True; Database=authDb; User ID='sa'; Password='paSSword0110';Integrated security=False;
       - ASPNETCORE_Kestrel__Endpoint__Http__Url=http://PsychologicalSupportPlatform.Authorization.API:5131
       - ASPNETCORE_Kestrel__Endpoint__gRPC__Url=http://PsychologicalSupportPlatform.Authorization.API:5001
       - ASPNETCORE_Kestrel__Endpoint__Http__Protocols=Http1AndHttp2
@@ -118,7 +121,7 @@ services:
     
   PsychologicalSupportPlatform.Edu.API:
     container_name: Edu
-    image: ${DOCKER_REGISTRY-}edu:v0
+    image: ${DOCKER_REGISTRY-}edu:v2.3
     build:
       context: ./Services
       dockerfile: Dockerfileedu
@@ -127,11 +130,11 @@ services:
       - redis
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - CONNECTIONSTRINGS__DEFAULTCONNECTION=Server=sqlserver,1432;Trusted_Connection=false;TrustServerCertificate=True;MultiSubnetFailover=True; Database=eduDb; User ID='sa'; Password='paSSword0110';Integrated security=False;
+      - CONNECTIONSTRINGS__DEFAULTCONNECTION=Server=sqlserver;Trusted_Connection=false;TrustServerCertificate=True;MultiSubnetFailover=True; Database=eduDb; User ID='sa'; Password='paSSword0110';Integrated security=False;
       - CONNECTIONSTRINGS__REDIS=redis:6378
       - ElasticSearchConfig__Url=http://elasticsearch:9201
       - GrpcConfig__Url=http://PsychologicalSupportPlatform.Authorization.API:5131
-      - Minio__Endpoint=minio:9001
+      - Minio__Endpoint=minio:9002
     networks:
       - edu
     ports:
@@ -140,7 +143,7 @@ services:
         
   PsychologicalSupportPlatform.Meet.API:
     container_name: Meet
-    image: ${DOCKER_REGISTRY-}meet:v0
+    image: ${DOCKER_REGISTRY-}meet:v2.5
     build:
       context: ./Services
       dockerfile: Dockerfile_meet
@@ -149,7 +152,9 @@ services:
       - sqlserver
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - CONNECTIONSTRINGS__DEFAULTCONNECTION=Server=sqlserver,1432;Trusted_Connection=false;TrustServerCertificate=True;MultiSubnetFailover=True; Database=meetDb; User ID='sa'; Password='paSSword0110';Integrated security=False;
+      - CONNECTIONSTRINGS__DEFAULTCONNECTION=Server=sqlserver;Trusted_Connection=false;TrustServerCertificate=True;MultiSubnetFailover=True; Database=meetDb; User ID='sa'; Password='paSSword0110';Integrated security=False;
+      - MessageQueueSettings__UserName=rabbitmquser
+      - MessageQueueSettings__Password=rabbitmqPassword12!
     networks:
       - meet-report
     ports:
@@ -175,7 +180,7 @@ services:
     
   PsychologicalSupportPlatform.Report.API:
     container_name: Report
-    image: ${DOCKER_REGISTRY-}report:v0
+    image: ${DOCKER_REGISTRY-}report:v2.6
     build:
       context: ./Services
       dockerfile: Dockerfile_report
@@ -185,15 +190,18 @@ services:
       - sqlserver
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - CONNECTIONSTRINGS__DEFAULTCONNECTION=Server=sqlserver,1432;Trusted_Connection=false;TrustServerCertificate=True;MultiSubnetFailover=True; Database=reportDb; User ID='sa'; Password='paSSword0110';Integrated security=False;
-      - CONNECTIONSTRINGS__HANGFIRECONNECTION=Server=sqlserver,1432;Trusted_Connection=false;TrustServerCertificate=True;MultiSubnetFailover=True; Database=minutelyDb; User ID='sa'; Password='paSSword0110';Integrated security=False;
+      - CONNECTIONSTRINGS__DEFAULTCONNECTION=Server=sqlserver;Trusted_Connection=false;TrustServerCertificate=True;MultiSubnetFailover=True; Database=reportDb; User ID='sa'; Password='paSSword0110';Integrated security=False;
+      - CONNECTIONSTRINGS__HANGFIRECONNECTION=Server=sqlserver;Trusted_Connection=false;TrustServerCertificate=True;MultiSubnetFailover=True; Database=hangfireDb; User ID='sa'; Password='paSSword0110';Integrated security=False;
       - GrpcConfig__UsersUrl=http://PsychologicalSupportPlatform.Authorization.API:5001
+      - RabbitMQConfig__HostName=rabbitmq
       - MessageQueueSettings__Host=rabbitmq
-      - Minio__Endpoint=minio:9001
+      - MessageQueueSettings__UserName=rabbitmquser
+      - MessageQueueSettings__Password=rabbitmqPassword12!
+      - Minio__Endpoint=minio:9002
     networks:
       - meet-report
     ports:
-      - "5217:80"
+      - "5218:80"
     restart: unless-stopped    
     
   gateway:
@@ -214,19 +222,15 @@ services:
 
 networks:
   edu:
-    name: edu
   authorization:
-    name: authorization
   meet-report:
-    name: meet-report
   messaging:
-    name: messaging
     
 volumes:
   elasticsearch-data:
   redis-data:
   rabbitmq:
-  sqldata:
+  sql-data:
   mongo-data:
   minio-data:
     
