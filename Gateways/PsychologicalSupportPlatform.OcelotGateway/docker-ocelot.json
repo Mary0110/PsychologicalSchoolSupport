@@ -1,6 +1,6 @@
 {
   "GlobalConfiguration": {
-    "BaseUrl": "https://localhost:7273"
+    "BaseUrl": "https://localhost:5002"
   },
   "Routes": [
     // Authorization Microservice - Accounts
@@ -11,7 +11,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
+          "Host": "PsychologicalSupportPlatform.Authorization.API",
           "Port": 5131
         }
       ],
@@ -26,7 +26,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
+          "Host": "PsychologicalSupportPlatform.Authorization.API",
           "Port": 5131
         }
       ],
@@ -40,7 +40,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
+          "Host": "PsychologicalSupportPlatform.Authorization.API",
           "Port": 5131
         }
       ],
@@ -55,7 +55,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
+          "Host": "PsychologicalSupportPlatform.Authorization.API",
           "Port": 5131
         }
       ],
@@ -69,7 +69,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
+          "Host": "PsychologicalSupportPlatform.Authorization.API",
           "Port": 5131
         }
       ],
@@ -84,7 +84,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
+          "Host": "PsychologicalSupportPlatform.Authorization.API",
           "Port": 5131
         }
       ],
@@ -98,7 +98,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
+          "Host": "PsychologicalSupportPlatform.Authorization.API",
           "Port": 5131
         }
       ],
@@ -113,7 +113,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
+          "Host": "PsychologicalSupportPlatform.Authorization.API",
           "Port": 5131
         }
       ],
@@ -128,7 +128,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
+          "Host": "PsychologicalSupportPlatform.Authorization.API",
           "Port": 5131
         }
       ],
@@ -143,7 +143,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
+          "Host": "PsychologicalSupportPlatform.Authorization.API",
           "Port": 5131
         }
       ],
@@ -157,7 +157,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
+          "Host": "PsychologicalSupportPlatform.Authorization.API",
           "Port": 5131
         }
       ],
@@ -171,7 +171,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
+          "Host": "PsychologicalSupportPlatform.Authorization.API",
           "Port": 5131
         }
       ],
@@ -186,8 +186,8 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7256
+          "Host": "PsychologicalSupportPlatform.Edu.API",
+          "Port": 80
         }
       ],
       "DownstreamPathTemplate": "/api/edumaterials/search",
@@ -200,8 +200,8 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7256
+          "Host": "PsychologicalSupportPlatform.Edu.API",
+          "Port": 80
         }
       ],
       "DownstreamPathTemplate": "/api/edumaterials/{id}",
@@ -214,8 +214,8 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7256
+          "Host": "PsychologicalSupportPlatform.Edu.API",
+          "Port": 80
         }
       ],
       "DownstreamPathTemplate": "/api/edumaterials",
@@ -228,8 +228,8 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7256
+          "Host": "PsychologicalSupportPlatform.Edu.API",
+          "Port": 80
         }
       ],
       "DownstreamPathTemplate": "/api/edumaterials/students/{studentId}/edu-materials/{id}",
@@ -242,8 +242,8 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7256
+          "Host": "PsychologicalSupportPlatform.Edu.API",
+          "Port": 80
         }
       ],
       "DownstreamPathTemplate": "/api/edumaterials/students/{studentId}/edu-materials",
@@ -257,8 +257,8 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7256
+          "Host": "PsychologicalSupportPlatform.Edu.API",
+          "Port": 80
         }
       ],
       "DownstreamPathTemplate": "/api/tests",
@@ -271,8 +271,8 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7256
+          "Host": "PsychologicalSupportPlatform.Edu.API",
+          "Port": 80
         }
       ],
       "DownstreamPathTemplate": "/api/tests/{id}",
@@ -285,8 +285,8 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7256
+          "Host": "PsychologicalSupportPlatform.Edu.API",
+          "Port": 80
         }
       ],
       "DownstreamPathTemplate": "/api/tests/evaluation",
@@ -301,8 +301,8 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7074
+          "Host": "PsychologicalSupportPlatform.Meet.API",
+          "Port": 80
         }
       ],
       "DownstreamPathTemplate": "/api/mentors/psychologist/meetup-ordering",
@@ -315,8 +315,8 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7074
+          "Host": "PsychologicalSupportPlatform.Meet.API",
+          "Port": 80
         }
       ],
       "DownstreamPathTemplate": "/api/meetups/student/meetup-ordering",
@@ -330,8 +330,8 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7074
+          "Host": "PsychologicalSupportPlatform.Meet.API",
+          "Port": 80
         }
       ],
       "DownstreamPathTemplate": "/api/meetups/{id}",
@@ -344,8 +344,8 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7074
+          "Host": "PsychologicalSupportPlatform.Meet.API",
+          "Port": 80
         }
       ],
       "DownstreamPathTemplate": "/api/meetups",
@@ -358,8 +358,8 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7074
+          "Host": "PsychologicalSupportPlatform.Meet.API",
+          "Port": 80
         }
       ],
       "DownstreamPathTemplate": "/api/meetups/dates/{date}",
@@ -372,8 +372,8 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7074
+          "Host": "PsychologicalSupportPlatform.Meet.API",
+          "Port": 80
         }
       ],
       "DownstreamPathTemplate": "/api/meetups/students/{studentId}",
@@ -387,8 +387,8 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7074
+          "Host": "PsychologicalSupportPlatform.Meet.API",
+          "Port": 80
         }
       ],
       "DownstreamPathTemplate": "/api/meetups/{meetupId}/student/meetup-approval",
@@ -402,8 +402,8 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7074
+          "Host": "PsychologicalSupportPlatform.Meet.API",
+          "Port": 80
         }
       ],
       "DownstreamPathTemplate": "/api/schedulecells",
@@ -416,8 +416,8 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7074
+          "Host": "PsychologicalSupportPlatform.Meet.API",
+          "Port": 80
         }
       ],
       "DownstreamPathTemplate": "/api/schedulecells/{id}",
@@ -430,8 +430,8 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7074
+          "Host": "PsychologicalSupportPlatform.Meet.API",
+          "Port": 80
         }
       ],
       "DownstreamPathTemplate": "/api/schedulecells/days/{day}",
@@ -444,8 +444,8 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7074
+          "Host": "PsychologicalSupportPlatform.Meet.API",
+          "Port": 80
         }
       ],
       "DownstreamPathTemplate": "/api/schedulecells/status/{active}",
@@ -459,8 +459,8 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7181
+          "Host": "PsychologicalSupportPlatform.Report.API",
+          "Port": 80
         }
       ],
       "DownstreamPathTemplate": "/api/reports",
@@ -475,7 +475,7 @@
         {
           "Name": "Identity API",
           "Version": "v1",
-          "Url": "http://localhost:5131/swagger/v1/swagger.json"
+          "Url": "http://PsychologicalSupportPlatform.Authorization.API:5131/swagger/v1/swagger.json"
         }
       ]
     },
@@ -485,7 +485,7 @@
         {
           "Name": "Education API",
           "Version": "v1",
-          "Url": "https://localhost:7256/swagger/v1/swagger.json"
+          "Url": "https://PsychologicalSupportPlatform.Edu.API:80/swagger/v1/swagger.json"
         }
       ]
     },
@@ -495,7 +495,7 @@
         {
           "Name": "Meeting API",
           "Version": "v1",
-          "Url": "https://localhost:7074/swagger/v1/swagger.json"
+          "Url": "https://PsychologicalSupportPlatform.Meet.API:80/swagger/v1/swagger.json"
         }
       ]
     },
@@ -505,7 +505,7 @@
         {
           "Name": "Chat API",
           "Version": "v1",
-          "Url": "https://localhost:7233/swagger/v1/swagger.json"
+          "Url": "https://PsychologicalSupportPlatform.Messaging.API:80/swagger/v1/swagger.json"
         }
       ]
     },
@@ -515,7 +515,7 @@
         {
           "Name": "Report API",
           "Version": "v1",
-          "Url": "https://localhost:7181/swagger/v1/swagger.json"
+          "Url": "https://PsychologicalSupportPlatform.Report.API:80/swagger/v1/swagger.json"
         }
       ]
     }

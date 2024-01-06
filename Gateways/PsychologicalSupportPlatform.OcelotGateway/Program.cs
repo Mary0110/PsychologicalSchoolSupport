@@ -1,5 +1,5 @@
 using Ocelot.Middleware;
-using PsychologicalSupportPlatform.Gateway;
+using PsychologicalSupportPlatform.OcelotGateway;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.ConfigureOcelot(builder);

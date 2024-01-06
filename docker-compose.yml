@@ -1,4 +1,4 @@
-version: '2.6'
+version: '2.7'
 
 services:
   sqlserver:
@@ -206,6 +206,7 @@ services:
     
   gateway:
     container_name: OcelotGateway
+    image: ${DOCKER_REGISTRY-}gateway:v2.7
     build:
       context: ./Gateways
       dockerfile: Dockerfile
@@ -213,6 +214,7 @@ services:
       - '5002:443'
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
+      - Ocelot__JsonPath=docker-ocelot.json
     networks:
       - edu
       - meet-report
