@@ -32,7 +32,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseCors("SignalRClient");
-app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapHub<ChatHub>("/chat");

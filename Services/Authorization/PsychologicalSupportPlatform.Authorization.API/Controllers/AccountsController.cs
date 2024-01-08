@@ -18,7 +18,7 @@ namespace PsychologicalSupportPlatform.Authorization.API.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> LoginAsync(LoginData data)
+        public async Task<IActionResult> LoginAsync([FromBody] LoginData data)
         {
             var response = await _accountsService.GetTokenAsync(data);
 
@@ -27,7 +27,7 @@ namespace PsychologicalSupportPlatform.Authorization.API.Controllers
         
         [HttpPost]
         [Route("user/register")]
-        public async Task<IActionResult> RegisterUserAsync(AddUserDTO user)
+        public async Task<IActionResult> RegisterUserAsync([FromBody] AddUserDTO user)
         {
             var response = await _accountsService.RegisterUserAsync(user);
             
@@ -36,7 +36,7 @@ namespace PsychologicalSupportPlatform.Authorization.API.Controllers
         
         [HttpPost]
         [Route("student/register")]
-        public async Task<IActionResult> RegisterStudentAsync(AddStudentDTO student)
+        public async Task<IActionResult> RegisterStudentAsync([FromBody] AddStudentDTO student)
         {
             var response = await _accountsService.RegisterStudentAsync(student);
             
@@ -65,7 +65,7 @@ namespace PsychologicalSupportPlatform.Authorization.API.Controllers
         
         [HttpPut("users/{id}")]
         [Authorize(Roles = Roles.Admin + "," + Roles.Psychologist + "," + Roles.Manager)]
-        public async Task<IActionResult> UpdateUserAsync(int id, UpdateUserDTO user)
+        public async Task<IActionResult> UpdateUserAsync(int id, [FromBody] UpdateUserDTO user)
         {
             var response = await _accountsService.UpdateUserAsync(id, user);
 
@@ -126,7 +126,7 @@ namespace PsychologicalSupportPlatform.Authorization.API.Controllers
         
         [HttpPut("students/{id}")]
         [Authorize(Roles = Roles.Admin + "," + Roles.Psychologist + "," + Roles.Manager)]
-        public async Task<IActionResult> UpdateStudentAsync(int id, UpdateStudentDTO user)
+        public async Task<IActionResult> UpdateStudentAsync(int id, [FromBody] UpdateStudentDTO user)
         {
             var response = await _accountsService.UpdateStudentAsync(id, user);
 

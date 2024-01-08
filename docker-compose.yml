@@ -1,4 +1,4 @@
-version: '2.7'
+version: '3.9'
 
 services:
   sqlserver:
@@ -48,7 +48,7 @@ services:
     container_name: elk
     image: docker.elastic.co/elasticsearch/elasticsearch:8.11.3
     ports:
-      - 9201:9200 
+      - "9201:9200"
     volumes: 
       - elasticsearch-data:/usr/share/elasticsearch/data
     environment:
@@ -78,18 +78,18 @@ services:
     container_name: Kibana
     image: docker.elastic.co/kibana/kibana:8.11.3
     ports:
-      - 5602:5601 
+      - "5602:5601"
     depends_on:
       - elasticsearch
     environment:
-      - ELASTICSEARCH_URL=http://elasticsearch:9201
+      - ELASTICSEARCH_URL=http://elasticsearch:9200
     networks:
       - edu
     
   redis:
     image: redis:latest
     ports:
-      - 6378:6379
+      - "6378:6379"
     restart: unless-stopped
     volumes:
       - redis-data:/data/redis
@@ -98,7 +98,7 @@ services:
   
   PsychologicalSupportPlatform.Authorization.API:
     container_name: Authorization
-    image: ${DOCKER_REGISTRY-}authorization:v2.3
+    image: ${DOCKER_REGISTRY-}authorization:v3.9
     build:
       context: ./Services
       dockerfile: Dockerfile
@@ -107,21 +107,18 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - CONNECTIONSTRINGS__DEFAULTCONNECTION=Server=sqlserver;Trusted_Connection=false;TrustServerCertificate=True;MultiSubnetFailover=True; Database=authDb; User ID='sa'; Password='paSSword0110';Integrated security=False;
-      - ASPNETCORE_Kestrel__Endpoint__Http__Url=http://PsychologicalSupportPlatform.Authorization.API:5131
-      - ASPNETCORE_Kestrel__Endpoint__gRPC__Url=http://PsychologicalSupportPlatform.Authorization.API:5001
-      - ASPNETCORE_Kestrel__Endpoint__Http__Protocols=Http1AndHttp2
-      - ASPNETCORE_Kestrel__Endpoint__gRPC__Protocols=Http2
+      - ASPNETCORE_URLS=http://+:5131
     networks:
       - meet-report
       - edu
     ports:
       - "5131:5131"
-      - "5001:5000"
+      - "5001:5001"
     restart: unless-stopped
     
   PsychologicalSupportPlatform.Edu.API:
     container_name: Edu
-    image: ${DOCKER_REGISTRY-}edu:v2.3
+    image: ${DOCKER_REGISTRY-}edu:v4
     build:
       context: ./Services
       dockerfile: Dockerfileedu
@@ -131,10 +128,10 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - CONNECTIONSTRINGS__DEFAULTCONNECTION=Server=sqlserver;Trusted_Connection=false;TrustServerCertificate=True;MultiSubnetFailover=True; Database=eduDb; User ID='sa'; Password='paSSword0110';Integrated security=False;
-      - CONNECTIONSTRINGS__REDIS=redis:6378
-      - ElasticSearchConfig__Url=http://elasticsearch:9201
-      - GrpcConfig__Url=http://PsychologicalSupportPlatform.Authorization.API:5131
-      - Minio__Endpoint=minio:9002
+      - CONNECTIONSTRINGS__REDIS=redis:6379
+      - ElasticSearchConfig__Url=http://elasticsearch:9200
+      - GrpcConfig__Url=http://PsychologicalSupportPlatform.Authorization.API:5001
+      - Minio__Endpoint=minio:9000
     networks:
       - edu
     ports:
@@ -143,7 +140,7 @@ services:
         
   PsychologicalSupportPlatform.Meet.API:
     container_name: Meet
-    image: ${DOCKER_REGISTRY-}meet:v2.5
+    image: ${DOCKER_REGISTRY-}meet:v3.8
     build:
       context: ./Services
       dockerfile: Dockerfile_meet
@@ -163,7 +160,7 @@ services:
     
   PsychologicalSupportPlatform.Messaging.API:
     container_name: Messaging
-    image: ${DOCKER_REGISTRY-}messaging:v0
+    image: ${DOCKER_REGISTRY-}messaging:v3.8
     build:
       context: ./Services
       dockerfile: Dockerfile_messaging
@@ -180,7 +177,7 @@ services:
     
   PsychologicalSupportPlatform.Report.API:
     container_name: Report
-    image: ${DOCKER_REGISTRY-}report:v2.6
+    image: ${DOCKER_REGISTRY-}report:v3.8
     build:
       context: ./Services
       dockerfile: Dockerfile_report
@@ -197,7 +194,7 @@ services:
       - MessageQueueSettings__Host=rabbitmq
       - MessageQueueSettings__UserName=rabbitmquser
       - MessageQueueSettings__Password=rabbitmqPassword12!
-      - Minio__Endpoint=minio:9002
+      - Minio__Endpoint=minio:9000
     networks:
       - meet-report
     ports:
@@ -206,15 +203,21 @@ services:
     
   gateway:
     container_name: OcelotGateway
-    image: ${DOCKER_REGISTRY-}gateway:v2.7
+    image: ${DOCKER_REGISTRY-}gateway:v3.9
     build:
       context: ./Gateways
       dockerfile: Dockerfile
     ports:
-      - '5002:443'
+      - '8010:80'
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - Ocelot__JsonPath=docker-ocelot.json
+    depends_on:
+      - PsychologicalSupportPlatform.Meet.API
+      - PsychologicalSupportPlatform.Authorization.API
+      - PsychologicalSupportPlatform.Edu.API
+      - PsychologicalSupportPlatform.Report.API
+      - PsychologicalSupportPlatform.Messaging.API
     networks:
       - edu
       - meet-report

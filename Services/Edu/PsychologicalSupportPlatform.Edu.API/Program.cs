@@ -33,7 +33,6 @@ if (app.Environment.IsDevelopment())
 }
 
 await app.InitializeElasticIndex();
-app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
 app.Run();

@@ -1,0 +1,47 @@
+version: '3.9'
+
+services:
+  PsychologicalSupportPlatform.Authorization.API:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - CONNECTIONSTRINGS__DEFAULTCONNECTION=Server=sqlserver;Trusted_Connection=false;TrustServerCertificate=True;MultiSubnetFailover=True; Database=authDb; User ID='sa'; Password='paSSword0110';Integrated security=False;
+      - ASPNETCORE_URLS=http://+:5131
+    
+  PsychologicalSupportPlatform.Edu.API:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - CONNECTIONSTRINGS__DEFAULTCONNECTION=Server=sqlserver;Trusted_Connection=false;TrustServerCertificate=True;MultiSubnetFailover=True; Database=eduDb; User ID='sa'; Password='paSSword0110';Integrated security=False;
+      - CONNECTIONSTRINGS__REDIS=redis:6379
+      - ElasticSearchConfig__Url=http://elasticsearch:9200
+      - GrpcConfig__Url=http://PsychologicalSupportPlatform.Authorization.API:5001
+      - Minio__Endpoint=minio:9000
+        
+  PsychologicalSupportPlatform.Meet.API:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - CONNECTIONSTRINGS__DEFAULTCONNECTION=Server=sqlserver;Trusted_Connection=false;TrustServerCertificate=True;MultiSubnetFailover=True; Database=meetDb; User ID='sa'; Password='paSSword0110';Integrated security=False;
+      - MessageQueueSettings__UserName=rabbitmquser
+      - MessageQueueSettings__Password=rabbitmqPassword12!
+    
+  PsychologicalSupportPlatform.Messaging.API:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - GrpcConfig__UsersUrl=http://PsychologicalSupportPlatform.Authorization.API:5001
+    
+  PsychologicalSupportPlatform.Report.API:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - CONNECTIONSTRINGS__DEFAULTCONNECTION=Server=sqlserver;Trusted_Connection=false;TrustServerCertificate=True;MultiSubnetFailover=True; Database=reportDb; User ID='sa'; Password='paSSword0110';Integrated security=False;
+      - CONNECTIONSTRINGS__HANGFIRECONNECTION=Server=sqlserver;Trusted_Connection=false;TrustServerCertificate=True;MultiSubnetFailover=True; Database=hangfireDb; User ID='sa'; Password='paSSword0110';Integrated security=False;
+      - GrpcConfig__UsersUrl=http://PsychologicalSupportPlatform.Authorization.API:5001
+      - RabbitMQConfig__HostName=rabbitmq
+      - MessageQueueSettings__Host=rabbitmq
+      - MessageQueueSettings__UserName=rabbitmquser
+      - MessageQueueSettings__Password=rabbitmqPassword12!
+      - Minio__Endpoint=minio:9000
+    
+  gateway:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - Ocelot__JsonPath=docker-ocelot.json
+    
