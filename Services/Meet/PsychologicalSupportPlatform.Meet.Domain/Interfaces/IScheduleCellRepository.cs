@@ -1,6 +1,5 @@
 using PsychologicalSupportPlatform.Common.Repository;
 using PsychologicalSupportPlatform.Meet.Domain.Entities;
-using SpecificationPatternDotNet;
 
 namespace PsychologicalSupportPlatform.Meet.Domain.Interfaces;
 
