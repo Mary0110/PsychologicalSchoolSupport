@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PsychologicalSupportPlatform.Authorization.Application.Interfaces;
 using PsychologicalSupportPlatform.Authorization.Domain.DTOs;
-using PsychologicalSupportPlatform.Authorization.Domain.Entities;
 using PsychologicalSupportPlatform.Common;
 
 namespace PsychologicalSupportPlatform.Authorization.API.Controllers
@@ -131,7 +130,7 @@ namespace PsychologicalSupportPlatform.Authorization.API.Controllers
             return Ok(response.Data);
         }
         
-        [HttpGet("students/byForm/{num}/{letter}")]
+        [HttpGet("students/form/{num}/{letter}")]
         [Authorize(Roles = Roles.Admin + "," + Roles.Psychologist + "," + Roles.Manager)]
         public async Task<IActionResult> GetStudentsByFormAsync(int num, char letter, [FromQuery] int pageNumber, [FromQuery] int pageSize)
         {
@@ -146,7 +145,7 @@ namespace PsychologicalSupportPlatform.Authorization.API.Controllers
             return Ok(response.Data);
         }
         
-        [HttpGet("students/byParallel/{num}")]
+        [HttpGet("students/parallel/{num}")]
         [Authorize(Roles = Roles.Admin + "," + Roles.Psychologist + "," + Roles.Manager)]
         public async Task<IActionResult> GetStudentsByParallelAsync(int num, [FromQuery] int pageNumber, [FromQuery] int pageSize)
         {

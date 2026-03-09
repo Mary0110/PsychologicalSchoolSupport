@@ -1,4 +1,3 @@
-using MapsterMapper;
 using MediatR;
 using PsychologicalSupportPlatform.Common.Errors;
 using PsychologicalSupportPlatform.Meet.Domain.Interfaces;
@@ -7,24 +6,24 @@ namespace PsychologicalSupportPlatform.Meet.Application.Meetups.Commands.Delete;
 
 public class DeleteMeetupCommandHandler: IRequestHandler<DeleteMeetupCommand, int>
 {
-    private readonly IMeetupRepository meetupRepository;
+    private readonly IMeetupRepository _meetupRepository;
     
     public DeleteMeetupCommandHandler(IMeetupRepository meetupRepository)
     {
-        this.meetupRepository = meetupRepository;
+        _meetupRepository = meetupRepository;
     }
     
     public async Task<int> Handle(DeleteMeetupCommand request, CancellationToken cancellationToken)
     {
-        var meetup = await meetupRepository.GetAsync(m => m.Id == request.Id);
+        var meetup = await _meetupRepository.GetAsync(m => m.Id == request.Id);
 
         if (meetup is null)
         {
             throw new EntityNotFoundException(paramname: nameof(request.Id));
         }
         
-        await meetupRepository.DeleteAsync(meetup);
-        await meetupRepository.SaveAsync();
+        await _meetupRepository.DeleteAsync(meetup);
+        await _meetupRepository.SaveAsync();
 
         return meetup.Id;
     }

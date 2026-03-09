@@ -22,10 +22,5 @@
       <ProjectReference Include="..\..\PsychologicalSupportPlatform.Common\PsychologicalSupportPlatform.Common.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Reference Include="SpecificationPatternDotNet">
-        <HintPath>..\..\..\..\..\.nuget\packages\specificationpatterndotnet\3.0.0\lib\netstandard2.0\SpecificationPatternDotNet.dll</HintPath>
-      </Reference>
-    </ItemGroup>
 
 </Project>

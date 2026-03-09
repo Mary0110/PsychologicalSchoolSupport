@@ -10,18 +10,18 @@ namespace PsychologicalSupportPlatform.Authorization.API.Controllers
     [ApiController]
     public class FormsController : ControllerBase
     {
-        private readonly IFormService formService;
+        private readonly IFormService _formService;
 
         public FormsController(IFormService formService)
         {
-            this.formService = formService;
+            _formService = formService;
         }
         
         [HttpGet]
         [Authorize]
         public async Task<IActionResult> GetAllFormsAsync([FromQuery] int pageNumber, [FromQuery] int pageSize)
         {
-            var response = await formService.GetAllFormsAsync(pageNumber, pageSize);
+            var response = await _formService.GetAllFormsAsync(pageNumber, pageSize);
             
             return Ok(response.Data);
         }
@@ -30,7 +30,7 @@ namespace PsychologicalSupportPlatform.Authorization.API.Controllers
         [Authorize(Roles = Roles.Admin + "," + Roles.Manager)]
         public async Task<IActionResult> AddFormAsync(AddFormDTO addProductDto)
         {
-            var response = await formService.AddFormAsync(addProductDto);
+            var response = await _formService.AddFormAsync(addProductDto);
 
             return Ok(response.Message);
         }
@@ -39,7 +39,7 @@ namespace PsychologicalSupportPlatform.Authorization.API.Controllers
         [Authorize(Roles = Roles.Admin + "," + Roles.Manager)]
         public async Task<IActionResult> RemoveFormAsync(AddFormDTO form)
         {
-            var response = await formService.DeleteFormAsync(form);
+            var response = await _formService.DeleteFormAsync(form);
 
             if (!response.Success)
             {
@@ -49,11 +49,11 @@ namespace PsychologicalSupportPlatform.Authorization.API.Controllers
             return Ok(response.Message);
         }
 
-        [HttpGet("byParallel{num}")]
+        [HttpGet("parallel{num}")]
         [Authorize]
         public async Task<IActionResult> GetFormsByParallelAsync(int num, [FromQuery] int pageNumber, [FromQuery] int pageSize)
         {
-            var response = await formService.GetFormsByParallelAsync(num, pageNumber, pageSize);
+            var response = await _formService.GetFormsByParallelAsync(num, pageNumber, pageSize);
 
             if (!response.Success)
             {
